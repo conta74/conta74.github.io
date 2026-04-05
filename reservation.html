@@ -118,7 +118,7 @@
     <div class="section-divider reveal"></div>
     <p class="section-subtitle reveal">Ce que nos hôtes en disent</p>
     <div class="row g-4">
-        <div class="col-lg-7 reveal"><div id="guestbookEntries"><div class="text-center py-4" id="gbLoader"><div class="loading-spinner"></div><p class="mt-2" style="color:var(--stone);font-size:.85rem">Chargement…</p></div></div></div>
+        <div class="col-lg-7 reveal"><div id="guestbookEntries"><div class="text-center py-4"><div class="loading-spinner"></div><p class="mt-2" style="color:var(--stone);font-size:.85rem">Chargement…</p></div></div></div>
         <div class="col-lg-5 reveal">
             <div class="guestbook-form">
                 <h5 style="font-family:'Playfair Display',serif;margin-bottom:1rem"><i class="fas fa-feather-alt me-2" style="color:var(--gold)"></i>Laissez un message</h5>
@@ -149,17 +149,19 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="config.js"></script>
 <script>
-function showToast(m,e=false){const t=document.createElement('div');t.className='toast-custom'+(e?' error':'');t.innerHTML='<i class="fas '+(e?'fa-exclamation-circle':'fa-check-circle')+'" style="color:'+(e?'var(--red-savoie)':'var(--pine-light)')+'"></i><span>'+m+'</span>';document.getElementById('toastContainer').appendChild(t);setTimeout(()=>{t.style.opacity='0';t.style.transform='translateX(50px)';t.style.transition='all .4s';setTimeout(()=>t.remove(),400)},5000)}
+// ═══════ TOAST ═══════
+function showToast(m,e){const t=document.createElement('div');t.className='toast-custom'+(e?' error':'');t.innerHTML='<i class="fas '+(e?'fa-exclamation-circle':'fa-check-circle')+'" style="color:'+(e?'var(--red-savoie)':'var(--pine-light)')+'"></i><span>'+m+'</span>';document.getElementById('toastContainer').appendChild(t);setTimeout(()=>{t.style.opacity='0';t.style.transform='translateX(50px)';t.style.transition='all .4s';setTimeout(()=>t.remove(),400)},5000)}
+
+// ═══════ CALENDRIER ═══════
 const MOIS=['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
 const JOURS=['Lun','Mar','Mer','Jeu','Ven','Sam','Dim'];
 let cMonth,cYear,bookedDates={};
 function genRange(s,e){const d=[],c=new Date(s),end=new Date(e);while(c<=end){d.push(c.toISOString().split('T')[0]);c.setDate(c.getDate()+1)}return d}
 
 async function loadBookings(){
-    if(!isWorkerConfigured()){bookedDates={};renderCalendar();return}
     document.getElementById('calendarLoader').style.display='inline-block';
     try{
-        const records=await WorkerAPI.readAll("Reservations",{filterByFormula:'OR({Statut}="Confirmée",{Statut}="En attente")'});
+        const records=await WorkerAPI.readAll('Reservations',{filterByFormula:'OR({Statut}="Confirmée",{Statut}="En attente")'});
         bookedDates={};
         records.forEach(r=>{const f=r.fields;if(f.Arrivee&&f.Depart){genRange(f.Arrivee,f.Depart).forEach(d=>{if(!bookedDates[d]||f.Statut==='Confirmée')bookedDates[d]=f.Statut})}});
     }catch(err){console.error(err);bookedDates={}}
@@ -188,50 +190,72 @@ function renderCalendar(){
     }
 }
 
+// ═══════ RÉSERVATION ═══════
 async function submitReservation(){
     const nom=document.getElementById('resaNom').value.trim(),prenom=document.getElementById('resaPrenom').value.trim(),
     email=document.getElementById('resaEmail').value.trim(),tel=document.getElementById('resaTel').value.trim(),
     arr=document.getElementById('resaArrivee').value,dep=document.getElementById('resaDepart').value,
     nb=document.getElementById('resaNb').value,anim=document.getElementById('resaAnimaux').value,
     msg=document.getElementById('resaMessage').value.trim(),rgpd=document.getElementById('resaRgpd').checked;
+
     if(!nom||!prenom||!email||!arr||!dep){showToast('Remplissez tous les champs obligatoires (*).',true);return}
     if(!rgpd){showToast("Acceptez les conditions.",true);return}
     if(new Date(dep)<=new Date(arr)){showToast("Le départ doit être après l'arrivée.",true);return}
+
     const conflict=genRange(arr,dep).find(d=>bookedDates[d]==='Confirmée');
     if(conflict){showToast("Dates déjà réservées, vérifiez le calendrier.",true);return}
+
     const btn=document.getElementById('btnSubmitResa');btn.disabled=true;btn.innerHTML='<span class="loading-spinner me-2"></span>Envoi…';
-    let ok=false;
-    // Web3Forms
-    if(isWeb3Configured()){
+
+    let emailOk=false, workerOk=false;
+
+    // 1) Email via Web3Forms
+    try{
         const fd=new FormData();
-        fd.append('subject','🏔️ Réservation — '+arr+' au '+dep);fd.append('from_name',prenom+' '+nom);
-        fd.append('Nom',nom+' '+prenom);fd.append('Email',email);fd.append('Téléphone',tel||'—');
-        fd.append('Arrivée',arr);fd.append('Départ',dep);fd.append('Personnes',nb);fd.append('Animaux',anim);fd.append('Message',msg||'—');
-        const hc=document.querySelector('[name="h-captcha-response"]');if(hc&&hc.value)fd.append('h-captcha-response',hc.value);
-        const w3result=await sendWeb3Form(fd);
-        console.log('📧 Web3Forms:',w3result);
-        if(w3result)ok=true;
-    }
-    // Airtable via Worker
-    if(isWorkerConfigured()){
-        console.log('📡 Worker URL:',SITE_CONFIG.worker_url+'/api/Reservations/create');
-        const r=await WorkerAPI.create("Reservations",{Nom:nom,Prenom:prenom,Email:email,Telephone:tel,Arrivee:arr,Depart:dep,NbPersonnes:parseInt(nb),Animaux:anim,Message:msg});
-        console.log('📡 Worker result:',r);
-        if(r)ok=true;
-    }
+        fd.append('subject','🏔️ Réservation — '+arr+' au '+dep);
+        fd.append('from_name',prenom+' '+nom);
+        fd.append('Nom',nom+' '+prenom);fd.append('Email',email);
+        fd.append('Téléphone',tel||'—');fd.append('Arrivée',arr);
+        fd.append('Départ',dep);fd.append('Personnes',nb);
+        fd.append('Animaux',anim);fd.append('Message',msg||'—');
+        const hc=document.querySelector('[name="h-captcha-response"]');
+        if(hc&&hc.value)fd.append('h-captcha-response',hc.value);
+        emailOk=await sendWeb3Form(fd);
+    }catch(err){console.error('Web3Forms:',err)}
+
+    // 2) Airtable via Worker
+    try{
+        const r=await WorkerAPI.create('Reservations',{
+            Nom:nom,Prenom:prenom,Email:email,Telephone:tel,
+            Arrivee:arr,Depart:dep,NbPersonnes:parseInt(nb),
+            Animaux:anim,Message:msg
+        });
+        if(r)workerOk=true;
+    }catch(err){console.error('Worker:',err)}
+
     btn.disabled=false;btn.innerHTML='<i class="fas fa-paper-plane me-2"></i>Envoyer ma demande';
-    if(ok){showToast('Demande envoyée ! Nous vous répondrons sous 24h.');['resaNom','resaPrenom','resaEmail','resaTel','resaArrivee','resaDepart','resaMessage'].forEach(id=>document.getElementById(id).value='');document.getElementById('resaRgpd').checked=false;if(isWorkerConfigured())setTimeout(loadBookings,1500)}
-    else if(!isConfigured()){showToast("APIs non configurées. Voir config.js",true)}
-    else{showToast("Erreur. Réessayez ou appelez le "+SITE_CONFIG.owner_phone,true)}
+
+    // Si au moins un a marché → succès
+    if(emailOk||workerOk){
+        showToast('Demande envoyée ! Nous vous répondrons sous 24h.');
+        ['resaNom','resaPrenom','resaEmail','resaTel','resaArrivee','resaDepart','resaMessage'].forEach(id=>document.getElementById(id).value='');
+        document.getElementById('resaRgpd').checked=false;
+        if(workerOk)setTimeout(loadBookings,1500);
+    }else{
+        showToast("Une erreur est survenue. Vous pouvez nous appeler au "+SITE_CONFIG.owner_phone,true);
+    }
 }
 
+// ═══════ LIVRE D'OR ═══════
 const DEFAULT_REVIEWS=[
     {name:'Famille Martin',date:'Février 2026',rating:5,text:"Un séjour magique ! Studio propre et chaleureux. Les enfants ont adoré le ski !"},
     {name:'Sophie & Thomas',date:'Janvier 2026',rating:5,text:"Cadre idyllique, studio parfaitement équipé. Propriétaire très accueillant."},
     {name:'Pierre D.',date:'Août 2025',rating:4,text:"Très bel appartement pour les randonnées d'été. Tour du Mont-Blanc depuis ici."},
     {name:'Les Dupont',date:'Décembre 2025',rating:5,text:"Noël en montagne, on en rêvait ! Studio décoré avec goût."}
 ];
+
 function escapeHtml(t){const d=document.createElement('div');d.textContent=t;return d.innerHTML}
+
 function renderGuestbook(reviews){
     const c=document.getElementById('guestbookEntries');c.innerHTML='';
     if(!reviews.length){c.innerHTML='<p class="text-center" style="color:var(--stone)">Aucun avis.</p>';return}
@@ -239,31 +263,41 @@ function renderGuestbook(reviews){
     el.innerHTML='<div class="guestbook-stars">'+'★'.repeat(e.rating)+'☆'.repeat(5-e.rating)+'</div><div class="guestbook-quote">'+escapeHtml(e.text)+'</div><div class="d-flex justify-content-between align-items-center"><span class="guestbook-author"><i class="fas fa-user-circle me-1"></i>'+escapeHtml(e.name)+'</span><span class="guestbook-date"><i class="far fa-calendar me-1"></i>'+e.date+'</span></div>';
     c.appendChild(el)});
 }
+
 async function loadGuestbook(){
-    if(!isWorkerConfigured()){renderGuestbook(DEFAULT_REVIEWS);return}
     try{
-        const records=await WorkerAPI.readAll("LivreDor",{filterByFormula:'{Approuve}=TRUE()'});
-        const reviews=records.sort((a,b)=>(b.fields.DatePublication||'').localeCompare(a.fields.DatePublication||'')).map(r=>({name:r.fields.Nom||'Anonyme',date:r.fields.DatePublication?formatDate(r.fields.DatePublication):'',rating:r.fields.Note||5,text:r.fields.Message||''}));
+        const records=await WorkerAPI.readAll('LivreDor',{filterByFormula:'{Approuve}=TRUE()'});
+        const reviews=records.sort((a,b)=>(b.fields.DatePublication||'').localeCompare(a.fields.DatePublication||'')).map(r=>({
+            name:r.fields.Nom||'Anonyme',
+            date:r.fields.DatePublication?formatDate(r.fields.DatePublication):'',
+            rating:r.fields.Note||5,
+            text:r.fields.Message||''
+        }));
         renderGuestbook(reviews.length?reviews:DEFAULT_REVIEWS);
     }catch(err){renderGuestbook(DEFAULT_REVIEWS)}
 }
+
 function formatDate(ds){const d=new Date(ds);return MOIS[d.getMonth()]+' '+d.getFullYear()}
+
 async function submitGuestbook(){
     const nom=document.getElementById('gbNom').value.trim(),msg=document.getElementById('gbMessage').value.trim();
     if(!nom||!msg){showToast('Remplissez nom et message.',true);return}
     const r=document.querySelector('input[name="rating"]:checked'),rating=r?parseInt(r.value):3;
     const btn=document.getElementById('btnSubmitGb');btn.disabled=true;btn.innerHTML='<span class="loading-spinner me-2"></span>Envoi…';
-    if(isWorkerConfigured()){
-        const res=await WorkerAPI.create("LivreDor",{Nom:nom,Note:rating,Message:msg,DatePublication:new Date().toISOString().split('T')[0],Approuve:false});
-        if(res)showToast('Merci ! Votre message sera publié après validation.');else showToast("Erreur, réessayez.",true);
-    }else{DEFAULT_REVIEWS.unshift({name:nom,date:MOIS[new Date().getMonth()]+' '+new Date().getFullYear(),rating,text:msg});renderGuestbook(DEFAULT_REVIEWS);showToast('Merci !')}
-    btn.disabled=false;btn.innerHTML='<i class="fas fa-paper-plane me-2"></i>Publier';document.getElementById('gbNom').value='';document.getElementById('gbMessage').value='';
+    try{
+        const res=await WorkerAPI.create('LivreDor',{Nom:nom,Note:rating,Message:msg,DatePublication:new Date().toISOString().split('T')[0]});
+        if(res)showToast('Merci ! Votre message sera publié après validation.');
+        else showToast("Erreur, veuillez réessayer.",true);
+    }catch(err){showToast("Erreur, veuillez réessayer.",true)}
+    btn.disabled=false;btn.innerHTML='<i class="fas fa-paper-plane me-2"></i>Publier';
+    document.getElementById('gbNom').value='';document.getElementById('gbMessage').value='';
 }
 
+// ═══════ INIT ═══════
 window.addEventListener('scroll',()=>{document.querySelector('.navbar-chalet').classList.toggle('scrolled',window.scrollY>60)});
 const observer=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('visible')})},{threshold:.1,rootMargin:'0px 0px -40px 0px'});
 document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
-document.addEventListener('DOMContentLoaded',()=>{initCalendar();loadGuestbook();});
+document.addEventListener('DOMContentLoaded',()=>{initCalendar();loadGuestbook()});
 </script>
 </body>
 </html>
