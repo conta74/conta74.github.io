@@ -10,8 +10,6 @@
     <link href="style.css" rel="stylesheet">
     <script src="https://web3forms.com/client/script.js" async defer></script>
     <style>
-        .config-banner{background:#FFF3CD;border:2px dashed #FFC107;border-radius:10px;padding:1.2rem 1.5rem;margin-bottom:2rem;font-size:.88rem;color:#856404}
-        .config-banner code{background:rgba(0,0,0,.08);padding:1px 5px;border-radius:3px;font-size:.82rem}
         .loading-spinner{display:inline-block;width:18px;height:18px;border:2px solid rgba(0,0,0,.1);border-top-color:var(--sky-dark);border-radius:50%;animation:spin .7s linear infinite}
         @keyframes spin{to{transform:rotate(360deg)}}
         .calendar-day.pending{background:repeating-linear-gradient(45deg,#fff3cd,#fff3cd 4px,#ffecb5 4px,#ffecb5 8px);color:#856404}
@@ -42,7 +40,6 @@
     <p class="hero-sub">Tarifs, disponibilités et formulaire de réservation</p>
 </div>
 <div class="container">
-<div class="config-banner" id="configBanner" style="display:none"><i class="fas fa-cog me-2"></i><strong>Configuration requise :</strong> Renseignez vos clés API dans <code>config.js</code>. Consultez <code>SETUP.md</code>.</div>
 
 <!-- TARIFS -->
 <section>
@@ -266,7 +263,7 @@ async function submitGuestbook(){
 window.addEventListener('scroll',()=>{document.querySelector('.navbar-chalet').classList.toggle('scrolled',window.scrollY>60)});
 const observer=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('visible')})},{threshold:.1,rootMargin:'0px 0px -40px 0px'});
 document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
-document.addEventListener('DOMContentLoaded',()=>{if(!isConfigured())document.getElementById('configBanner').style.display='block';initCalendar();loadGuestbook()});
+document.addEventListener('DOMContentLoaded',()=>{initCalendar();loadGuestbook();});
 </script>
 </body>
 </html>
