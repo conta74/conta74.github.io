@@ -10,14 +10,13 @@ const SITE_CONFIG = {
 
     // ─────────── CLOUDFLARE WORKER (proxy Airtable) ───────────
     // URL de votre Worker déployé sur Cloudflare
-    // Format : https://conta74-api.conta74fr.workers.dev
-
+    // Format : https://conta74-api.<votre-compte>.workers.dev
     // Remplacer après le déploiement du Worker
-    worker_url: 'https://conta74-api.conta74fr.workers.dev',
+    worker_url: 'https://conta74-api.VOTRE-COMPTE.workers.dev',
 
     // ─────────── WEB3FORMS ───────────
     // Créer une clé sur https://web3forms.com
-    web3forms_key: '47e85ac4-977a-4295-af9f-6babc3f45282',
+    web3forms_key: 'VOTRE_CLE_WEB3FORMS',
 
     // ─────────── PROPRIÉTAIRE ───────────
     owner_phone: '07 60 29 19 60',
@@ -110,6 +109,7 @@ async function sendWeb3Form(formData) {
             body: formData
         });
         const data = await res.json();
+        console.log('📧 Web3Forms response:', JSON.stringify(data));
         return data.success;
     } catch (err) {
         console.error('Web3Forms error:', err);

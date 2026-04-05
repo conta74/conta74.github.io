@@ -206,16 +206,20 @@ async function submitReservation(){
     let ok=false;
     // Web3Forms
     if(isWeb3Configured()){
-        const fd=new FormData();fd.append('access_key',SITE_CONFIG.web3forms_key);
+        const fd=new FormData();
         fd.append('subject','🏔️ Réservation — '+arr+' au '+dep);fd.append('from_name',prenom+' '+nom);
         fd.append('Nom',nom+' '+prenom);fd.append('Email',email);fd.append('Téléphone',tel||'—');
         fd.append('Arrivée',arr);fd.append('Départ',dep);fd.append('Personnes',nb);fd.append('Animaux',anim);fd.append('Message',msg||'—');
         const hc=document.querySelector('[name="h-captcha-response"]');if(hc&&hc.value)fd.append('h-captcha-response',hc.value);
-        ok=await sendWeb3Form(fd);
+        const w3result=await sendWeb3Form(fd);
+        console.log('📧 Web3Forms:',w3result);
+        if(w3result)ok=true;
     }
-    // Airtable
+    // Airtable via Worker
     if(isWorkerConfigured()){
-        const r=await WorkerAPI.create("Reservations",{Nom:nom,Prenom:prenom,Email:email,Telephone:tel,Arrivee:arr,Depart:dep,NbPersonnes:parseInt(nb),Animaux:anim,Message:msg,Statut:'En attente'});
+        console.log('📡 Worker URL:',SITE_CONFIG.worker_url+'/api/Reservations/create');
+        const r=await WorkerAPI.create("Reservations",{Nom:nom,Prenom:prenom,Email:email,Telephone:tel,Arrivee:arr,Depart:dep,NbPersonnes:parseInt(nb),Animaux:anim,Message:msg});
+        console.log('📡 Worker result:',r);
         if(r)ok=true;
     }
     btn.disabled=false;btn.innerHTML='<i class="fas fa-paper-plane me-2"></i>Envoyer ma demande';
