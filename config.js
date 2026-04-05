@@ -10,9 +10,9 @@ const SITE_CONFIG = {
 
     // ─────────── CLOUDFLARE WORKER (proxy Airtable) ───────────
     // URL de votre Worker déployé sur Cloudflare
-    // Format : https://conta74-api.<votre-compte>.workers.dev
+    // Format : https://https://conta74-api.conta74fr.workers.dev
     // Remplacer après le déploiement du Worker
-    worker_url: 'https://conta74-api.VOTRE-COMPTE.workers.dev',
+    worker_url: 'https://https://conta74-api.conta74fr.workers.dev',
 
     // ─────────── WEB3FORMS ───────────
     // Créer une clé sur https://web3forms.com
