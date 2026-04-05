@@ -163,7 +163,7 @@ async function loadBookings(){
     try{
         const records=await WorkerAPI.readAll('Reservations',{filterByFormula:'OR({Statut}="Confirmée",{Statut}="En attente")'});
         bookedDates={};
-        records.forEach(r=>{const f=r.fields;if(f.Arrivee&&f.Depart){genRange(f.Arrivee,f.Depart).forEach(d=>{if(!bookedDates[d]||f.Statut==='Confirmée')bookedDates[d]=f.Statut})}});
+        records.forEach(r=>{const f=r.fields;if(f['Arrivée']&&f['Départ']){genRange(f['Arrivée'],f['Départ']).forEach(d=>{if(!bookedDates[d]||f.Statut==='Confirmée')bookedDates[d]=f.Statut})}});
     }catch(err){console.error(err);bookedDates={}}
     document.getElementById('calendarLoader').style.display='none';
     renderCalendar();
@@ -226,9 +226,14 @@ async function submitReservation(){
     // 2) Airtable via Worker
     try{
         const r=await WorkerAPI.create('Reservations',{
-            Nom:nom,Prenom:prenom,Email:email,Telephone:tel,
-            Arrivee:arr,Depart:dep,NbPersonnes:parseInt(nb),
-            Animaux:anim,Message:msg
+            'Nom':nom+' '+prenom,
+            'Email':email,
+            'Téléphone':tel,
+            'Arrivée':arr,
+            'Départ':dep,
+            'Nombre de personnes':parseInt(nb),
+            'Animaux':anim==='Oui',
+            'Message':msg
         });
         if(r)workerOk=true;
     }catch(err){console.error('Worker:',err)}
@@ -266,10 +271,10 @@ function renderGuestbook(reviews){
 
 async function loadGuestbook(){
     try{
-        const records=await WorkerAPI.readAll('LivreDor',{filterByFormula:'{Approuve}=TRUE()'});
-        const reviews=records.sort((a,b)=>(b.fields.DatePublication||'').localeCompare(a.fields.DatePublication||'')).map(r=>({
-            name:r.fields.Nom||'Anonyme',
-            date:r.fields.DatePublication?formatDate(r.fields.DatePublication):'',
+        const records=await WorkerAPI.readAll('LivreDor',{filterByFormula:'{Approuvé}=TRUE()'});
+        const reviews=records.sort((a,b)=>(b.fields['Date de publication']||'').localeCompare(a.fields['Date de publication']||'')).map(r=>({
+            name:r.fields.Nom||r.fields.Client||'Anonyme',
+            date:r.fields['Date de publication']?formatDate(r.fields['Date de publication']):'',
             rating:r.fields.Note||5,
             text:r.fields.Message||''
         }));
@@ -285,7 +290,7 @@ async function submitGuestbook(){
     const r=document.querySelector('input[name="rating"]:checked'),rating=r?parseInt(r.value):3;
     const btn=document.getElementById('btnSubmitGb');btn.disabled=true;btn.innerHTML='<span class="loading-spinner me-2"></span>Envoi…';
     try{
-        const res=await WorkerAPI.create('LivreDor',{Nom:nom,Note:rating,Message:msg,DatePublication:new Date().toISOString().split('T')[0]});
+        const res=await WorkerAPI.create('LivreDor',{Nom:nom,Note:rating,Message:msg,'Date de publication':new Date().toISOString().split('T')[0]});
         if(res)showToast('Merci ! Votre message sera publié après validation.');
         else showToast("Erreur, veuillez réessayer.",true);
     }catch(err){showToast("Erreur, veuillez réessayer.",true)}
