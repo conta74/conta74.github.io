@@ -3,207 +3,266 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Réservation - Location Contamines-Montjoie</title>
+    <title>Réservation — Les Contamines-Montjoie</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Raleway:wght@300;400;500;600;700&family=Caveat:wght@400;600&display=swap" rel="stylesheet">
+    <link href="style.css" rel="stylesheet">
+    <script src="https://web3forms.com/client/script.js" async defer></script>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #333; }
-        header { background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%); color: white; padding: 2rem 0; text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        header h1 { font-size: 2.5rem; margin-bottom: 0.5rem; }
-        header p { font-size: 1.2rem; opacity: 0.9; }
-        nav { background: #34495e; padding: 1rem; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        nav ul { list-style: none; display: flex; justify-content: center; flex-wrap: wrap; gap: 2rem; }
-        nav a { color: white; text-decoration: none; font-weight: 500; transition: color 0.3s; font-size: 1.1rem; }
-        nav a:hover { color: #3498db; }
-        .container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
-        section { margin: 3rem 0; padding: 2rem; background: white; border-radius: 10px; box-shadow: 0 2px 15px rgba(0,0,0,0.1); }
-        h2 { color: #2c3e50; margin-bottom: 1.5rem; font-size: 2rem; border-bottom: 3px solid #3498db; padding-bottom: 0.5rem; }
-        .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-top: 1.5rem; }
-        .info-card { background: #ecf0f1; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #3498db; }
-        .info-card h3 { color: #2c3e50; margin-bottom: 0.5rem; }
-        .conseil-item { background: #f8f9fa; padding: 1rem; margin: 1rem 0; border-radius: 8px; border-left: 4px solid #27ae60; }
-        .conseil-item h3 { color: #27ae60; margin-bottom: 0.5rem; }
-        footer { background: #2c3e50; color: white; text-align: center; padding: 2rem; margin-top: 3rem; }
-        table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
-        table th { background: #3498db; color: white; padding: 1rem; text-align: center; }
-        table td { padding: 1rem; border: 1px solid #ddd; text-align: center; }
-        table tr:nth-child(even) { background: #f8f9fa; }
-        @media (max-width: 768px) {
-            header h1 { font-size: 1.8rem; }
-            nav ul { gap: 1rem; }
-            nav a { font-size: 1rem; }
-            .container { padding: 1rem; }
-            section { padding: 1.5rem; margin: 2rem 0; }
-            h2 { font-size: 1.5rem; }
-            .info-grid { grid-template-columns: 1fr 1fr; gap: 1rem; }
-            table { font-size: 0.85rem; }
-            table th, table td { padding: 0.5rem; }
-        }
-        @media (max-width: 480px) {
-            header h1 { font-size: 1.5rem; }
-            nav ul { flex-direction: column; gap: 0.5rem; text-align: center; }
-            section { padding: 1rem; }
-            h2 { font-size: 1.3rem; }
-        }
+        .config-banner{background:#FFF3CD;border:2px dashed #FFC107;border-radius:10px;padding:1.2rem 1.5rem;margin-bottom:2rem;font-size:.88rem;color:#856404}
+        .config-banner code{background:rgba(0,0,0,.08);padding:1px 5px;border-radius:3px;font-size:.82rem}
+        .loading-spinner{display:inline-block;width:18px;height:18px;border:2px solid rgba(0,0,0,.1);border-top-color:var(--sky-dark);border-radius:50%;animation:spin .7s linear infinite}
+        @keyframes spin{to{transform:rotate(360deg)}}
+        .calendar-day.pending{background:repeating-linear-gradient(45deg,#fff3cd,#fff3cd 4px,#ffecb5 4px,#ffecb5 8px);color:#856404}
+        .legend-dot.pending{background:repeating-linear-gradient(45deg,#fff3cd,#fff3cd 2px,#ffecb5 2px,#ffecb5 4px);border-color:#FFC107}
+        .btn-submit-resa{background:var(--wood);color:var(--cream);border:none;padding:.75rem 2rem;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;font-size:.82rem;border-radius:5px;transition:all .35s ease}
+        .btn-submit-resa:hover:not(:disabled){background:var(--sky-dark);color:#fff;transform:translateY(-2px);box-shadow:0 6px 20px rgba(46,110,133,.25)}
+        .btn-submit-resa:disabled{opacity:.6;cursor:not-allowed}
     </style>
 </head>
 <body>
-    <header>
-        <h1>🏔️ Appartement Les Contamines-Montjoie</h1>
-        <p>Votre refuge au cœur des Alpes</p>
-    </header>
-
-    <nav>
-        <ul>
-            <li><a href="index.html">Accueil</a></li>
-            <li><a href="activites.html">Activités</a></li>
-            <li><a href="pratique.html">Infos Pratiques</a></li>
-            <li><a href="reservation.html">Réservation</a></li>
-            <li><a href="acces.html">Accès & Contact</a></li>
-        </ul>
-    </nav>
-
+<nav class="navbar navbar-expand-lg navbar-chalet fixed-top">
     <div class="container">
-        <!-- TARIFS -->
-        <section id="tarifs">
-            <h2>💰 Tarifs de Location</h2>
-            
-            <div style="overflow-x: auto;">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Période</th>
-                            <th>Prix / semaine</th>
-                            <th>Prix / nuit</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>🔴 Haute saison hiver</strong><br><small>Noël, Nouvel An, Février</small></td>
-                            <td><strong>650€</strong></td>
-                            <td>95€</td>
-                        </tr>
-                        <tr>
-                            <td><strong>🟠 Moyenne saison</strong><br><small>Janvier, Mars, Été</small></td>
-                            <td><strong>450€</strong></td>
-                            <td>65€</td>
-                        </tr>
-                        <tr>
-                            <td><strong>🟢 Basse saison</strong><br><small>Avril, Mai, Automne</small></td>
-                            <td><strong>350€</strong></td>
-                            <td>50€</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <div style="background: #e8f5e9; padding: 1rem; border-radius: 8px; margin-top: 1.5rem;">
-                <p style="color: #2e7d32;">
-                    <strong>✅ Inclus dans le tarif :</strong> WiFi Fibre, chauffage, électricité, eau, linge de lit, parking, local à ski
-                </p>
-            </div>
-        </section>
-
-        <!-- SERVICES -->
-        <section id="services">
-            <h2>🛎️ Services</h2>
-            
-            <div class="conseil-item" style="border-left: 4px solid #27ae60;">
-                <h3>✅ Services INCLUS</h3>
-                <p>• <strong>Linge de maison</strong> : draps, housses, taies d'oreiller<br>
-                • <strong>WiFi Fibre</strong> : Internet haut débit illimité<br>
-                • <strong>Charges</strong> : électricité, eau, chauffage<br>
-                • <strong>Parking</strong> : 1 place extérieure avec télécommande<br>
-                • <strong>Local à skis</strong> : casier personnel au sous-sol</p>
-            </div>
-
-            <div class="conseil-item" style="border-left: 4px solid #3498db;">
-                <h3>💶 Services EN OPTION</h3>
-                <p><strong>Ménage de fin de séjour</strong> : Prix à confirmer<br>
-                <em>Nettoyage complet, changement des draps</em><br><br>
-                
-                <strong>Linge de toilette</strong> : Non fourni<br>
-                <em>Disponible avec supplément - nous contacter</em><br><br>
-                
-                <strong>Ménage mi-séjour</strong> : Prix à confirmer<br>
-                <em>Pour séjours de 2 semaines et plus</em></p>
-            </div>
-
-            <div class="conseil-item" style="border-left: 4px solid #e74c3c;">
-                <h3>⚠️ À votre charge</h3>
-                <p>• Ménage de fin de séjour si non pris en option<br>
-                • Taxe de séjour : montant à vérifier<br>
-                • Forfaits de ski<br>
-                • Location de matériel<br>
-                • <strong>Caution : 2000€ par chèque (non encaissé)</strong><br>
-                • Animaux de petit gabarit acceptés (à signaler)</p>
-            </div>
-        </section>
-
-        <!-- RÉSERVATION -->
-        <section id="reservation">
-            <h2>📅 Réserver</h2>
-            
-            <div style="background: #e3f2fd; padding: 2rem; border-radius: 10px; border-left: 4px solid #2196F3; margin-bottom: 2rem;">
-                <h3 style="color: #1565C0; margin-bottom: 1rem;">📝 Faire une demande de réservation</h3>
-                <p style="color: #1565C0; margin-bottom: 1.5rem;">
-                    Cliquez sur le bouton ci-dessous pour accéder au formulaire de réservation :
-                </p>
-                <a href="VOTRE_LIEN_GOOGLE_FORMS" target="_blank" style="background: #27ae60; color: white; padding: 1rem 2rem; font-size: 1.1rem; border-radius: 5px; text-decoration: none; display: inline-block; font-weight: bold;">
-                    📝 Formulaire de réservation
-                </a>
-            </div>
-
-            <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px;">
-                <h3 style="color: #2c3e50; margin-bottom: 1rem;">📆 Calendrier des disponibilités</h3>
-                <p style="color: #7f8c8d; margin-bottom: 1rem;">
-                    <strong>Légende :</strong> 🟢 Disponible | 🟠 En attente | 🔵 Réservé
-                </p>
-                <div style="background: white; padding: 2rem; border: 2px dashed #ddd; border-radius: 5px; text-align: center;">
-                    <p style="color: #95a5a6;">📅 Votre calendrier Google apparaîtra ici</p>
-                    <p style="color: #95a5a6; font-size: 0.9rem; margin-top: 1rem;">
-                        (Intégrez votre Google Calendar public)
-                    </p>
-                </div>
-            </div>
-
-            <div style="background: #fff3cd; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #ffc107; margin-top: 2rem;">
-                <h3 style="color: #856404; margin-bottom: 0.5rem;">💳 Modalités de paiement</h3>
-                <p style="color: #856404;">
-                    <strong>Paiement :</strong> 100% à la réservation<br>
-                    <strong>Caution :</strong> 2000€ par chèque (non encaissé)<br>
-                    <strong>Mode de paiement :</strong> Virement bancaire<br><br>
-                    <strong>Intitulé du virement :</strong><br>
-                    <code style="background: #fff; padding: 0.5rem; border-radius: 3px;">NOM Prénom JJ/MM au JJ/MM</code><br>
-                    <em>Exemple : DUPONT Jean 22/01 au 28/01</em>
-                </p>
-            </div>
-
-            <div style="margin-top: 2rem;">
-                <h3 style="color: #2c3e50; margin-bottom: 1rem;">📋 Comment ça marche ?</h3>
-                <div class="info-grid">
-                    <div class="info-card">
-                        <h3>1️⃣ Demande</h3>
-                        <p>Remplissez le formulaire avec vos dates souhaitées</p>
-                    </div>
-                    <div class="info-card">
-                        <h3>2️⃣ Confirmation</h3>
-                        <p>Nous vous répondons sous 24h</p>
-                    </div>
-                    <div class="info-card">
-                        <h3>3️⃣ Acompte</h3>
-                        <p>Versez 30% pour valider</p>
-                    </div>
-                    <div class="info-card">
-                        <h3>4️⃣ C'est réservé !</h3>
-                        <p>Vous recevez le code KeyCafe 48h avant</p>
-                    </div>
-                </div>
-            </div>
-        </section>
+        <a class="navbar-brand" href="index.html"><i class="fas fa-mountain"></i>Les Contamines</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMain"><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse justify-content-end" id="navMain">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" href="index.html">Accueil</a></li>
+                <li class="nav-item"><a class="nav-link" href="activites.html">Activités</a></li>
+                <li class="nav-item"><a class="nav-link" href="pratique.html">Infos Pratiques</a></li>
+                <li class="nav-item"><a class="nav-link active-page" href="reservation.html">Réservation</a></li>
+                <li class="nav-item"><a class="nav-link" href="acces.html">Accès & Contact</a></li>
+            </ul>
+        </div>
     </div>
+</nav>
+<div class="page-hero">
+    <h1><i class="fas fa-calendar-check me-3"></i>Réservation</h1>
+    <p class="hero-sub">Tarifs, disponibilités et formulaire de réservation</p>
+</div>
+<div class="container">
+<div class="config-banner" id="configBanner" style="display:none"><i class="fas fa-cog me-2"></i><strong>Configuration requise :</strong> Renseignez vos clés API dans <code>config.js</code>. Consultez <code>SETUP.md</code>.</div>
 
-    <footer>
-        <p>&copy; 2024 Location Contamines-Montjoie - Tous droits réservés</p>
-    </footer>
+<!-- TARIFS -->
+<section>
+    <h2 class="section-title reveal">Tarifs de Location</h2>
+    <div class="section-divider reveal"></div>
+    <div class="row justify-content-center"><div class="col-lg-9">
+        <div class="table-responsive reveal">
+            <table class="tarifs-table"><thead><tr><th>Période</th><th>Prix / semaine</th><th>Prix / nuit</th></tr></thead>
+            <tbody>
+                <tr><td style="text-align:left"><strong><span style="color:var(--red-savoie)">●</span> Haute saison hiver</strong><br><small style="color:var(--stone)">Noël, Nouvel An, Février</small></td><td><strong style="font-size:1.1rem">650 €</strong></td><td>95 €</td></tr>
+                <tr><td style="text-align:left"><strong><span style="color:var(--gold)">●</span> Moyenne saison</strong><br><small style="color:var(--stone)">Janvier, Mars, Été</small></td><td><strong style="font-size:1.1rem">450 €</strong></td><td>65 €</td></tr>
+                <tr><td style="text-align:left"><strong><span style="color:var(--pine-light)">●</span> Basse saison</strong><br><small style="color:var(--stone)">Avril, Mai, Automne</small></td><td><strong style="font-size:1.1rem">350 €</strong></td><td>50 €</td></tr>
+            </tbody></table>
+        </div>
+        <div class="success-box reveal"><p><i class="fas fa-check-circle me-2"></i><strong>Inclus :</strong> WiFi Fibre, chauffage, électricité, eau, linge de lit, parking, local à ski</p></div>
+    </div></div>
+    <div class="row g-3 mt-3">
+        <div class="col-md-4 reveal"><div class="info-block green"><h5><i class="fas fa-check me-2" style="color:var(--pine-light)"></i>Inclus</h5><p>Linge de maison — WiFi Fibre — Charges — Parking + bip — Local à skis</p></div></div>
+        <div class="col-md-4 reveal"><div class="info-block blue"><h5><i class="fas fa-plus-circle me-2" style="color:var(--sky)"></i>En option</h5><p>Ménage fin de séjour — Linge de toilette — Ménage mi-séjour (≥ 2 sem.)</p></div></div>
+        <div class="col-md-4 reveal"><div class="info-block red"><h5><i class="fas fa-exclamation-circle me-2" style="color:var(--red-savoie)"></i>À votre charge</h5><p>Taxe de séjour — Forfaits ski — <strong>Caution : 2 000 € chèque</strong></p></div></div>
+    </div>
+</section>
+
+<!-- CALENDRIER & FORMULAIRE -->
+<section class="section-alt">
+    <h2 class="section-title reveal">Disponibilités & Réservation</h2>
+    <div class="section-divider reveal"></div>
+    <div class="row g-4">
+        <div class="col-lg-6 reveal">
+            <div class="calendar-wrapper">
+                <div class="calendar-header">
+                    <button class="calendar-nav" onclick="changeMonth(-1)"><i class="fas fa-chevron-left"></i></button>
+                    <h4 id="calendarTitle"><span class="loading-spinner me-2" id="calendarLoader" style="display:none"></span><span id="calendarTitleText"></span></h4>
+                    <button class="calendar-nav" onclick="changeMonth(1)"><i class="fas fa-chevron-right"></i></button>
+                </div>
+                <div class="calendar-grid" id="calendarGrid"></div>
+                <div class="calendar-legend">
+                    <div class="legend-item"><div class="legend-dot avail"></div> Disponible</div>
+                    <div class="legend-item"><div class="legend-dot pending"></div> En attente</div>
+                    <div class="legend-item"><div class="legend-dot booked"></div> Réservé</div>
+                </div>
+            </div>
+            <div class="row g-2 mt-4">
+                <div class="col-3"><div class="step-card"><div class="step-num">1</div><h6>Demande</h6><p>Formulaire</p></div></div>
+                <div class="col-3"><div class="step-card"><div class="step-num">2</div><h6>Réponse</h6><p>Sous 24h</p></div></div>
+                <div class="col-3"><div class="step-card"><div class="step-num">3</div><h6>Acompte</h6><p>30% virement</p></div></div>
+                <div class="col-3"><div class="step-card"><div class="step-num">4</div><h6>Confirmé</h6><p>Code KeyCafe</p></div></div>
+            </div>
+        </div>
+        <div class="col-lg-6 reveal">
+            <div class="card-chalet" style="border-top:4px solid var(--sky-dark)">
+                <h5 class="mb-3"><i class="fas fa-pen-to-square me-2" style="color:var(--sky-dark)"></i>Demande de réservation</h5>
+                <div class="row g-2">
+                    <div class="col-6"><label class="form-label-chalet"><i class="fas fa-user me-1"></i>Nom *</label><input type="text" class="form-control" id="resaNom" required></div>
+                    <div class="col-6"><label class="form-label-chalet"><i class="fas fa-user me-1"></i>Prénom *</label><input type="text" class="form-control" id="resaPrenom" required></div>
+                    <div class="col-6"><label class="form-label-chalet"><i class="fas fa-envelope me-1"></i>Email *</label><input type="email" class="form-control" id="resaEmail" required></div>
+                    <div class="col-6"><label class="form-label-chalet"><i class="fas fa-phone me-1"></i>Téléphone</label><input type="tel" class="form-control" id="resaTel"></div>
+                    <div class="col-6"><label class="form-label-chalet"><i class="fas fa-calendar me-1"></i>Arrivée *</label><input type="date" class="form-control" id="resaArrivee" required></div>
+                    <div class="col-6"><label class="form-label-chalet"><i class="fas fa-calendar me-1"></i>Départ *</label><input type="date" class="form-control" id="resaDepart" required></div>
+                    <div class="col-6"><label class="form-label-chalet"><i class="fas fa-users me-1"></i>Personnes</label><select class="form-select" id="resaNb"><option>1</option><option selected>2</option><option>3</option><option>4</option></select></div>
+                    <div class="col-6"><label class="form-label-chalet"><i class="fas fa-paw me-1"></i>Animaux</label><select class="form-select" id="resaAnimaux"><option value="Non">Non</option><option value="Oui">Oui (petit gabarit)</option></select></div>
+                    <div class="col-12"><label class="form-label-chalet"><i class="fas fa-comment me-1"></i>Message</label><textarea class="form-control" id="resaMessage" rows="3" placeholder="Questions, heure d'arrivée…"></textarea></div>
+                    <div class="col-12 my-2"><div class="h-captcha" data-captcha="true"></div></div>
+                    <div class="col-12"><div class="form-check"><input class="form-check-input" type="checkbox" id="resaRgpd" required><label class="form-check-label" for="resaRgpd" style="font-size:.82rem;color:var(--stone)">J'accepte que mes données soient utilisées pour traiter ma demande.</label></div></div>
+                    <div class="col-12 text-center mt-2"><button class="btn-submit-resa" id="btnSubmitResa" onclick="submitReservation()"><i class="fas fa-paper-plane me-2"></i>Envoyer ma demande</button></div>
+                </div>
+            </div>
+            <div class="warning-box mt-3"><p><i class="fas fa-credit-card me-2"></i><strong>Paiement :</strong> 100% à la réservation par virement — Caution : 2 000 € chèque<br><strong>Intitulé :</strong> <code style="background:#fff;padding:2px 6px;border-radius:3px">NOM Prénom JJ/MM au JJ/MM</code></p></div>
+        </div>
+    </div>
+</section>
+
+<!-- LIVRE D'OR -->
+<section>
+    <h2 class="section-title reveal">Livre d'Or</h2>
+    <div class="section-divider reveal"></div>
+    <p class="section-subtitle reveal">Ce que nos hôtes en disent</p>
+    <div class="row g-4">
+        <div class="col-lg-7 reveal"><div id="guestbookEntries"><div class="text-center py-4" id="gbLoader"><div class="loading-spinner"></div><p class="mt-2" style="color:var(--stone);font-size:.85rem">Chargement…</p></div></div></div>
+        <div class="col-lg-5 reveal">
+            <div class="guestbook-form">
+                <h5 style="font-family:'Playfair Display',serif;margin-bottom:1rem"><i class="fas fa-feather-alt me-2" style="color:var(--gold)"></i>Laissez un message</h5>
+                <div class="mb-2"><input type="text" class="form-control" id="gbNom" placeholder="Votre nom *"></div>
+                <div class="mb-2"><label class="form-label-chalet" style="text-transform:none;letter-spacing:0;font-size:.88rem">Votre note</label>
+                    <div class="star-rating">
+                        <input type="radio" name="rating" id="star5" value="5"><label for="star5"><i class="fas fa-star"></i></label>
+                        <input type="radio" name="rating" id="star4" value="4"><label for="star4"><i class="fas fa-star"></i></label>
+                        <input type="radio" name="rating" id="star3" value="3" checked><label for="star3"><i class="fas fa-star"></i></label>
+                        <input type="radio" name="rating" id="star2" value="2"><label for="star2"><i class="fas fa-star"></i></label>
+                        <input type="radio" name="rating" id="star1" value="1"><label for="star1"><i class="fas fa-star"></i></label>
+                    </div>
+                </div>
+                <div class="mb-2"><textarea class="form-control" id="gbMessage" rows="4" placeholder="Racontez-nous votre séjour… *"></textarea></div>
+                <button class="btn btn-chalet w-100" id="btnSubmitGb" onclick="submitGuestbook()"><i class="fas fa-paper-plane me-2"></i>Publier</button>
+                <p class="mt-2 mb-0" style="font-size:.78rem;color:var(--stone)"><i class="fas fa-info-circle me-1"></i>Votre message sera publié après validation par le propriétaire.</p>
+            </div>
+        </div>
+    </div>
+</section>
+</div>
+<div class="toast-container" id="toastContainer"></div>
+<footer class="footer"><div class="container"><div class="row g-4">
+    <div class="col-md-4"><h5><i class="fas fa-mountain me-2"></i>Les Contamines</h5><p style="font-size:.88rem;color:#a89e92">Votre pied-à-terre au cœur des Alpes.</p></div>
+    <div class="col-md-4"><h5>Contact</h5><ul class="footer-list"><li><i class="fas fa-phone"></i><a href="tel:+33760291960">07 60 29 19 60</a></li><li><a href="acces.html#contact-form"><i class="fas fa-envelope me-1"></i>Formulaire de contact</a></li></ul></div>
+    <div class="col-md-4"><h5>Navigation</h5><ul class="footer-list"><li><a href="index.html"><i class="fas fa-angle-right"></i> Accueil</a></li><li><a href="activites.html"><i class="fas fa-angle-right"></i> Activités</a></li><li><a href="pratique.html"><i class="fas fa-angle-right"></i> Infos Pratiques</a></li><li><a href="reservation.html"><i class="fas fa-angle-right"></i> Réservation</a></li><li><a href="acces.html"><i class="fas fa-angle-right"></i> Accès & Contact</a></li></ul></div>
+</div><div class="footer-bottom"><p class="mb-0">&copy; 2026 — Location Les Contamines-Montjoie.</p></div></div></footer>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="config.js"></script>
+<script>
+function showToast(m,e=false){const t=document.createElement('div');t.className='toast-custom'+(e?' error':'');t.innerHTML='<i class="fas '+(e?'fa-exclamation-circle':'fa-check-circle')+'" style="color:'+(e?'var(--red-savoie)':'var(--pine-light)')+'"></i><span>'+m+'</span>';document.getElementById('toastContainer').appendChild(t);setTimeout(()=>{t.style.opacity='0';t.style.transform='translateX(50px)';t.style.transition='all .4s';setTimeout(()=>t.remove(),400)},5000)}
+const MOIS=['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+const JOURS=['Lun','Mar','Mer','Jeu','Ven','Sam','Dim'];
+let cMonth,cYear,bookedDates={};
+function genRange(s,e){const d=[],c=new Date(s),end=new Date(e);while(c<=end){d.push(c.toISOString().split('T')[0]);c.setDate(c.getDate()+1)}return d}
+
+async function loadBookings(){
+    if(!isWorkerConfigured()){bookedDates={};renderCalendar();return}
+    document.getElementById('calendarLoader').style.display='inline-block';
+    try{
+        const records=await WorkerAPI.readAll("Reservations",{filterByFormula:'OR({Statut}="Confirmée",{Statut}="En attente")'});
+        bookedDates={};
+        records.forEach(r=>{const f=r.fields;if(f.Arrivee&&f.Depart){genRange(f.Arrivee,f.Depart).forEach(d=>{if(!bookedDates[d]||f.Statut==='Confirmée')bookedDates[d]=f.Statut})}});
+    }catch(err){console.error(err);bookedDates={}}
+    document.getElementById('calendarLoader').style.display='none';
+    renderCalendar();
+}
+
+function initCalendar(){const n=new Date();cMonth=n.getMonth();cYear=n.getFullYear();renderCalendar();loadBookings()}
+function changeMonth(d){cMonth+=d;if(cMonth>11){cMonth=0;cYear++}if(cMonth<0){cMonth=11;cYear--}renderCalendar()}
+function renderCalendar(){
+    document.getElementById('calendarTitleText').textContent=MOIS[cMonth]+' '+cYear;
+    const g=document.getElementById('calendarGrid');g.innerHTML='';
+    JOURS.forEach(j=>{const e=document.createElement('div');e.className='calendar-day-header';e.textContent=j;g.appendChild(e)});
+    let s=new Date(cYear,cMonth,1).getDay();s=s===0?6:s-1;
+    const days=new Date(cYear,cMonth+1,0).getDate(),today=new Date().toISOString().split('T')[0];
+    for(let i=0;i<s;i++){const e=document.createElement('div');e.className='calendar-day empty';g.appendChild(e)}
+    for(let d=1;d<=days;d++){
+        const ds=cYear+'-'+String(cMonth+1).padStart(2,'0')+'-'+String(d).padStart(2,'0');
+        const e=document.createElement('div'),st=bookedDates[ds];
+        let c='calendar-day';
+        if(st==='Confirmée')c+=' booked';else if(st==='En attente')c+=' pending';else c+=' available';
+        if(ds===today)c+=' today';
+        e.className=c;e.textContent=d;
+        if(!st)e.onclick=()=>{document.getElementById('resaArrivee').value=ds;document.getElementById('resaArrivee').scrollIntoView({behavior:'smooth',block:'center'})};
+        g.appendChild(e);
+    }
+}
+
+async function submitReservation(){
+    const nom=document.getElementById('resaNom').value.trim(),prenom=document.getElementById('resaPrenom').value.trim(),
+    email=document.getElementById('resaEmail').value.trim(),tel=document.getElementById('resaTel').value.trim(),
+    arr=document.getElementById('resaArrivee').value,dep=document.getElementById('resaDepart').value,
+    nb=document.getElementById('resaNb').value,anim=document.getElementById('resaAnimaux').value,
+    msg=document.getElementById('resaMessage').value.trim(),rgpd=document.getElementById('resaRgpd').checked;
+    if(!nom||!prenom||!email||!arr||!dep){showToast('Remplissez tous les champs obligatoires (*).',true);return}
+    if(!rgpd){showToast("Acceptez les conditions.",true);return}
+    if(new Date(dep)<=new Date(arr)){showToast("Le départ doit être après l'arrivée.",true);return}
+    const conflict=genRange(arr,dep).find(d=>bookedDates[d]==='Confirmée');
+    if(conflict){showToast("Dates déjà réservées, vérifiez le calendrier.",true);return}
+    const btn=document.getElementById('btnSubmitResa');btn.disabled=true;btn.innerHTML='<span class="loading-spinner me-2"></span>Envoi…';
+    let ok=false;
+    // Web3Forms
+    if(isWeb3Configured()){
+        const fd=new FormData();fd.append('access_key',SITE_CONFIG.web3forms_key);
+        fd.append('subject','🏔️ Réservation — '+arr+' au '+dep);fd.append('from_name',prenom+' '+nom);
+        fd.append('Nom',nom+' '+prenom);fd.append('Email',email);fd.append('Téléphone',tel||'—');
+        fd.append('Arrivée',arr);fd.append('Départ',dep);fd.append('Personnes',nb);fd.append('Animaux',anim);fd.append('Message',msg||'—');
+        const hc=document.querySelector('[name="h-captcha-response"]');if(hc&&hc.value)fd.append('h-captcha-response',hc.value);
+        ok=await sendWeb3Form(fd);
+    }
+    // Airtable
+    if(isWorkerConfigured()){
+        const r=await WorkerAPI.create("Reservations",{Nom:nom,Prenom:prenom,Email:email,Telephone:tel,Arrivee:arr,Depart:dep,NbPersonnes:parseInt(nb),Animaux:anim,Message:msg,Statut:'En attente'});
+        if(r)ok=true;
+    }
+    btn.disabled=false;btn.innerHTML='<i class="fas fa-paper-plane me-2"></i>Envoyer ma demande';
+    if(ok){showToast('Demande envoyée ! Nous vous répondrons sous 24h.');['resaNom','resaPrenom','resaEmail','resaTel','resaArrivee','resaDepart','resaMessage'].forEach(id=>document.getElementById(id).value='');document.getElementById('resaRgpd').checked=false;if(isWorkerConfigured())setTimeout(loadBookings,1500)}
+    else if(!isConfigured()){showToast("APIs non configurées. Voir config.js",true)}
+    else{showToast("Erreur. Réessayez ou appelez le "+SITE_CONFIG.owner_phone,true)}
+}
+
+const DEFAULT_REVIEWS=[
+    {name:'Famille Martin',date:'Février 2026',rating:5,text:"Un séjour magique ! Studio propre et chaleureux. Les enfants ont adoré le ski !"},
+    {name:'Sophie & Thomas',date:'Janvier 2026',rating:5,text:"Cadre idyllique, studio parfaitement équipé. Propriétaire très accueillant."},
+    {name:'Pierre D.',date:'Août 2025',rating:4,text:"Très bel appartement pour les randonnées d'été. Tour du Mont-Blanc depuis ici."},
+    {name:'Les Dupont',date:'Décembre 2025',rating:5,text:"Noël en montagne, on en rêvait ! Studio décoré avec goût."}
+];
+function escapeHtml(t){const d=document.createElement('div');d.textContent=t;return d.innerHTML}
+function renderGuestbook(reviews){
+    const c=document.getElementById('guestbookEntries');c.innerHTML='';
+    if(!reviews.length){c.innerHTML='<p class="text-center" style="color:var(--stone)">Aucun avis.</p>';return}
+    reviews.forEach(e=>{const el=document.createElement('div');el.className='guestbook-entry';
+    el.innerHTML='<div class="guestbook-stars">'+'★'.repeat(e.rating)+'☆'.repeat(5-e.rating)+'</div><div class="guestbook-quote">'+escapeHtml(e.text)+'</div><div class="d-flex justify-content-between align-items-center"><span class="guestbook-author"><i class="fas fa-user-circle me-1"></i>'+escapeHtml(e.name)+'</span><span class="guestbook-date"><i class="far fa-calendar me-1"></i>'+e.date+'</span></div>';
+    c.appendChild(el)});
+}
+async function loadGuestbook(){
+    if(!isWorkerConfigured()){renderGuestbook(DEFAULT_REVIEWS);return}
+    try{
+        const records=await WorkerAPI.readAll("LivreDor",{filterByFormula:'{Approuve}=TRUE()'});
+        const reviews=records.sort((a,b)=>(b.fields.DatePublication||'').localeCompare(a.fields.DatePublication||'')).map(r=>({name:r.fields.Nom||'Anonyme',date:r.fields.DatePublication?formatDate(r.fields.DatePublication):'',rating:r.fields.Note||5,text:r.fields.Message||''}));
+        renderGuestbook(reviews.length?reviews:DEFAULT_REVIEWS);
+    }catch(err){renderGuestbook(DEFAULT_REVIEWS)}
+}
+function formatDate(ds){const d=new Date(ds);return MOIS[d.getMonth()]+' '+d.getFullYear()}
+async function submitGuestbook(){
+    const nom=document.getElementById('gbNom').value.trim(),msg=document.getElementById('gbMessage').value.trim();
+    if(!nom||!msg){showToast('Remplissez nom et message.',true);return}
+    const r=document.querySelector('input[name="rating"]:checked'),rating=r?parseInt(r.value):3;
+    const btn=document.getElementById('btnSubmitGb');btn.disabled=true;btn.innerHTML='<span class="loading-spinner me-2"></span>Envoi…';
+    if(isWorkerConfigured()){
+        const res=await WorkerAPI.create("LivreDor",{Nom:nom,Note:rating,Message:msg,DatePublication:new Date().toISOString().split('T')[0],Approuve:false});
+        if(res)showToast('Merci ! Votre message sera publié après validation.');else showToast("Erreur, réessayez.",true);
+    }else{DEFAULT_REVIEWS.unshift({name:nom,date:MOIS[new Date().getMonth()]+' '+new Date().getFullYear(),rating,text:msg});renderGuestbook(DEFAULT_REVIEWS);showToast('Merci !')}
+    btn.disabled=false;btn.innerHTML='<i class="fas fa-paper-plane me-2"></i>Publier';document.getElementById('gbNom').value='';document.getElementById('gbMessage').value='';
+}
+
+window.addEventListener('scroll',()=>{document.querySelector('.navbar-chalet').classList.toggle('scrolled',window.scrollY>60)});
+const observer=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('visible')})},{threshold:.1,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+document.addEventListener('DOMContentLoaded',()=>{if(!isConfigured())document.getElementById('configBanner').style.display='block';initCalendar();loadGuestbook()});
+</script>
 </body>
 </html>

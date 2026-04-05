@@ -3,246 +3,293 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Infos Pratiques - Location Contamines-Montjoie</title>
+    <title>Infos Pratiques — Les Contamines-Montjoie</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Raleway:wght@300;400;500;600;700&family=Caveat:wght@400;600&display=swap" rel="stylesheet">
+    <link href="style.css" rel="stylesheet">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #333; }
-        header { background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%); color: white; padding: 2rem 0; text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        header h1 { font-size: 2.5rem; margin-bottom: 0.5rem; }
-        header p { font-size: 1.2rem; opacity: 0.9; }
-        nav { background: #34495e; padding: 1rem; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        nav ul { list-style: none; display: flex; justify-content: center; flex-wrap: wrap; gap: 2rem; }
-        nav a { color: white; text-decoration: none; font-weight: 500; transition: color 0.3s; font-size: 1.1rem; }
-        nav a:hover { color: #3498db; }
-        .container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
-        section { margin: 3rem 0; padding: 2rem; background: white; border-radius: 10px; box-shadow: 0 2px 15px rgba(0,0,0,0.1); }
-        h2 { color: #2c3e50; margin-bottom: 1.5rem; font-size: 2rem; border-bottom: 3px solid #3498db; padding-bottom: 0.5rem; }
-        .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-top: 1.5rem; }
-        .info-card { background: #ecf0f1; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #3498db; }
-        .info-card h3 { color: #2c3e50; margin-bottom: 0.5rem; }
-        .conseil-item { background: #f8f9fa; padding: 1rem; margin: 1rem 0; border-radius: 8px; border-left: 4px solid #27ae60; }
-        .conseil-item h3 { color: #27ae60; margin-bottom: 0.5rem; }
-        footer { background: #2c3e50; color: white; text-align: center; padding: 2rem; margin-top: 3rem; }
-        @media (max-width: 768px) {
-            header h1 { font-size: 1.8rem; }
-            nav ul { gap: 1rem; }
-            nav a { font-size: 1rem; }
-            .container { padding: 1rem; }
-            section { padding: 1.5rem; margin: 2rem 0; }
-            h2 { font-size: 1.5rem; }
-            .info-grid { grid-template-columns: 1fr 1fr; gap: 1rem; }
+        .checklist-item {
+            display: flex; align-items: flex-start; gap: 0.6rem;
+            padding: 0.5rem 0;
+            font-size: 0.9rem; color: #555;
+            border-bottom: 1px solid #f0ebe5;
         }
-        @media (max-width: 480px) {
-            header h1 { font-size: 1.5rem; }
-            nav ul { flex-direction: column; gap: 0.5rem; text-align: center; }
-            section { padding: 1rem; }
-            h2 { font-size: 1.3rem; }
+        .checklist-item:last-child { border-bottom: none; }
+        .checklist-item i { color: var(--pine-light); margin-top: 0.15rem; flex-shrink: 0; }
+        .phone-card {
+            background: white;
+            border-radius: 10px;
+            padding: 1.3rem;
+            border: 1px solid #e8e0d8;
+            height: 100%;
         }
+        .phone-card h6 {
+            font-weight: 700;
+            font-size: 0.95rem;
+            margin-bottom: 0.6rem;
+            color: var(--charcoal);
+        }
+        .phone-card p { font-size: 0.88rem; color: #555; margin: 0; line-height: 1.7; }
+        .phone-card a { color: var(--sky-dark); text-decoration: none; }
+        .phone-card a:hover { text-decoration: underline; }
     </style>
 </head>
 <body>
-    <header>
-        <h1>🏔️ Appartement Les Contamines-Montjoie</h1>
-        <p>Votre refuge au cœur des Alpes</p>
-    </header>
 
-    <nav>
-        <ul>
-            <li><a href="index.html">Accueil</a></li>
-            <li><a href="activites.html">Activités</a></li>
-            <li><a href="pratique.html">Infos Pratiques</a></li>
-            <li><a href="reservation.html">Réservation</a></li>
-            <li><a href="acces.html">Accès & Contact</a></li>
-        </ul>
-    </nav>
-
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-chalet fixed-top">
     <div class="container">
-        <!-- FAQ -->
-        <section id="faq">
-            <h2>❓ Questions Fréquentes (FAQ)</h2>
-            
-            <div class="conseil-item">
-                <h3>🔑 Comment récupérer les clés ?</h3>
-                <p>Les clés sont dans une boîte à clés électronique KeyCafe à l'entrée de la résidence. Vous recevrez le code d'accès 48h avant votre arrivée par SMS et email.</p>
-            </div>
+        <a class="navbar-brand" href="index.html"><i class="fas fa-mountain"></i>Les Contamines</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMain"><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse justify-content-end" id="navMain">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" href="index.html">Accueil</a></li>
+                <li class="nav-item"><a class="nav-link" href="activites.html">Activités</a></li>
+                <li class="nav-item"><a class="nav-link active-page" href="pratique.html">Infos Pratiques</a></li>
+                <li class="nav-item"><a class="nav-link" href="reservation.html">Réservation</a></li>
+                <li class="nav-item"><a class="nav-link" href="acces.html">Accès & Contact</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
 
-            <div class="conseil-item">
-                <h3>📶 Y a-t-il le WiFi ?</h3>
-                <p>Oui, l'appartement dispose d'une connexion Internet Fibre haut débit gratuite et illimitée. Le nom du réseau et le mot de passe sont affichés dans l'appartement.</p>
-            </div>
+<!-- HERO -->
+<div class="page-hero">
+    <h1><i class="fas fa-circle-info me-3"></i>Infos Pratiques</h1>
+    <p class="hero-sub">Tout ce qu'il faut savoir pour un séjour réussi</p>
+</div>
 
-            <div class="conseil-item">
-                <h3>🐕 Peut-on amener des animaux ?</h3>
-                <p><strong>Oui, les animaux de petit gabarit sont acceptés.</strong><br>
-                Merci de le signaler lors de la réservation.</p>
-            </div>
+<div class="container">
 
-            <div class="conseil-item">
-                <h3>🕐 Horaires d'arrivée et de départ ?</h3>
-                <p><strong>Arrivée :</strong> À partir de 16h<br>
-                <strong>Départ :</strong> Avant 10h<br>
-                Pour des horaires différents, contactez-nous.</p>
-            </div>
+<!-- FAQ -->
+<section>
+    <h2 class="section-title reveal">Questions Fréquentes</h2>
+    <div class="section-divider reveal"></div>
+    <p class="section-subtitle reveal">Les réponses à vos interrogations les plus courantes</p>
 
-            <div class="conseil-item">
-                <h3>🛒 Y a-t-il un supermarché proche ?</h3>
-                <p>Oui ! Le Spar est à 100m et le Carrefour Montagne à 300m. Une boulangerie se trouve à 50m.</p>
-            </div>
-
-            <div class="conseil-item">
-                <h3>🛏️ Les draps et serviettes sont-ils fournis ?</h3>
-                <p>Les draps, housses de couette et taies d'oreiller sont fournis.<br>
-                <strong>Serviettes de toilette :</strong> Non fournies, mais disponibles avec supplément (nous contacter).</p>
-            </div>
-
-            <div class="conseil-item">
-                <h3>🅿️ Y a-t-il un parking ?</h3>
-                <p>Oui, une place de parking extérieure gratuite est incluse. L'accès se fait par télécommande (bip fourni avec les clés).</p>
-            </div>
-
-            <div class="conseil-item">
-                <h3>🎿 Où louer le matériel de ski ?</h3>
-                <p>Plusieurs magasins dans le village : Intersport (200m), Sport 2000 (300m), Skiset (front de neige). Réservez en ligne pour -20% !</p>
-            </div>
-        </section>
-
-        <!-- RÈGLEMENT -->
-        <section id="reglement">
-            <h2>📋 Règlement Intérieur</h2>
-            
-            <div style="background: #fff3cd; border-left: 4px solid #ffc107; padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem;">
-                <p style="color: #856404;">
-                    <strong>⚠️ Le respect du règlement est obligatoire.</strong> Le non-respect peut entraîner une retenue sur la caution.
-                </p>
-            </div>
-
-            <div class="conseil-item">
-                <h3>🤫 Tranquillité & Voisinage</h3>
-                <p>• Respecter les horaires de tranquillité : <strong>22h - 8h</strong><br>
-                • Pas de bruit excessif<br>
-                • Respecter les parties communes</p>
-            </div>
-
-            <div class="conseil-item">
-                <h3>🚭 Interdictions strictes</h3>
-                <p>• <strong>Interdiction de fumer</strong> dans l'appartement<br>
-                • Pas de bougie, encens ou flamme nue<br>
-                • <strong>Animaux :</strong> petit gabarit accepté (à signaler)<br>
-                • Interdiction de sous-louer</p>
-            </div>
-
-            <div class="conseil-item">
-                <h3>🧹 Entretien & Propreté</h3>
-                <p>• Maintenir l'appartement propre<br>
-                • Faire la vaisselle avant le départ<br>
-                • Sortir les poubelles (tri sélectif)<br>
-                • Signaler tout dégât immédiatement</p>
-            </div>
-
-            <div class="conseil-item">
-                <h3>♻️ Tri des déchets</h3>
-                <p>Conteneurs au sous-sol :<br>
-                • <strong>Bac VERT</strong> : Verre<br>
-                • <strong>Bac JAUNE</strong> : Recyclable<br>
-                • <strong>Bac NOIR</strong> : Ordures ménagères</p>
-            </div>
-
-            <div class="conseil-item">
-                <h3>👥 Nombre de personnes</h3>
-                <p>L'appartement est prévu pour <strong>4 personnes maximum</strong>.</p>
-            </div>
-
-            <div class="conseil-item">
-                <h3>💰 Caution</h3>
-                <p>Une caution de <strong>2000€</strong> est demandée (chèque non encaissé). Restituée sous 7 jours si aucun dégât.</p>
-            </div>
-        </section>
-
-        <!-- INVENTAIRE -->
-        <section id="inventaire">
-            <h2>📝 Checklist Arrivée & Départ</h2>
-            
-            <h3 style="color: #2c3e50; margin-top: 1rem;">✅ À l'arrivée</h3>
-            <div class="conseil-item">
-                <h3>À faire en arrivant :</h3>
-                <p>
-                1. Prendre des photos de l'appartement<br>
-                2. Vérifier l'état des équipements<br>
-                3. Tester les plaques électriques, micro-ondes<br>
-                4. Vérifier le fonctionnement de la douche<br>
-                5. Compter les clés remises<br>
-                6. Signaler tout problème au 07 60 29 19 60<br>
-                <strong>⚠️ Tout dégât non signalé sera à votre charge</strong>
-                </p>
-            </div>
-
-            <h3 style="color: #2c3e50; margin-top: 2rem;">✅ Au départ</h3>
-            <div class="conseil-item">
-                <h3>Avant de partir :</h3>
-                <p>
-                ✅ Faire la vaisselle et la ranger<br>
-                ✅ Sortir les poubelles (tri sélectif)<br>
-                ✅ Éteindre tous les appareils<br>
-                ✅ Fermer les fenêtres<br>
-                ✅ Éteindre les lumières<br>
-                ✅ Vérifier que rien n'est oublié<br>
-                ✅ Fermer la porte à clé<br>
-                ✅ <strong>Remettre les clés dans la boîte KeyCafe</strong><br>
-                ✅ <strong>Bien refermer la boîte KeyCafe</strong>
-                </p>
-            </div>
-        </section>
-
-        <!-- NUMÉROS UTILES -->
-        <section id="numeros">
-            <h2>📞 Numéros Utiles</h2>
-            
-            <div class="info-grid">
-                <div class="info-card">
-                    <h3>🚨 Urgences</h3>
-                    <p><strong>SAMU :</strong> 15<br>
-                    <strong>Pompiers :</strong> 18<br>
-                    <strong>Police :</strong> 17<br>
-                    <strong>Européen :</strong> 112<br>
-                    <strong>Secours montagne :</strong> 04 50 53 16 82</p>
+    <div class="row justify-content-center">
+        <div class="col-lg-9">
+            <div class="accordion accordion-chalet reveal" id="faqAccordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header"><button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1"><i class="fas fa-key me-2" style="color:var(--gold)"></i>Comment récupérer les clés ?</button></h2>
+                    <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">Les clés sont dans une boîte à clés électronique <strong>KeyCafe</strong> à l'entrée de la résidence. Vous recevrez le code d'accès <strong>48h avant</strong> votre arrivée par SMS et email. <a href="acces.html#keycafe">Voir les détails</a></div>
+                    </div>
                 </div>
-                <div class="info-card">
-                    <h3>🏥 Santé</h3>
-                    <p><strong>Médecin :</strong> 04 50 47 01 23<br>
-                    <strong>Pharmacie :</strong> 04 50 47 00 12<br>
-                    <strong>Dentiste :</strong> 04 50 47 05 05<br>
-                    <strong>Hôpital Sallanches :</strong> 04 50 47 30 00</p>
+                <div class="accordion-item">
+                    <h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2"><i class="fas fa-wifi me-2" style="color:var(--sky-dark)"></i>Y a-t-il le WiFi ?</button></h2>
+                    <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">Oui, l'appartement dispose d'une connexion Internet <strong>Fibre haut débit</strong> gratuite et illimitée via une Box 5G. Le nom du réseau et le mot de passe sont affichés dans l'appartement (QR code à scanner).</div>
+                    </div>
                 </div>
-                <div class="info-card">
-                    <h3>🎿 Ski</h3>
-                    <p><strong>ESF :</strong> 04 50 47 02 44<br>
-                    <strong>Forfaits :</strong> 04 50 47 01 58<br>
-                    <strong>Météo neige :</strong> 08 92 68 02 74</p>
+                <div class="accordion-item">
+                    <h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3"><i class="fas fa-paw me-2" style="color:var(--pine-light)"></i>Peut-on amener des animaux ?</button></h2>
+                    <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body"><strong>Oui, les animaux de petit gabarit sont acceptés.</strong> Merci de le signaler lors de la réservation.</div>
+                    </div>
                 </div>
-                <div class="info-card">
-                    <h3>🚖 Transports</h3>
-                    <p><strong>Taxi :</strong> 06 07 08 09 10<br>
-                    <strong>Gare St-Gervais :</strong> 04 50 47 51 28<br>
-                    <strong>Bus SAT :</strong> 04 50 53 05 15</p>
+                <div class="accordion-item">
+                    <h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq4"><i class="fas fa-clock me-2" style="color:var(--gold)"></i>Horaires d'arrivée et de départ ?</button></h2>
+                    <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body"><strong>Arrivée :</strong> À partir de 16h<br><strong>Départ :</strong> Avant 10h<br>Pour des horaires différents, contactez-nous.</div>
+                    </div>
                 </div>
-                <div class="info-card">
-                    <h3>ℹ️ Services</h3>
-                    <p><strong>Office Tourisme :</strong> 04 50 47 01 58<br>
-                    <strong>Mairie :</strong> 04 50 47 01 65<br>
-                    <strong>Poste :</strong> 04 50 47 00 45</p>
+                <div class="accordion-item">
+                    <h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq5"><i class="fas fa-shopping-bag me-2" style="color:var(--sky-dark)"></i>Y a-t-il un supermarché proche ?</button></h2>
+                    <div id="faq5" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">Oui ! Le Spar est à 100m et le Carrefour Montagne à 300m. Une boulangerie se trouve à 50m (dans la résidence).</div>
+                    </div>
                 </div>
-                <div class="info-card">
-                    <h3>🏠 Propriétaire</h3>
-                    <p><strong>Email :</strong> cdoninderosiere@gmail.com<br>
-                    <strong>Tél :</strong> 07 60 29 19 60<br>
-                    <strong>Disponible 24h/24</strong></p>
+                <div class="accordion-item">
+                    <h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq6"><i class="fas fa-bed me-2" style="color:var(--pine-light)"></i>Les draps et serviettes sont-ils fournis ?</button></h2>
+                    <div id="faq6" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">Les draps, housses de couette et taies d'oreiller sont <strong>fournis</strong>. <br><strong>Serviettes de toilette :</strong> Non fournies, mais disponibles avec supplément (nous contacter).</div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq7"><i class="fas fa-square-parking me-2" style="color:var(--gold)"></i>Y a-t-il un parking ?</button></h2>
+                    <div id="faq7" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">Oui, une place de parking extérieure <strong>gratuite</strong> est incluse. L'accès se fait par télécommande (bip fourni avec les clés).</div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq8"><i class="fas fa-person-skiing me-2" style="color:var(--sky-dark)"></i>Où louer le matériel de ski ?</button></h2>
+                    <div id="faq8" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">Plusieurs magasins dans le village : <strong>Intersport</strong> (200m), <strong>Sport 2000</strong> (300m), <strong>Skiset</strong> (front de neige). Réservez en ligne pour <strong>-20%</strong> !</div>
+                    </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </div>
+</section>
+
+<!-- RÈGLEMENT INTÉRIEUR -->
+<section class="section-alt">
+    <h2 class="section-title reveal">Règlement Intérieur</h2>
+    <div class="section-divider reveal"></div>
+
+    <div class="warning-box reveal">
+        <p><i class="fas fa-exclamation-triangle me-2"></i><strong>Le respect du règlement est obligatoire.</strong> Le non-respect peut entraîner une retenue sur la caution.</p>
     </div>
 
-    <footer>
-        <p>&copy; 2024 Location Contamines-Montjoie - Tous droits réservés</p>
-    </footer>
+    <div class="row g-3 mt-2">
+        <div class="col-md-6 reveal">
+            <div class="info-block">
+                <h5><i class="fas fa-moon me-2" style="color:var(--sky)"></i>Tranquillité & Voisinage</h5>
+                <p>Horaires de tranquillité : <strong>22h – 8h</strong><br>Pas de bruit excessif<br>Respecter les parties communes</p>
+            </div>
+        </div>
+        <div class="col-md-6 reveal">
+            <div class="info-block red">
+                <h5><i class="fas fa-ban me-2" style="color:var(--red-savoie)"></i>Interdictions strictes</h5>
+                <p><strong>Interdiction de fumer</strong> dans l'appartement<br>Pas de bougie, encens ou flamme nue<br>Interdiction de sous-louer<br>Animaux : petit gabarit accepté (à signaler)</p>
+            </div>
+        </div>
+        <div class="col-md-6 reveal">
+            <div class="info-block green">
+                <h5><i class="fas fa-broom me-2" style="color:var(--pine-light)"></i>Entretien & Propreté</h5>
+                <p>Maintenir l'appartement propre<br>Faire la vaisselle avant le départ<br>Sortir les poubelles (tri sélectif)<br>Signaler tout dégât immédiatement</p>
+            </div>
+        </div>
+        <div class="col-md-6 reveal">
+            <div class="info-block gold">
+                <h5><i class="fas fa-recycle me-2" style="color:var(--gold)"></i>Tri des déchets</h5>
+                <p>Conteneurs au sous-sol :<br><strong style="color:#2E7D32;">Bac VERT</strong> : Verre<br><strong style="color:#F9A825;">Bac JAUNE</strong> : Recyclable<br><strong style="color:#333;">Bac NOIR</strong> : Ordures ménagères</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-3 mt-2">
+        <div class="col-md-6 reveal">
+            <div class="info-block blue">
+                <h5><i class="fas fa-users me-2" style="color:var(--sky)"></i>Capacité</h5>
+                <p>L'appartement est prévu pour <strong>4 personnes maximum</strong>.</p>
+            </div>
+        </div>
+        <div class="col-md-6 reveal">
+            <div class="info-block">
+                <h5><i class="fas fa-hand-holding-dollar me-2" style="color:var(--sky-dark)"></i>Caution</h5>
+                <p>Une caution de <strong>2 000 €</strong> est demandée (chèque non encaissé). Restituée sous 7 jours si aucun dégât.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CHECKLIST ARRIVÉE / DÉPART -->
+<section>
+    <h2 class="section-title reveal">Checklist Arrivée & Départ</h2>
+    <div class="section-divider reveal"></div>
+
+    <div class="row g-4">
+        <div class="col-md-6 reveal">
+            <div class="card-chalet" style="border-left:4px solid var(--pine-light);">
+                <h5><i class="fas fa-door-open me-2" style="color:var(--pine-light)"></i>À l'arrivée</h5>
+                <div class="checklist-item"><i class="fas fa-check-circle"></i><span>Prendre des photos de l'appartement</span></div>
+                <div class="checklist-item"><i class="fas fa-check-circle"></i><span>Vérifier l'état des équipements</span></div>
+                <div class="checklist-item"><i class="fas fa-check-circle"></i><span>Tester les plaques électriques, micro-ondes</span></div>
+                <div class="checklist-item"><i class="fas fa-check-circle"></i><span>Vérifier le fonctionnement de la douche</span></div>
+                <div class="checklist-item"><i class="fas fa-check-circle"></i><span>Compter les clés remises</span></div>
+                <div class="checklist-item"><i class="fas fa-check-circle"></i><span>Signaler tout problème au <strong>07 60 29 19 60</strong></span></div>
+                <div class="warning-box mt-2" style="margin-bottom:0;"><p><i class="fas fa-exclamation-triangle me-1"></i>Tout dégât non signalé sera à votre charge.</p></div>
+            </div>
+        </div>
+        <div class="col-md-6 reveal">
+            <div class="card-chalet" style="border-left:4px solid var(--sky-dark);">
+                <h5><i class="fas fa-door-closed me-2" style="color:var(--sky-dark)"></i>Au départ</h5>
+                <div class="checklist-item"><i class="fas fa-check-circle"></i><span>Faire la vaisselle et la ranger</span></div>
+                <div class="checklist-item"><i class="fas fa-check-circle"></i><span>Sortir les poubelles (tri sélectif)</span></div>
+                <div class="checklist-item"><i class="fas fa-check-circle"></i><span>Éteindre tous les appareils</span></div>
+                <div class="checklist-item"><i class="fas fa-check-circle"></i><span>Fermer les fenêtres</span></div>
+                <div class="checklist-item"><i class="fas fa-check-circle"></i><span>Éteindre les lumières</span></div>
+                <div class="checklist-item"><i class="fas fa-check-circle"></i><span>Vérifier que rien n'est oublié</span></div>
+                <div class="checklist-item"><i class="fas fa-check-circle"></i><span>Fermer la porte à clé</span></div>
+                <div class="checklist-item"><i class="fas fa-check-circle"></i><span><strong>Remettre les clés dans la boîte KeyCafe</strong></span></div>
+                <div class="checklist-item"><i class="fas fa-check-circle"></i><span><strong>Bien refermer la boîte KeyCafe</strong></span></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- NUMÉROS UTILES -->
+<section class="section-alt">
+    <h2 class="section-title reveal">Numéros Utiles</h2>
+    <div class="section-divider reveal"></div>
+
+    <div class="row g-3">
+        <div class="col-md-4 col-6 reveal">
+            <div class="phone-card">
+                <h6><i class="fas fa-truck-medical me-2" style="color:var(--red-savoie)"></i>Urgences</h6>
+                <p><strong>SAMU :</strong> <a href="tel:15">15</a><br>
+                <strong>Pompiers :</strong> <a href="tel:18">18</a><br>
+                <strong>Police :</strong> <a href="tel:17">17</a><br>
+                <strong>Européen :</strong> <a href="tel:112">112</a><br>
+                <strong>Secours montagne :</strong> <a href="tel:0450531682">04 50 53 16 82</a></p>
+            </div>
+        </div>
+        <div class="col-md-4 col-6 reveal">
+            <div class="phone-card">
+                <h6><i class="fas fa-hospital me-2" style="color:var(--sky-dark)"></i>Santé</h6>
+                <p><strong>Médecin :</strong> <a href="tel:0450470123">04 50 47 01 23</a><br>
+                <strong>Pharmacie :</strong> <a href="tel:0450470012">04 50 47 00 12</a><br>
+                <strong>Dentiste :</strong> <a href="tel:0450470505">04 50 47 05 05</a><br>
+                <strong>Hôpital Sallanches :</strong> <a href="tel:0450473000">04 50 47 30 00</a></p>
+            </div>
+        </div>
+        <div class="col-md-4 col-6 reveal">
+            <div class="phone-card">
+                <h6><i class="fas fa-person-skiing me-2" style="color:var(--pine-light)"></i>Ski</h6>
+                <p><strong>ESF :</strong> <a href="tel:0450470244">04 50 47 02 44</a><br>
+                <strong>Forfaits :</strong> <a href="tel:0450470158">04 50 47 01 58</a><br>
+                <strong>Météo neige :</strong> <a href="tel:0892680274">08 92 68 02 74</a></p>
+            </div>
+        </div>
+        <div class="col-md-4 col-6 reveal">
+            <div class="phone-card">
+                <h6><i class="fas fa-taxi me-2" style="color:var(--gold)"></i>Transports</h6>
+                <p><strong>Taxi :</strong> <a href="tel:0607080910">06 07 08 09 10</a><br>
+                <strong>Gare St-Gervais :</strong> <a href="tel:0450475128">04 50 47 51 28</a><br>
+                <strong>Bus SAT :</strong> <a href="tel:0450530515">04 50 53 05 15</a></p>
+            </div>
+        </div>
+        <div class="col-md-4 col-6 reveal">
+            <div class="phone-card">
+                <h6><i class="fas fa-building-columns me-2" style="color:var(--sky-dark)"></i>Services</h6>
+                <p><strong>Office Tourisme :</strong> <a href="tel:0450470158">04 50 47 01 58</a><br>
+                <strong>Mairie :</strong> <a href="tel:0450470165">04 50 47 01 65</a><br>
+                <strong>Poste :</strong> <a href="tel:0450470045">04 50 47 00 45</a></p>
+            </div>
+        </div>
+        <div class="col-md-4 col-6 reveal">
+            <div class="phone-card" style="border:2px solid var(--gold); background:var(--cream);">
+                <h6><i class="fas fa-user me-2" style="color:var(--gold)"></i>Propriétaire</h6>
+                <p><strong>Contact :</strong> <a href="acces.html#contact-form">Formulaire en ligne</a><br>
+                <strong>Tél :</strong> <a href="tel:+33760291960">07 60 29 19 60</a><br>
+                <strong>Disponible 24h/24</strong></p>
+            </div>
+        </div>
+    </div>
+</section>
+
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-md-4"><h5><i class="fas fa-mountain me-2"></i>Les Contamines</h5><p style="font-size:0.88rem; color:#a89e92;">Votre pied-à-terre au cœur des Alpes.</p></div>
+            <div class="col-md-4"><h5>Contact</h5><ul class="footer-list"><li><i class="fas fa-phone"></i><a href="tel:+33760291960">07 60 29 19 60</a></li><li><a href="acces.html#contact-form"><i class="fas fa-envelope me-1"></i>Formulaire de contact</a></li></ul></div>
+            <div class="col-md-4"><h5>Navigation</h5><ul class="footer-list"><li><a href="index.html"><i class="fas fa-angle-right"></i> Accueil</a></li><li><a href="activites.html"><i class="fas fa-angle-right"></i> Activités</a></li><li><a href="pratique.html"><i class="fas fa-angle-right"></i> Infos Pratiques</a></li><li><a href="reservation.html"><i class="fas fa-angle-right"></i> Réservation</a></li><li><a href="acces.html"><i class="fas fa-angle-right"></i> Accès & Contact</a></li></ul></div>
+        </div>
+        <div class="footer-bottom"><p class="mb-0">&copy; 2026 — Location Les Contamines-Montjoie.</p></div>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+window.addEventListener('scroll', () => { document.querySelector('.navbar-chalet').classList.toggle('scrolled', window.scrollY > 60); });
+const observer = new IntersectionObserver(entries => { entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }); }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
 </body>
 </html>

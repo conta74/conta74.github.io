@@ -3,247 +3,442 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Location Appartement - Contamines-Montjoie</title>
+    <title>Location Appartement — Les Contamines-Montjoie</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Raleway:wght@300;400;500;600;700&family=Caveat:wght@400;600&display=swap" rel="stylesheet">
+    <link href="style.css" rel="stylesheet">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #333; }
-        header { background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%); color: white; padding: 2rem 0; text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        header h1 { font-size: 2.5rem; margin-bottom: 0.5rem; }
-        header p { font-size: 1.2rem; opacity: 0.9; }
-        nav { background: #34495e; padding: 1rem; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        nav ul { list-style: none; display: flex; justify-content: center; flex-wrap: wrap; gap: 2rem; }
-        nav a { color: white; text-decoration: none; font-weight: 500; transition: color 0.3s; font-size: 1.1rem; }
-        nav a:hover { color: #3498db; }
-        .container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
-        section { margin: 3rem 0; padding: 2rem; background: white; border-radius: 10px; box-shadow: 0 2px 15px rgba(0,0,0,0.1); }
-        h2 { color: #2c3e50; margin-bottom: 1.5rem; font-size: 2rem; border-bottom: 3px solid #3498db; padding-bottom: 0.5rem; }
-        .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-top: 1.5rem; }
-        .info-card { background: #ecf0f1; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #3498db; }
-        .info-card h3 { color: #2c3e50; margin-bottom: 0.5rem; }
-        .gallery-categories { display: flex; gap: 1rem; margin: 1rem 0 2rem 0; flex-wrap: wrap; }
-        .category-btn { padding: 0.75rem 1.5rem; background: #ecf0f1; border: 2px solid #3498db; border-radius: 5px; cursor: pointer; transition: all 0.3s; }
-        .category-btn:hover, .category-btn.active { background: #3498db; color: white; }
-        .gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-top: 2rem; }
-        .gallery-item { position: relative; overflow: hidden; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); aspect-ratio: 4/3; background: #ecf0f1; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: transform 0.3s; }
-        .gallery-item:hover { transform: scale(1.05); }
-        .gallery-item span { font-size: 3rem; opacity: 0.3; }
-        footer { background: #2c3e50; color: white; text-align: center; padding: 2rem; margin-top: 3rem; }
-        @media (max-width: 768px) {
-            header h1 { font-size: 1.8rem; }
-            nav ul { gap: 1rem; }
-            nav a { font-size: 1rem; }
-            .container { padding: 1rem; }
-            section { padding: 1.5rem; margin: 2rem 0; }
-            h2 { font-size: 1.5rem; }
-            .info-grid { grid-template-columns: 1fr 1fr; gap: 1rem; }
-            .gallery { grid-template-columns: 1fr 1fr; gap: 1rem; }
+        .hero-home {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background: linear-gradient(135deg, #1a3a4a 0%, #2d5a6b 30%, #87CEEB 60%, #E8E8E8 80%, #FFF 100%);
         }
-        @media (max-width: 480px) {
-            header h1 { font-size: 1.5rem; }
-            nav ul { flex-direction: column; gap: 0.5rem; text-align: center; }
-            section { padding: 1rem; }
-            h2 { font-size: 1.3rem; }
+        .hero-home::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse 120% 60% at 50% 100%, rgba(255,255,255,0.95) 0%, transparent 70%),
+                        linear-gradient(180deg, rgba(0,0,0,0.12) 0%, transparent 40%);
+            z-index: 1;
+        }
+        .hero-home .mountains {
+            position: absolute;
+            bottom: 0; left: 0;
+            width: 100%; height: 70%;
+            z-index: 1;
+        }
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            padding: 0 1rem;
+        }
+        .hero-badge {
+            display: inline-block;
+            background: rgba(201,168,76,0.15);
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            padding: 0.35rem 1.4rem;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+            animation: fadeInUp 0.8s ease 0.2s both;
+        }
+        .hero-content h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.2rem, 5.5vw, 4.5rem);
+            font-weight: 700;
+            color: var(--charcoal);
+            line-height: 1.1;
+            margin-bottom: 1rem;
+            animation: fadeInUp 0.8s ease 0.4s both;
+            text-shadow: 0 2px 20px rgba(255,255,255,0.5);
+        }
+        .hero-content h1 em { font-style: italic; color: var(--sky-dark); }
+        .hero-desc {
+            font-size: 1.1rem;
+            color: var(--stone);
+            font-weight: 300;
+            max-width: 520px;
+            margin: 0 auto 2rem;
+            line-height: 1.7;
+            animation: fadeInUp 0.8s ease 0.6s both;
+        }
+        .hero-cta { animation: fadeInUp 0.8s ease 0.8s both; }
+        .lead-letter {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.2rem;
+            float: left;
+            line-height: 1;
+            margin-right: 8px;
+            color: var(--sky-dark);
+            font-weight: 700;
         }
     </style>
 </head>
 <body>
-    <header>
-        <h1>🏔️ Appartement Les Contamines-Montjoie</h1>
-        <p>Votre refuge au cœur des Alpes</p>
-    </header>
 
-    <nav>
-        <ul>
-            <li><a href="index.html">Accueil</a></li>
-            <li><a href="activites.html">Activités</a></li>
-            <li><a href="pratique.html">Infos Pratiques</a></li>
-            <li><a href="reservation.html">Réservation</a></li>
-            <li><a href="acces.html">Accès & Contact</a></li>
-        </ul>
-    </nav>
-
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-chalet fixed-top">
     <div class="container">
-        <!-- PRÉSENTATION -->
-        <section id="presentation">
-            <h2>Présentation</h2>
-            <p style="font-size: 1.1rem; line-height: 1.8;">
-                Bienvenue dans notre charmant studio situé aux Contamines-Montjoie, village authentique au pied du Mont-Blanc. 
-                Idéal pour les amoureux de la montagne, notre logement vous offre confort et tranquillité, que ce soit pour un séjour 
-                en hiver sur les pistes de ski ou en été pour découvrir les magnifiques sentiers de randonnée.
-            </p>
-            
-            <div class="info-grid">
-                <div class="info-card">
-                    <h3>🏠 Capacité</h3>
-                    <p>4 personnes</p>
-                </div>
-                <div class="info-card">
-                    <h3>🛏️ Couchages</h3>
-                    <p>1 lit double + cabine montagne (2 lits superposés)</p>
-                </div>
-                <div class="info-card">
-                    <h3>🚿 Salle de bain</h3>
-                    <p>Douche + WC séparé</p>
-                </div>
-                <div class="info-card">
-                    <h3>📏 Surface</h3>
-                    <p>20 m²</p>
-                </div>
-                <div class="info-card">
-                    <h3>📺 Multimédia</h3>
-                    <p>TV, WiFi Box 5G<br>
-                    <small>Clés WiFi à la demande ou QR code à scanner sur place</small></p>
-                </div>
-                <div class="info-card">
-                    <h3>🎿 Extras</h3>
-                    <p>Local à ski, parking gratuit</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- PHOTOS -->
-        <section id="photos">
-            <h2>Galerie Photos</h2>
-            
-            <div class="gallery-categories">
-                <button class="category-btn active" onclick="filterGallery('all')">Tout</button>
-                <button class="category-btn" onclick="filterGallery('interieur')">🏠 Intérieur</button>
-                <button class="category-btn" onclick="filterGallery('exterieur')">🏔️ Extérieur</button>
-                <button class="category-btn" onclick="filterGallery('alentours')">📍 Alentours</button>
-                <button class="category-btn" onclick="filterGallery('paysage')">🌄 Paysage</button>
-            </div>
-
-            <div class="gallery" id="photoGallery">
-                <div class="gallery-item" data-category="interieur"><span>📷 Séjour</span></div>
-                <div class="gallery-item" data-category="interieur"><span>📷 Cuisine</span></div>
-                <div class="gallery-item" data-category="interieur"><span>📷 Chambre</span></div>
-                <div class="gallery-item" data-category="interieur"><span>📷 Salle de bain</span></div>
-                <div class="gallery-item" data-category="exterieur"><span>📷 Résidence</span></div>
-                <div class="gallery-item" data-category="exterieur"><span>📷 Parking</span></div>
-                <div class="gallery-item" data-category="alentours"><span>📷 Village</span></div>
-                <div class="gallery-item" data-category="alentours"><span>📷 Pistes</span></div>
-                <div class="gallery-item" data-category="paysage"><span>📷 Mont-Blanc</span></div>
-            </div>
-        </section>
-
-        <!-- RÉSIDENCE -->
-        <section id="residence">
-            <h2>🏔️ La Résidence - Hameaux des Lays</h2>
-            <p style="font-size: 1.1rem; margin-bottom: 1.5rem;">
-                Notre appartement se situe dans la résidence <strong>Hameaux des Lays</strong>, un ensemble d'environ 20 bâtiments de montagne regroupant près de 1000 appartements. Au rez-de-chaussée, vous trouverez de nombreux commerces et services de proximité.
-            </p>
-            
-            <div class="info-grid">
-                <div class="info-card">
-                    <h3>🥐 Boulangerie</h3>
-                    <p>Annexe de la boulangerie du village<br>Pain frais, viennoiseries</p>
-                </div>
-                <div class="info-card">
-                    <h3>🛒 Sherpa</h3>
-                    <p>Commerce d'alimentation<br><small>Ouvert pendant la saison touristique</small></p>
-                </div>
-                <div class="info-card">
-                    <h3>🍺 Bar</h3>
-                    <p>Bar de la résidence<br>Ambiance montagne</p>
-                </div>
-                <div class="info-card">
-                    <h3>🧹 Conciergerie</h3>
-                    <p>Services sur place<br><a href="#" style="color: #3498db;">📄 Voir les prestations (PDF)</a></p>
-                </div>
-                <div class="info-card">
-                    <h3>🍽️ Restaurant Hôtel ⭐⭐⭐⭐</h3>
-                    <p>Restaurant de l'hôtel 4 étoiles<br>Cuisine gastronomique</p>
-                </div>
-                <div class="info-card">
-                    <h3>🦌 La Biche</h3>
-                    <p>Resto-brunch à thème<br>+ Espace soins & bien-être<br><strong>À 500m</strong></p>
-                </div>
-                <div class="info-card">
-                    <h3>🎿 Location de ski</h3>
-                    <p>Disponible sur place<br><strong>À 200m - 2 min à pied</strong></p>
-                </div>
-            </div>
-        </section>
-
-        <!-- MATÉRIEL -->
-        <section id="materiel">
-            <h2>Équipements & Matériel</h2>
-            
-            <h3 style="color: #3498db; margin-top: 1rem;">🍳 Cuisine</h3>
-            <div class="info-grid">
-                <div class="info-card">
-                    <h3>Électroménager</h3>
-                    <p>• Plaques électriques x2<br>
-                    • Micro-ondes<br>
-                    • Réfrigérateur<br>
-                    • Cafetière Nespresso<br>
-                    • Bouilloire, Grille-pain<br>
-                    • Raclette, Fondue</p>
-                </div>
-                <div class="info-card">
-                    <h3>Vaisselle</h3>
-                    <p>• Set complet <strong>12 couverts</strong><br>
-                    • Assiettes plates, creuses, dessert<br>
-                    • Verres, tasses, bols<br>
-                    • Couverts complets<br>
-                    • Casseroles, Poêles<br>
-                    • Ustensiles de cuisine</p>
-                </div>
-            </div>
-
-            <h3 style="color: #3498db; margin-top: 2rem;">🛏️ Chambre & Linge</h3>
-            <div class="info-grid">
-                <div class="info-card">
-                    <h3>Literie</h3>
-                    <p>• Lit double 140x200<br>
-                    • Lits superposés 90x200 (cabine)<br>
-                    • Oreillers (4), Couettes (3)</p>
-                </div>
-                <div class="info-card">
-                    <h3>Linge fourni</h3>
-                    <p>• Draps et housses de couette<br>
-                    • Taies d'oreiller<br>
-                    • Serviettes sur demande<br>
-                    • Torchons cuisine (6)</p>
-                </div>
-            </div>
-
-            <h3 style="color: #3498db; margin-top: 2rem;">🎿 Annexes</h3>
-            <div class="info-grid">
-                <div class="info-card">
-                    <h3>Local à skis</h3>
-                    <p>• Casier personnel<br>
-                    • Au RDC près des boîtes aux lettres</p>
-                </div>
-                <div class="info-card">
-                    <h3>Parking</h3>
-                    <p>• Place extérieure gratuite<br>
-                    • Accès par télécommande (bip)<br>
-                    <small>💡 À l'arrivée : garez-vous sur les places visiteurs, récupérez le bip dans l'appartement, puis déplacez votre voiture</small></p>
-                </div>
-            </div>
-        </section>
+        <a class="navbar-brand" href="index.html"><i class="fas fa-mountain"></i>Les Contamines</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMain">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end" id="navMain">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link active-page" href="index.html">Accueil</a></li>
+                <li class="nav-item"><a class="nav-link" href="activites.html">Activités</a></li>
+                <li class="nav-item"><a class="nav-link" href="pratique.html">Infos Pratiques</a></li>
+                <li class="nav-item"><a class="nav-link" href="reservation.html">Réservation</a></li>
+                <li class="nav-item"><a class="nav-link" href="acces.html">Accès & Contact</a></li>
+            </ul>
+        </div>
     </div>
+</nav>
 
-    <footer>
-        <p>&copy; 2024 Location Contamines-Montjoie - Tous droits réservés</p>
-    </footer>
+<!-- HERO -->
+<section class="hero-home">
+    <svg class="mountains" viewBox="0 0 1440 500" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0 350 L200 150 L350 250 L500 80 L650 200 L800 100 L950 220 L1100 60 L1250 180 L1440 120 L1440 500 L0 500Z" fill="#6B8F71" opacity="0.4"/>
+        <path d="M0 400 L150 220 L300 300 L450 150 L600 280 L750 170 L900 290 L1050 130 L1200 250 L1350 180 L1440 220 L1440 500 L0 500Z" fill="#4A7C5C" opacity="0.5"/>
+        <path d="M0 420 L100 300 L250 350 L400 230 L550 340 L700 250 L850 330 L1000 210 L1150 310 L1300 260 L1440 290 L1440 500 L0 500Z" fill="#2D5A3D" opacity="0.6"/>
+        <path d="M485 80 L500 80 L520 100 L480 100Z" fill="white" opacity="0.9"/>
+        <path d="M790 100 L810 95 L825 120 L780 118Z" fill="white" opacity="0.9"/>
+        <path d="M1090 60 L1110 55 L1125 85 L1080 82Z" fill="white" opacity="0.9"/>
+        <g fill="#1E4D2B" opacity="0.7">
+            <polygon points="80,420 90,380 100,420"/>
+            <polygon points="120,410 132,365 144,410"/>
+            <polygon points="320,400 335,350 350,400"/>
+            <polygon points="660,400 672,360 684,400"/>
+            <polygon points="1300,390 1315,340 1330,390"/>
+        </g>
+        <rect x="160" y="388" width="40" height="32" fill="#8B6914" rx="1"/>
+        <polygon points="155,388 180,365 205,388" fill="#A0332C"/>
+        <rect x="172" y="398" width="10" height="14" fill="#FFE4B5" opacity="0.8"/>
+    </svg>
 
-    <script>
-        function filterGallery(category) {
-            const buttons = document.querySelectorAll('.category-btn');
-            buttons.forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
-            
-            const items = document.querySelectorAll('.gallery-item');
-            items.forEach(item => {
-                if (category === 'all' || item.dataset.category === category) {
-                    item.style.display = 'flex';
-                } else {
-                    item.style.display = 'none';
-                }
-            });
+    <div class="hero-content">
+        <div class="hero-badge">Les Contamines-Montjoie — Haute-Savoie</div>
+        <h1>Un refuge<br><em>au cœur des Alpes</em></h1>
+        <p class="hero-desc">Studio chaleureux au pied du Mont-Blanc, idéal pour 4 personnes. Entre ski et randonnée, offrez-vous des vacances inoubliables en montagne.</p>
+        <div class="hero-cta d-flex gap-3 justify-content-center flex-wrap">
+            <a href="reservation.html" class="btn btn-chalet"><i class="fas fa-calendar-check me-2"></i>Réserver</a>
+            <a href="#photos" class="btn btn-outline-chalet"><i class="fas fa-images me-2"></i>Voir les photos</a>
+        </div>
+    </div>
+</section>
+
+<!-- PRÉSENTATION -->
+<section id="presentation">
+    <div class="container">
+        <h2 class="section-title reveal">Le Studio</h2>
+        <div class="section-divider reveal"></div>
+        <p class="section-subtitle reveal">Un cocon de montagne pensé pour votre confort</p>
+
+        <div class="row g-3 mb-5">
+            <div class="col-6 col-md-3 reveal">
+                <div class="card-chalet text-center">
+                    <div class="card-icon sky mx-auto"><i class="fas fa-users"></i></div>
+                    <h5>4 personnes</h5>
+                    <p>Capacité maximale</p>
+                </div>
+            </div>
+            <div class="col-6 col-md-3 reveal">
+                <div class="card-chalet text-center">
+                    <div class="card-icon pine mx-auto"><i class="fas fa-bed"></i></div>
+                    <h5>1 lit double + cabine</h5>
+                    <p>2 lits superposés</p>
+                </div>
+            </div>
+            <div class="col-6 col-md-3 reveal">
+                <div class="card-chalet text-center">
+                    <div class="card-icon gold mx-auto"><i class="fas fa-ruler-combined"></i></div>
+                    <h5>20 m²</h5>
+                    <p>Surface habitable</p>
+                </div>
+            </div>
+            <div class="col-6 col-md-3 reveal">
+                <div class="card-chalet text-center">
+                    <div class="card-icon wood mx-auto"><i class="fas fa-wifi"></i></div>
+                    <h5>WiFi Fibre</h5>
+                    <p>Box 5G + QR code</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row align-items-center reveal">
+            <div class="col-lg-7">
+                <p style="font-size:1.05rem; line-height:1.9; color:#555;">
+                    <span class="lead-letter">B</span>ienvenue dans notre charmant studio situé aux Contamines-Montjoie, village authentique au pied du Mont-Blanc. Idéal pour les amoureux de la montagne, notre logement vous offre confort et tranquillité, que ce soit pour un séjour en hiver sur les pistes de ski ou en été pour découvrir les magnifiques sentiers de randonnée.
+                </p>
+                <p style="font-size:0.95rem; color:#666; line-height:1.8;">
+                    L'appartement dispose d'une douche et WC séparé, d'une cuisine entièrement équipée (plaques, micro-ondes, réfrigérateur, cafetière Nespresso), ainsi que d'un local à skis et d'un parking gratuit avec télécommande.
+                </p>
+                <div class="d-flex flex-wrap gap-3 mt-3">
+                    <span style="font-size:0.88rem; color:var(--pine);"><i class="fas fa-check-circle me-1"></i>Parking gratuit</span>
+                    <span style="font-size:0.88rem; color:var(--pine);"><i class="fas fa-check-circle me-1"></i>Local à skis</span>
+                    <span style="font-size:0.88rem; color:var(--pine);"><i class="fas fa-check-circle me-1"></i>Draps fournis</span>
+                    <span style="font-size:0.88rem; color:var(--pine);"><i class="fas fa-check-circle me-1"></i>TV</span>
+                </div>
+            </div>
+            <div class="col-lg-5 mt-4 mt-lg-0">
+                <div style="background:var(--cream); border-radius:12px; padding:1.8rem; border:1px solid #e0d8cf; text-align:center;">
+                    <i class="fas fa-map-marked-alt" style="font-size:2.5rem; color:var(--sky-dark); margin-bottom:0.8rem; display:block;"></i>
+                    <h5 style="font-family:'Playfair Display',serif; margin-bottom:0.3rem;">Les Contamines-Montjoie</h5>
+                    <p style="color:var(--stone); font-size:0.88rem; margin:0;">
+                        74170 — Haute-Savoie — France<br>
+                        Altitude : 1 164 m<br>
+                        Domaine : 120 km de pistes<br>
+                        <small>Évasion Mont-Blanc</small>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- GALERIE PHOTOS -->
+<section id="photos" class="section-alt">
+    <div class="container">
+        <h2 class="section-title reveal">Galerie Photos</h2>
+        <div class="section-divider reveal"></div>
+        <p class="section-subtitle reveal">Découvrez le studio en images</p>
+
+        <div class="d-flex gap-2 flex-wrap justify-content-center mb-4 reveal">
+            <button class="filter-btn active" onclick="filterGallery('all', this)">Tout</button>
+            <button class="filter-btn" onclick="filterGallery('interieur', this)"><i class="fas fa-couch me-1"></i>Intérieur</button>
+            <button class="filter-btn" onclick="filterGallery('exterieur', this)"><i class="fas fa-building me-1"></i>Extérieur</button>
+            <button class="filter-btn" onclick="filterGallery('alentours', this)"><i class="fas fa-map-pin me-1"></i>Alentours</button>
+            <button class="filter-btn" onclick="filterGallery('paysage', this)"><i class="fas fa-mountain me-1"></i>Paysage</button>
+        </div>
+
+        <div class="gallery-grid reveal" id="galleryGrid"></div>
+        <p class="text-center mt-3 reveal" style="font-size:0.82rem; color:var(--stone);">
+            <i class="fas fa-info-circle me-1"></i> Remplacez les images dans la configuration du script par vos propres photos
+        </p>
+    </div>
+</section>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox">
+    <button class="lightbox-close" onclick="closeLightbox()"><i class="fas fa-times"></i></button>
+    <button class="lightbox-nav lightbox-prev" onclick="navigateLightbox(-1)"><i class="fas fa-chevron-left"></i></button>
+    <img src="" alt="" id="lightboxImg">
+    <button class="lightbox-nav lightbox-next" onclick="navigateLightbox(1)"><i class="fas fa-chevron-right"></i></button>
+</div>
+
+<!-- LA RÉSIDENCE -->
+<section id="residence">
+    <div class="container">
+        <h2 class="section-title reveal">La Résidence — Hameaux des Lays</h2>
+        <div class="section-divider reveal"></div>
+        <p class="section-subtitle reveal">Un ensemble d'environ 20 bâtiments avec commerces et services au rez-de-chaussée</p>
+
+        <div class="row g-3">
+            <div class="col-md-4 col-6 reveal">
+                <div class="card-chalet text-center">
+                    <div class="card-icon gold mx-auto"><i class="fas fa-bread-slice"></i></div>
+                    <h5>Boulangerie</h5>
+                    <p>Annexe de la boulangerie du village. Pain frais, viennoiseries.</p>
+                </div>
+            </div>
+            <div class="col-md-4 col-6 reveal">
+                <div class="card-chalet text-center">
+                    <div class="card-icon pine mx-auto"><i class="fas fa-shopping-cart"></i></div>
+                    <h5>Sherpa</h5>
+                    <p>Commerce d'alimentation. Ouvert pendant la saison touristique.</p>
+                </div>
+            </div>
+            <div class="col-md-4 col-6 reveal">
+                <div class="card-chalet text-center">
+                    <div class="card-icon sky mx-auto"><i class="fas fa-beer-mug-empty"></i></div>
+                    <h5>Bar</h5>
+                    <p>Bar de la résidence. Ambiance montagne.</p>
+                </div>
+            </div>
+            <div class="col-md-4 col-6 reveal">
+                <div class="card-chalet text-center">
+                    <div class="card-icon wood mx-auto"><i class="fas fa-broom"></i></div>
+                    <h5>Conciergerie</h5>
+                    <p>Services sur place.</p>
+                </div>
+            </div>
+            <div class="col-md-4 col-6 reveal">
+                <div class="card-chalet text-center">
+                    <div class="card-icon red mx-auto"><i class="fas fa-utensils"></i></div>
+                    <h5>Restaurant Hôtel ★★★★</h5>
+                    <p>Cuisine gastronomique dans la résidence.</p>
+                </div>
+            </div>
+            <div class="col-md-4 col-6 reveal">
+                <div class="card-chalet text-center">
+                    <div class="card-icon sky mx-auto"><i class="fas fa-spa"></i></div>
+                    <h5>La Biche — 500m</h5>
+                    <p>Resto-brunch à thème + Espace soins & bien-être.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ÉQUIPEMENTS -->
+<section id="equipements" class="section-alt">
+    <div class="container">
+        <h2 class="section-title reveal">Équipements</h2>
+        <div class="section-divider reveal"></div>
+
+        <div class="row g-4 reveal">
+            <div class="col-md-6">
+                <div class="info-block green">
+                    <h5><i class="fas fa-fire-burner me-2" style="color:var(--pine-light)"></i>Cuisine</h5>
+                    <p>Plaques électriques ×2 — Micro-ondes — Réfrigérateur — Cafetière Nespresso — Bouilloire — Grille-pain — Raclette — Fondue</p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="info-block blue">
+                    <h5><i class="fas fa-plate-wheat me-2" style="color:var(--sky)"></i>Vaisselle</h5>
+                    <p>Set complet <strong>12 couverts</strong> — Assiettes (plates, creuses, dessert) — Verres, tasses, bols — Couverts complets — Casseroles, Poêles — Ustensiles</p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="info-block gold">
+                    <h5><i class="fas fa-bed me-2" style="color:var(--gold)"></i>Literie & Linge</h5>
+                    <p>Lit double 140×200 — Lits superposés 90×200 (cabine) — 4 oreillers — 3 couettes — Draps et housses fournis — Taies d'oreiller — 6 torchons cuisine</p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="info-block">
+                    <h5><i class="fas fa-warehouse me-2" style="color:var(--sky-dark)"></i>Annexes</h5>
+                    <p><strong>Local à skis :</strong> Casier personnel, au RDC près des boîtes aux lettres.<br>
+                    <strong>Parking :</strong> Place extérieure gratuite, accès par télécommande (bip).<br>
+                    <small><i class="fas fa-lightbulb me-1"></i>À l'arrivée : places visiteurs → récupérez le bip → déplacez la voiture.</small></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-md-4">
+                <h5><i class="fas fa-mountain me-2"></i>Les Contamines</h5>
+                <p style="font-size:0.88rem; color:#a89e92; line-height:1.6;">
+                    Votre pied-à-terre au cœur des Alpes. Un studio chaleureux au pied du Mont-Blanc, été comme hiver.
+                </p>
+            </div>
+            <div class="col-md-4">
+                <h5>Contact</h5>
+                <ul class="footer-list">
+                    <li><i class="fas fa-phone"></i><a href="tel:+33760291960">07 60 29 19 60</a></li>
+                    <li><a href="acces.html#contact-form"><i class="fas fa-envelope me-1"></i>Formulaire de contact</a></li>
+                    <li><i class="fas fa-map-marker-alt"></i>130 Impasse du Bonnant<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Les Pierres Blanches — Bât. F<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;74170 Les Contamines-Montjoie</li>
+                </ul>
+            </div>
+            <div class="col-md-4">
+                <h5>Navigation</h5>
+                <ul class="footer-list">
+                    <li><a href="index.html"><i class="fas fa-angle-right"></i> Accueil</a></li>
+                    <li><a href="activites.html"><i class="fas fa-angle-right"></i> Activités</a></li>
+                    <li><a href="pratique.html"><i class="fas fa-angle-right"></i> Infos Pratiques</a></li>
+                    <li><a href="reservation.html"><i class="fas fa-angle-right"></i> Réservation</a></li>
+                    <li><a href="acces.html"><i class="fas fa-angle-right"></i> Accès & Contact</a></li>
+                    <li><a href="https://www.lescontamines.com" target="_blank"><i class="fas fa-angle-right"></i> Office de tourisme</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p class="mb-0">&copy; 2026 — Location Les Contamines-Montjoie. Tous droits réservés.</p>
+        </div>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+// Navbar scroll
+window.addEventListener('scroll', () => {
+    document.querySelector('.navbar-chalet').classList.toggle('scrolled', window.scrollY > 60);
+});
+
+// Gallery config
+const PHOTOS = [
+    { src: '', label: 'Séjour', cat: 'interieur', icon: 'fa-couch' },
+    { src: '', label: 'Cuisine', cat: 'interieur', icon: 'fa-utensils' },
+    { src: '', label: 'Chambre', cat: 'interieur', icon: 'fa-bed' },
+    { src: '', label: 'Salle de bain', cat: 'interieur', icon: 'fa-bath' },
+    { src: '', label: 'Résidence', cat: 'exterieur', icon: 'fa-building' },
+    { src: '', label: 'Parking', cat: 'exterieur', icon: 'fa-car' },
+    { src: '', label: 'Village', cat: 'alentours', icon: 'fa-store' },
+    { src: '', label: 'Pistes', cat: 'alentours', icon: 'fa-person-skiing' },
+    { src: '', label: 'Mont-Blanc', cat: 'paysage', icon: 'fa-mountain-sun' },
+];
+
+let currentLightboxIndex = 0;
+const galleryImages = [];
+
+function initGallery() {
+    const grid = document.getElementById('galleryGrid');
+    PHOTOS.forEach((p, i) => {
+        const item = document.createElement('div');
+        item.className = 'gallery-item';
+        item.dataset.category = p.cat;
+        if (p.src) {
+            item.innerHTML = `<img src="${p.src}" alt="${p.label}" loading="lazy"><div class="gallery-overlay"><span>${p.label}</span></div>`;
+            galleryImages.push(p.src);
+            item.onclick = () => openLightbox(galleryImages.indexOf(p.src));
+        } else {
+            item.innerHTML = `<div class="gallery-placeholder"><i class="fas ${p.icon}"></i><span>${p.label}</span><small style="color:#ccc; margin-top:3px;">Photo à ajouter</small></div>`;
         }
-    </script>
+        grid.appendChild(item);
+    });
+}
+
+function filterGallery(cat, btn) {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.gallery-item').forEach(item => {
+        item.style.display = (cat === 'all' || item.dataset.category === cat) ? '' : 'none';
+    });
+}
+
+function openLightbox(index) {
+    if (!galleryImages.length) return;
+    currentLightboxIndex = index;
+    document.getElementById('lightboxImg').src = galleryImages[index];
+    document.getElementById('lightbox').classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('active');
+    document.body.style.overflow = '';
+}
+function navigateLightbox(dir) {
+    currentLightboxIndex = (currentLightboxIndex + dir + galleryImages.length) % galleryImages.length;
+    document.getElementById('lightboxImg').src = galleryImages[currentLightboxIndex];
+}
+document.addEventListener('keydown', e => {
+    if (!document.getElementById('lightbox').classList.contains('active')) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowLeft') navigateLightbox(-1);
+    if (e.key === 'ArrowRight') navigateLightbox(1);
+});
+
+// Scroll reveal
+const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+document.addEventListener('DOMContentLoaded', initGallery);
+</script>
 </body>
 </html>
