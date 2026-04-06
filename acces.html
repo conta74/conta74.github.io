@@ -208,9 +208,8 @@ async function submitContact(){
     if(!nom||!email||!msg){showToast('Remplissez tous les champs obligatoires.',true);return}
     const btn=document.getElementById('btnContact');btn.disabled=true;btn.innerHTML='<span class="loading-spinner me-2"></span>Envoi…';
 
-    if(isWeb3Configured()){
+    try{
         const fd=new FormData();
-        fd.append('access_key',SITE_CONFIG.web3forms_key);
         fd.append('subject','📩 Contact — '+sujet);
         fd.append('from_name',nom);
         fd.append('Nom',nom);
@@ -222,8 +221,8 @@ async function submitContact(){
         const ok=await sendWeb3Form(fd);
         if(ok){showToast('Message envoyé ! Nous vous répondrons rapidement.');document.getElementById('ctNom').value='';document.getElementById('ctEmail').value='';document.getElementById('ctMessage').value=''}
         else showToast("Erreur d'envoi. Réessayez ou appelez-nous.",true);
-    }else{
-        showToast("Formulaire non configuré. Voir config.js",true);
+    }catch(err){
+        showToast("Erreur d'envoi. Réessayez ou appelez-nous.",true);
     }
     btn.disabled=false;btn.innerHTML='<i class="fas fa-paper-plane me-2"></i>Envoyer';
 }
