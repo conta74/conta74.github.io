@@ -19,151 +19,42 @@
     <link href="style.css" rel="stylesheet">
     <script src="https://web3forms.com/client/script.js" async defer></script>
     <style>
-        /* KeyCafe steps */
-        .keycafe-step {
-            display: flex;
-            gap: 1rem;
-            align-items: flex-start;
-            padding: 1rem 0;
-            border-bottom: 1px solid #f0ebe5;
-        }
-        .keycafe-step:last-child { border-bottom: none; }
-        .keycafe-num {
-            width: 36px; height: 36px; border-radius: 50%;
-            background: var(--sky-dark); color: #fff;
-            display: flex; align-items: center; justify-content: center;
-            font-weight: 700; font-size: .9rem; flex-shrink: 0;
-        }
-        .keycafe-step h6 { font-weight: 700; margin-bottom: .2rem; font-size: .95rem; }
-        .keycafe-step p { font-size: .88rem; color: #555; margin: 0; }
-
-        /* Direction steps */
-        .direction-step {
-            display: flex;
-            gap: .8rem;
-            align-items: flex-start;
-            margin-bottom: .8rem;
-        }
-        .direction-step .num {
-            width: 28px; height: 28px; border-radius: 50%;
-            background: var(--cream-dark); color: var(--wood);
-            display: flex; align-items: center; justify-content: center;
-            font-weight: 700; font-size: .8rem; flex-shrink: 0;
-        }
-        .direction-step span { font-size: .9rem; color: #555; }
-
-        /* Plan images */
-        .plan-figure { margin: 0; cursor: pointer; }
-        .plan-figure img {
-            border-radius: 8px; border: 1px solid #e0d8cf;
-            width: 100%;
-            transition: transform .3s ease, box-shadow .3s ease;
-        }
-        .plan-figure:hover img {
-            transform: scale(1.02);
-            box-shadow: 0 4px 20px rgba(0,0,0,.15);
-        }
-        .plan-figure figcaption {
-            font-size: .82rem; color: var(--stone);
-            text-align: center; margin-top: .5rem;
-        }
-
-        /* Transport cards */
-        .transport-card { height: 100%; display: flex; flex-direction: column; }
-        .transport-card p { margin-bottom: 0; }
-        .dist-badge { padding: .6rem .3rem; text-align: center; }
-        .dist-badge strong { display: block; font-size: 1.15rem; color: var(--sky-dark); margin-bottom: .15rem; }
-        .dist-badge small { color: var(--stone); font-size: .8rem; line-height: 1.3; }
-
-        /* Lightbox plans */
-        .plan-lightbox {
-            display: none; position: fixed; inset: 0;
-            background: rgba(0,0,0,.88); z-index: 9999;
-            align-items: center; justify-content: center; cursor: pointer;
-        }
-        .plan-lightbox.active { display: flex; }
-        .plan-lightbox img {
-            max-width: 92vw; max-height: 90vh;
-            border-radius: 8px; object-fit: contain; cursor: default;
-        }
-        .plan-lb-btn {
-            position: absolute; background: rgba(255,255,255,.15);
-            border: none; color: white; font-size: 1.5rem;
-            width: 48px; height: 48px; border-radius: 50%; cursor: pointer;
-            transition: background .2s;
-        }
-        .plan-lb-btn:hover { background: rgba(255,255,255,.3); }
-        .plan-lb-close { top: 1rem; right: 1.5rem; font-size: 1.8rem; background: none; }
-        .plan-lb-prev { left: 1rem; top: 50%; transform: translateY(-50%); }
-        .plan-lb-next { right: 1rem; top: 50%; transform: translateY(-50%); }
-
-        /* Map embed */
-        .map-embed {
-            border-radius: 10px; overflow: hidden;
-            border: 2px solid #e0d8cf;
-            box-shadow: 0 2px 12px rgba(0,0,0,.08);
-        }
-
-        /* Phone reveal */
-        .phone-reveal-btn {
-            display: inline-flex; align-items: center; gap: .5rem;
-            background: var(--cream, #faf8f5); border: 1px dashed var(--sky-dark, #4a90b8);
-            color: var(--sky-dark, #4a90b8); padding: .5rem 1.2rem;
-            border-radius: 8px; font-size: .95rem; font-weight: 500;
-            cursor: pointer; transition: all .2s;
-        }
-        .phone-reveal-btn:hover {
-            background: var(--sky-dark, #4a90b8); color: white;
-            border-style: solid;
-        }
-        .phone-revealed {
-            font-size: 1.1rem; font-weight: 500;
-            color: var(--sky-dark, #4a90b8);
-        }
-        .phone-revealed a { color: inherit; text-decoration: none; }
-        .phone-revealed a:hover { text-decoration: underline; }
-
-        /* Phone captcha mini */
-        .phone-captcha {
-            display: inline-flex; align-items: center; gap: .5rem;
-            background: #fff; border: 1px solid #e0d8cf;
-            border-radius: 8px; padding: .4rem .8rem;
-            font-size: .88rem; color: #555;
-            animation: fadeIn .3s ease;
-        }
-        .phone-captcha input {
-            width: 50px; text-align: center;
-            border: 1px solid #ccc; border-radius: 4px;
-            padding: .2rem; font-size: .9rem;
-            font-weight: 600;
-        }
-        .phone-captcha input:focus { outline: 2px solid var(--sky-dark); border-color: var(--sky-dark); }
-        .phone-captcha button {
-            background: var(--sky-dark, #4a90b8); color: #fff;
-            border: none; border-radius: 4px;
-            padding: .25rem .6rem; font-size: .82rem; cursor: pointer;
-        }
-        .phone-captcha-error { color: #c0392b; font-size: .8rem; margin-top: .3rem; }
-        @keyframes fadeIn { from { opacity:0; transform:translateY(-5px); } to { opacity:1; transform:translateY(0); } }
-
-        /* Spinner */
-        .loading-spinner {
-            display: inline-block; width: 18px; height: 18px;
-            border: 2px solid rgba(0,0,0,.1); border-top-color: var(--sky-dark);
-            border-radius: 50%; animation: spin .7s linear infinite;
-        }
-        @keyframes spin { to { transform: rotate(360deg); } }
+        .keycafe-step{display:flex;gap:1rem;align-items:flex-start;padding:1rem 0;border-bottom:1px solid #f0ebe5}
+        .keycafe-step:last-child{border-bottom:none}
+        .keycafe-num{width:36px;height:36px;border-radius:50%;background:var(--sky-dark);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.9rem;flex-shrink:0}
+        .keycafe-step h6{font-weight:700;margin-bottom:.2rem;font-size:.95rem}
+        .keycafe-step p{font-size:.88rem;color:#555;margin:0}
+        .direction-step{display:flex;gap:.8rem;align-items:flex-start;margin-bottom:.8rem}
+        .direction-step .num{width:28px;height:28px;border-radius:50%;background:var(--cream-dark);color:var(--wood);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.8rem;flex-shrink:0}
+        .direction-step span{font-size:.9rem;color:#555}
+        .plan-figure{margin:0;cursor:pointer}
+        .plan-figure img{border-radius:8px;border:1px solid #e0d8cf;width:100%;transition:transform .3s ease,box-shadow .3s ease}
+        .plan-figure:hover img{transform:scale(1.02);box-shadow:0 4px 20px rgba(0,0,0,.15)}
+        .plan-figure figcaption{font-size:.82rem;color:var(--stone);text-align:center;margin-top:.5rem}
+        .transport-card{height:100%;display:flex;flex-direction:column}
+        .transport-card p{margin-bottom:0}
+        .dist-badge{padding:.6rem .3rem;text-align:center}
+        .dist-badge strong{display:block;font-size:1.15rem;color:var(--sky-dark);margin-bottom:.15rem}
+        .dist-badge small{color:var(--stone);font-size:.8rem;line-height:1.3}
+        .plan-lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:9999;align-items:center;justify-content:center;cursor:pointer}
+        .plan-lightbox.active{display:flex}
+        .plan-lightbox img{max-width:92vw;max-height:90vh;border-radius:8px;object-fit:contain;cursor:default}
+        .plan-lb-btn{position:absolute;background:rgba(255,255,255,.15);border:none;color:white;font-size:1.5rem;width:48px;height:48px;border-radius:50%;cursor:pointer;transition:background .2s}
+        .plan-lb-btn:hover{background:rgba(255,255,255,.3)}
+        .plan-lb-close{top:1rem;right:1.5rem;font-size:1.8rem;background:none}
+        .plan-lb-prev{left:1rem;top:50%;transform:translateY(-50%)}
+        .plan-lb-next{right:1rem;top:50%;transform:translateY(-50%)}
+        .map-embed{border-radius:10px;overflow:hidden;border:2px solid #e0d8cf;box-shadow:0 2px 12px rgba(0,0,0,.08)}
+        .loading-spinner{display:inline-block;width:18px;height:18px;border:2px solid rgba(0,0,0,.1);border-top-color:var(--sky-dark);border-radius:50%;animation:spin .7s linear infinite}
+        @keyframes spin{to{transform:rotate(360deg)}}
     </style>
 </head>
 <body>
 
-<!-- NAVBAR -->
 <nav class="navbar navbar-expand-lg navbar-chalet fixed-top" aria-label="Navigation principale">
     <div class="container">
         <a class="navbar-brand" href="index.html"><i class="fas fa-mountain" aria-hidden="true"></i>Les Contamines</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMain" aria-expanded="false" aria-label="Ouvrir le menu">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMain" aria-expanded="false" aria-label="Ouvrir le menu"><span class="navbar-toggler-icon"></span></button>
         <div class="collapse navbar-collapse justify-content-end" id="navMain">
             <ul class="navbar-nav">
                 <li class="nav-item"><a class="nav-link" href="index.html">Accueil</a></li>
@@ -176,7 +67,6 @@
     </div>
 </nav>
 
-<!-- HERO -->
 <div class="page-hero">
     <h1><i class="fas fa-route me-3" aria-hidden="true"></i>Accès & Contact</h1>
     <p class="hero-sub">Comment venir, nous contacter, récupérer les clés</p>
@@ -184,41 +74,30 @@
 
 <main>
 
-<!-- ══════════════════════════════════════════════════ -->
-<!-- SECTION 1 : CONTACT                               -->
-<!-- ══════════════════════════════════════════════════ -->
+<!-- CONTACT -->
 <section id="contact-form">
     <div class="container">
         <h2 class="section-title reveal">Contact</h2>
         <div class="section-divider reveal"></div>
-
         <div class="row g-4">
-            <!-- Téléphone + Adresse -->
             <div class="col-lg-5 reveal">
                 <div class="card-chalet text-center mb-3">
                     <div class="card-icon pine mx-auto"><i class="fas fa-phone" aria-hidden="true"></i></div>
                     <h5>Téléphone</h5>
-                    <div id="phoneContact" class="mt-2">
-                        <button class="phone-reveal-btn" onclick="showPhoneCaptcha('phoneContact')">
-                            <i class="fas fa-lock" aria-hidden="true"></i>Afficher le numéro
-                        </button>
-                    </div>
-                    <small style="color:var(--stone); display:block; margin-top:.5rem;">Disponible 24h/24</small>
+                    <p>
+                        <!-- phone-protect.js remplacera ce lien automatiquement -->
+                        <a href="tel:+33760291960">07 60 29 19 60</a><br>
+                        <small style="color:var(--stone);">Disponible 24h/24</small>
+                    </p>
                 </div>
                 <div class="card-chalet text-center">
                     <div class="card-icon gold mx-auto"><i class="fas fa-location-dot" aria-hidden="true"></i></div>
                     <h5>Adresse</h5>
-                    <p>
-                        130 Impasse du Bonnant<br>
-                        Les Pierres Blanches — Bât. F<br>
-                        74170 Les Contamines-Montjoie
-                    </p>
+                    <p>130 Impasse du Bonnant<br>Les Pierres Blanches — Bât. F<br>74170 Les Contamines-Montjoie</p>
                 </div>
             </div>
-
-            <!-- Formulaire -->
             <div class="col-lg-7 reveal">
-                <div class="card-chalet" style="border-top: 4px solid var(--pine-light);">
+                <div class="card-chalet" style="border-top:4px solid var(--pine-light);">
                     <h5 class="mb-3"><i class="fas fa-envelope me-2" style="color:var(--pine-light)" aria-hidden="true"></i>Envoyer un message</h5>
                     <div class="row g-2">
                         <div class="col-sm-6">
@@ -243,9 +122,7 @@
                             <label class="form-label-chalet" for="ctMessage"><i class="fas fa-comment me-1" aria-hidden="true"></i>Message *</label>
                             <textarea class="form-control" id="ctMessage" rows="5" placeholder="Votre message…" required></textarea>
                         </div>
-                        <div class="col-12 my-2">
-                            <div class="h-captcha" data-captcha="true"></div>
-                        </div>
+                        <div class="col-12 my-2"><div class="h-captcha" data-captcha="true"></div></div>
                         <div class="col-12 text-center">
                             <button class="btn btn-chalet" id="btnContact" onclick="submitContact()">
                                 <i class="fas fa-paper-plane me-2" aria-hidden="true"></i>Envoyer
@@ -258,33 +135,25 @@
     </div>
 </section>
 
-<!-- ══════════════════════════════════════════════════ -->
-<!-- SECTION 2 : COMMENT VENIR                         -->
-<!-- ══════════════════════════════════════════════════ -->
+<!-- COMMENT VENIR -->
 <section class="section-alt">
     <div class="container">
         <h2 class="section-title reveal">Comment venir</h2>
         <div class="section-divider reveal"></div>
-
         <div class="row g-4">
-            <!-- Itinéraire A40 -->
             <div class="col-lg-6 reveal">
-                <div class="card-chalet h-100" style="border-top: 4px solid var(--sky-dark);">
+                <div class="card-chalet h-100" style="border-top:4px solid var(--sky-dark);">
                     <h5><i class="fas fa-car me-2" style="color:var(--sky-dark)" aria-hidden="true"></i>Depuis l'autoroute A40</h5>
-                    <p class="mb-3" style="font-size:.9rem; color:var(--stone)"><strong>Sortie 20 : Le Fayet</strong></p>
+                    <p class="mb-3" style="font-size:.9rem;color:var(--stone)"><strong>Sortie 20 : Le Fayet</strong></p>
                     <div class="direction-step"><div class="num">1</div><span>Prendre la sortie 20 (Le Fayet / Saint-Gervais)</span></div>
                     <div class="direction-step"><div class="num">2</div><span>Au rond-point, direction Les Contamines-Montjoie (D902)</span></div>
                     <div class="direction-step"><div class="num">3</div><span>Continuer sur 12 km en longeant le Bonnant</span></div>
                     <div class="direction-step"><div class="num">4</div><span>À l'entrée du village, suivre « Centre village »</span></div>
                     <div class="direction-step"><div class="num">5</div><span>Prendre l'Impasse du Bonnant sur la droite</span></div>
                     <div class="direction-step mb-0"><div class="num">6</div><span>Résidence Les Pierres Blanches — <strong>Bâtiment F</strong></span></div>
-                    <a href="https://www.google.com/maps/dir/Sortie+20+Le+Fayet+A40/130+Impasse+du+Bonnant+Les+Contamines-Montjoie" target="_blank" rel="noopener" class="btn btn-pine btn-sm mt-3">
-                        <i class="fas fa-map-location-dot me-1" aria-hidden="true"></i>Itinéraire Google Maps
-                    </a>
+                    <a href="https://www.google.com/maps/dir/Sortie+20+Le+Fayet+A40/130+Impasse+du+Bonnant+Les+Contamines-Montjoie" target="_blank" rel="noopener" class="btn btn-pine btn-sm mt-3"><i class="fas fa-map-location-dot me-1" aria-hidden="true"></i>Itinéraire Google Maps</a>
                 </div>
             </div>
-
-            <!-- Distances / Transports -->
             <div class="col-lg-6 reveal">
                 <div class="row g-3 h-100">
                     <div class="col-12">
@@ -301,74 +170,51 @@
                     <div class="col-6">
                         <div class="card-chalet transport-card">
                             <h5><i class="fas fa-plane me-2" style="color:var(--sky)" aria-hidden="true"></i>Aéroports</h5>
-                            <p style="font-size:.9rem; color:#555;">
-                                <strong>Genève</strong> — 90 km<br>
-                                <strong>Chambéry</strong> — 100 km<br>
-                                <strong>Lyon</strong> — 180 km
-                            </p>
-                            <small style="color:var(--stone); margin-top:auto;"><i class="fas fa-shuttle-van me-1" aria-hidden="true"></i>Navettes disponibles</small>
+                            <p style="font-size:.9rem;color:#555;"><strong>Genève</strong> — 90 km<br><strong>Chambéry</strong> — 100 km<br><strong>Lyon</strong> — 180 km</p>
+                            <small style="color:var(--stone);margin-top:auto;"><i class="fas fa-shuttle-van me-1" aria-hidden="true"></i>Navettes disponibles</small>
                         </div>
                     </div>
                     <div class="col-6">
                         <div class="card-chalet transport-card">
                             <h5><i class="fas fa-train me-2" style="color:var(--pine-light)" aria-hidden="true"></i>Train</h5>
-                            <p style="font-size:.9rem; color:#555;">
-                                <strong>Gare St-Gervais</strong><br>à 12 km
-                            </p>
-                            <small style="color:var(--stone); margin-top:auto;"><i class="fas fa-bolt me-1" aria-hidden="true"></i>TGV Ouigo Paris ~5h — <strong>40-60 €</strong></small>
+                            <p style="font-size:.9rem;color:#555;"><strong>Gare St-Gervais</strong><br>à 12 km</p>
+                            <small style="color:var(--stone);margin-top:auto;"><i class="fas fa-bolt me-1" aria-hidden="true"></i>TGV Ouigo Paris ~5h — <strong>40-60 €</strong></small>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
-        <!-- Google Maps -->
         <div class="mt-4 reveal">
             <div class="map-embed">
-                <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2770.5!2d6.7267!3d45.8214!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDXCsDQ5JzE3LjAiTiA2wrA0Myc0MC4xIkU!5e0!3m2!1sfr!2sfr!4v1"
-                    width="100%" height="280" style="border:0; display:block;" allowfullscreen="" loading="lazy"
-                    referrerpolicy="no-referrer-when-downgrade"
-                    title="Localisation du studio Les Contamines-Montjoie sur Google Maps">
-                </iframe>
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2770.5!2d6.7267!3d45.8214!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDXCsDQ5JzE3LjAiTiA2wrA0Myc0MC4xIkU!5e0!3m2!1sfr!2sfr!4v1"
+                    width="100%" height="280" style="border:0;display:block;" allowfullscreen="" loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade" title="Localisation du studio Les Contamines-Montjoie"></iframe>
             </div>
         </div>
     </div>
 </section>
 
-<!-- ══════════════════════════════════════════════════ -->
-<!-- SECTION 3 : PLANS DE LA RÉSIDENCE                 -->
-<!-- ══════════════════════════════════════════════════ -->
+<!-- PLANS -->
 <section id="plans">
     <div class="container">
         <h2 class="section-title reveal">Plans de la résidence</h2>
         <div class="section-divider reveal"></div>
         <p class="section-subtitle reveal">Repérez le Bâtiment F et les services — cliquez pour agrandir</p>
-
         <div class="row g-4 reveal">
             <div class="col-md-6">
                 <figure class="plan-figure" onclick="openPlanLightbox(0)">
-                    <img src="img/plan-residence.jpg"
-                         alt="Plan général de la résidence Hameaux des Lays — Les Contamines-Montjoie, avec emplacement des bâtiments A à J, parkings et commerces"
-                         class="img-fluid" loading="lazy">
-                    <figcaption>
-                        <i class="fas fa-search-plus me-1" aria-hidden="true"></i>Plan général — Le Bâtiment F est en <strong style="color:var(--gold)">jaune</strong> (Les Pierres Blanches)
-                    </figcaption>
+                    <img src="img/plan-residence.jpg" alt="Plan général de la résidence Hameaux des Lays — Les Contamines-Montjoie, bâtiments A à J, parkings et commerces" class="img-fluid" loading="lazy">
+                    <figcaption><i class="fas fa-search-plus me-1" aria-hidden="true"></i>Plan général — Le Bâtiment F est en <strong style="color:var(--gold)">jaune</strong> (Les Pierres Blanches)</figcaption>
                 </figure>
             </div>
             <div class="col-md-6">
                 <figure class="plan-figure" onclick="openPlanLightbox(1)">
-                    <img src="img/plan-batiment-f.jpg"
-                         alt="Plan du rez-de-chaussée du Bâtiment F — Résidence Les Pierres Blanches, avec casiers ski, escaliers et sorties de secours"
-                         class="img-fluid" loading="lazy">
-                    <figcaption>
-                        <i class="fas fa-search-plus me-1" aria-hidden="true"></i>Bâtiment F — RDC, casiers ski et entrées
-                    </figcaption>
+                    <img src="img/plan-batiment-f.jpg" alt="Plan du RDC du Bâtiment F — Résidence Les Pierres Blanches, casiers ski, escaliers et sorties" class="img-fluid" loading="lazy">
+                    <figcaption><i class="fas fa-search-plus me-1" aria-hidden="true"></i>Bâtiment F — RDC, casiers ski et entrées</figcaption>
                 </figure>
             </div>
         </div>
-
-        <div class="d-flex flex-wrap gap-3 justify-content-center mt-4 reveal" style="font-size:.88rem; color:#555;">
+        <div class="d-flex flex-wrap gap-3 justify-content-center mt-4 reveal" style="font-size:.88rem;color:#555;">
             <span><i class="fas fa-star me-1" style="color:var(--gold)" aria-hidden="true"></i><strong>Bât. F</strong> — Les Pierres Blanches</span>
             <span><i class="fas fa-car me-1" style="color:var(--sky-dark)" aria-hidden="true"></i>Parking Nord — bip télécommande</span>
             <span><i class="fas fa-person-skiing me-1" style="color:var(--pine)" aria-hidden="true"></i>Casiers ski au RDC</span>
@@ -377,97 +223,38 @@
     </div>
 </section>
 
-<!-- ══════════════════════════════════════════════════ -->
-<!-- SECTION 4 : KEYCAFE                               -->
-<!-- ══════════════════════════════════════════════════ -->
+<!-- KEYCAFE -->
 <section id="keycafe" class="section-alt">
     <div class="container">
         <h2 class="section-title reveal">Récupérer les clés — KeyCafe</h2>
         <div class="section-divider reveal"></div>
-
-        <div class="row justify-content-center">
-            <div class="col-lg-9">
-
-                <!-- Astuce parking -->
-                <div class="info-block blue reveal mb-4">
-                    <h5><i class="fas fa-lightbulb me-2" style="color:var(--sky)" aria-hidden="true"></i>Astuce parking à l'arrivée</h5>
-                    <p>Garez-vous sur les <strong>places visiteurs</strong> à l'entrée de la résidence. Récupérez les clés via la boîte KeyCafe, montez prendre le <strong>bip télécommande</strong> dans l'appartement, puis déplacez votre voiture sur votre place de parking.</p>
-                </div>
-
-                <!-- Étapes KeyCafe -->
-                <div class="card-chalet reveal" style="border-left: 4px solid var(--gold);">
-                    <h5 class="mb-3"><i class="fas fa-key me-2" style="color:var(--gold)" aria-hidden="true"></i>Mode d'emploi KeyCafe</h5>
-
-                    <div class="keycafe-step">
-                        <div class="keycafe-num">1</div>
-                        <div>
-                            <h6><i class="fas fa-mobile-screen me-2" aria-hidden="true"></i>Télécharger l'application</h6>
-                            <p>
-                                <a href="https://apps.apple.com/app/id1233211301" target="_blank" rel="noopener" style="display:inline-block; background:#000; color:#fff; padding:.35rem .9rem; border-radius:6px; text-decoration:none; font-size:.82rem; margin-right:.5rem;">
-                                    <i class="fab fa-apple me-1"></i>App Store
-                                </a>
-                                <a href="https://play.google.com/store/apps/details?id=com.keycafe.android.keycafe" target="_blank" rel="noopener" style="display:inline-block; background:#34A853; color:#fff; padding:.35rem .9rem; border-radius:6px; text-decoration:none; font-size:.82rem;">
-                                    <i class="fab fa-google-play me-1"></i>Google Play
-                                </a>
-                            </p>
-                        </div>
-                    </div>
-
-                    <div class="keycafe-step">
-                        <div class="keycafe-num">2</div>
-                        <div>
-                            <h6><i class="fas fa-hashtag me-2" aria-hidden="true"></i>Recevoir votre code</h6>
-                            <p>Code envoyé <strong>48h avant</strong> votre arrivée, par SMS et email.</p>
-                        </div>
-                    </div>
-
-                    <div class="keycafe-step">
-                        <div class="keycafe-num">3</div>
-                        <div>
-                            <h6><i class="fas fa-map-pin me-2" aria-hidden="true"></i>Localiser la boîte</h6>
-                            <p>Entrée principale de la résidence, à gauche de la porte.</p>
-                        </div>
-                    </div>
-
-                    <div class="keycafe-step">
-                        <div class="keycafe-num">4</div>
-                        <div>
-                            <h6><i class="fas fa-key me-2" aria-hidden="true"></i>Récupérer les clés</h6>
-                            <p>Ouvrez l'app → Entrez le code → La boîte s'ouvre → Prenez les clés</p>
-                        </div>
-                    </div>
-
-                    <div class="keycafe-step">
-                        <div class="keycafe-num">5</div>
-                        <div>
-                            <h6><i class="fas fa-person-skiing me-2" aria-hidden="true"></i>Local à ski</h6>
-                            <p>Au RDC du bâtiment F, près des boîtes aux lettres.</p>
-                        </div>
-                    </div>
-
-                    <div class="keycafe-step">
-                        <div class="keycafe-num">6</div>
-                        <div>
-                            <h6><i class="fas fa-rotate-left me-2" aria-hidden="true"></i>Au départ</h6>
-                            <p>Remettez les clés dans la boîte KeyCafe et <strong>refermez bien</strong> le casier.</p>
-                        </div>
-                    </div>
-
-                    <div class="warning-box mt-3" style="margin-bottom:0;">
+        <div class="row justify-content-center"><div class="col-lg-9">
+            <div class="info-block blue reveal mb-4">
+                <h5><i class="fas fa-lightbulb me-2" style="color:var(--sky)" aria-hidden="true"></i>Astuce parking à l'arrivée</h5>
+                <p>Garez-vous sur les <strong>places visiteurs</strong> à l'entrée de la résidence. Récupérez les clés via la boîte KeyCafe, montez prendre le <strong>bip télécommande</strong> dans l'appartement, puis déplacez votre voiture sur votre place de parking.</p>
+            </div>
+            <div class="card-chalet reveal" style="border-left:4px solid var(--gold);">
+                <h5 class="mb-3"><i class="fas fa-key me-2" style="color:var(--gold)" aria-hidden="true"></i>Mode d'emploi KeyCafe</h5>
+                <div class="keycafe-step">
+                    <div class="keycafe-num">1</div>
+                    <div>
+                        <h6><i class="fas fa-mobile-screen me-2" aria-hidden="true"></i>Télécharger l'application</h6>
                         <p>
-                            <i class="fas fa-phone me-2" aria-hidden="true"></i><strong>Problème ?</strong>
-                            <span id="phoneKeycafe">
-                                <button class="phone-reveal-btn" onclick="showPhoneCaptcha('phoneKeycafe')" style="font-size:.85rem; padding:.3rem .8rem;">
-                                    <i class="fas fa-lock" aria-hidden="true"></i>Voir le numéro
-                                </button>
-                            </span>
-                            <small style="color:var(--stone);"> (24h/24)</small>
+                            <a href="https://apps.apple.com/app/id1233211301" target="_blank" rel="noopener" style="display:inline-block;background:#000;color:#fff;padding:.35rem .9rem;border-radius:6px;text-decoration:none;font-size:.82rem;margin-right:.5rem"><i class="fab fa-apple me-1"></i>App Store</a>
+                            <a href="https://play.google.com/store/apps/details?id=com.keycafe.android.keycafe" target="_blank" rel="noopener" style="display:inline-block;background:#34A853;color:#fff;padding:.35rem .9rem;border-radius:6px;text-decoration:none;font-size:.82rem"><i class="fab fa-google-play me-1"></i>Google Play</a>
                         </p>
                     </div>
                 </div>
-
+                <div class="keycafe-step"><div class="keycafe-num">2</div><div><h6><i class="fas fa-hashtag me-2" aria-hidden="true"></i>Recevoir votre code</h6><p>Code envoyé <strong>48h avant</strong> votre arrivée, par SMS et email.</p></div></div>
+                <div class="keycafe-step"><div class="keycafe-num">3</div><div><h6><i class="fas fa-map-pin me-2" aria-hidden="true"></i>Localiser la boîte</h6><p>Entrée principale de la résidence, à gauche de la porte.</p></div></div>
+                <div class="keycafe-step"><div class="keycafe-num">4</div><div><h6><i class="fas fa-key me-2" aria-hidden="true"></i>Récupérer les clés</h6><p>Ouvrez l'app → Entrez le code → La boîte s'ouvre → Prenez les clés</p></div></div>
+                <div class="keycafe-step"><div class="keycafe-num">5</div><div><h6><i class="fas fa-person-skiing me-2" aria-hidden="true"></i>Local à ski</h6><p>Au RDC du bâtiment F, près des boîtes aux lettres.</p></div></div>
+                <div class="keycafe-step"><div class="keycafe-num">6</div><div><h6><i class="fas fa-rotate-left me-2" aria-hidden="true"></i>Au départ</h6><p>Remettez les clés dans la boîte KeyCafe et <strong>refermez bien</strong> le casier.</p></div></div>
+                <div class="warning-box mt-3" style="margin-bottom:0;">
+                    <p><i class="fas fa-phone me-2" aria-hidden="true"></i><strong>Problème ?</strong> Appelez le <a href="tel:+33760291960">07 60 29 19 60</a> (24h/24)</p>
+                </div>
             </div>
-        </div>
+        </div></div>
     </div>
 </section>
 
@@ -481,7 +268,6 @@
     <button class="plan-lb-btn plan-lb-next" onclick="event.stopPropagation();navigatePlan(1)" aria-label="Plan suivant"><i class="fas fa-chevron-right" aria-hidden="true"></i></button>
 </div>
 
-<!-- Toasts -->
 <div class="toast-container" id="toastContainer"></div>
 
 <!-- FOOTER -->
@@ -490,21 +276,12 @@
         <div class="row g-4">
             <div class="col-md-4">
                 <h5><i class="fas fa-mountain me-2" aria-hidden="true"></i>Les Contamines</h5>
-                <p style="font-size:.88rem; color:#a89e92; line-height:1.6;">
-                    Votre pied-à-terre au cœur des Alpes. Un studio chaleureux au pied du Mont-Blanc, été comme hiver.
-                </p>
+                <p style="font-size:.88rem;color:#a89e92;line-height:1.6;">Votre pied-à-terre au cœur des Alpes. Un studio chaleureux au pied du Mont-Blanc, été comme hiver.</p>
             </div>
             <div class="col-md-4">
                 <h5>Contact</h5>
                 <ul class="footer-list">
-                    <li>
-                        <i class="fas fa-phone" aria-hidden="true"></i>
-                        <span id="phoneFooter">
-                            <button class="phone-reveal-btn" onclick="showPhoneCaptcha('phoneFooter')" style="font-size:.8rem; padding:.25rem .7rem; border-width:1px;">
-                                <i class="fas fa-lock" aria-hidden="true"></i>Afficher
-                            </button>
-                        </span>
-                    </li>
+                    <li><i class="fas fa-phone" aria-hidden="true"></i><a href="tel:+33760291960">07 60 29 19 60</a></li>
                     <li><a href="#contact-form"><i class="fas fa-envelope me-1" aria-hidden="true"></i>Formulaire de contact</a></li>
                     <li><i class="fas fa-map-marker-alt" aria-hidden="true"></i>130 Impasse du Bonnant<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Les Pierres Blanches — Bât. F<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;74170 Les Contamines-Montjoie</li>
                 </ul>
@@ -531,185 +308,37 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="config.js"></script>
+<!-- Protection anti-scraping du téléphone -->
+<script src="phone-protect.js" defer></script>
 <script>
-/* ═══════════════════════════════════════════════════
-   ANTI-SCRAPING : Téléphone protégé par mini-captcha
-   Le numéro n'est jamais en clair dans le HTML.
-   ═══════════════════════════════════════════════════ */
-const _p = ['\u0030\u0037','\u0036\u0030','\u0032\u0039','\u0031\u0039','\u0036\u0030'];
-let _phoneUnlocked = false;
+function showToast(m,e=false){const t=document.createElement('div');t.className='toast-custom'+(e?' error':'');t.innerHTML='<i class="fas '+(e?'fa-exclamation-circle':'fa-check-circle')+'" style="color:'+(e?'var(--red-savoie)':'var(--pine-light)')+'"></i><span>'+m+'</span>';document.getElementById('toastContainer').appendChild(t);setTimeout(()=>{t.style.opacity='0';t.style.transform='translateX(50px)';t.style.transition='all .4s';setTimeout(()=>t.remove(),400)},5000)}
 
-function _getPhone() {
-    return _p.join(' ');
-}
-function _getPhoneHref() {
-    return 'tel:+33' + _p.join('').substring(1);
-}
-
-// Génère une opération aléatoire simple
-function _genCaptcha() {
-    const ops = [
-        () => { const a = 2 + Math.floor(Math.random()*7), b = 1 + Math.floor(Math.random()*7); return { q: a+' + '+b, r: a+b }; },
-        () => { const a = 5 + Math.floor(Math.random()*10), b = 1 + Math.floor(Math.random()*5); return { q: a+' − '+b, r: a-b }; },
-        () => { const a = 2 + Math.floor(Math.random()*4), b = 2 + Math.floor(Math.random()*4); return { q: a+' × '+b, r: a*b }; }
-    ];
-    return ops[Math.floor(Math.random()*ops.length)]();
+async function submitContact(){
+    const nom=document.getElementById('ctNom').value.trim(),email=document.getElementById('ctEmail').value.trim(),sujet=document.getElementById('ctSujet').value,msg=document.getElementById('ctMessage').value.trim();
+    if(!nom||!email||!msg){showToast('Remplissez tous les champs obligatoires.',true);return}
+    const btn=document.getElementById('btnContact');btn.disabled=true;btn.innerHTML='<span class="loading-spinner me-2"></span>Envoi…';
+    try{
+        const fd=new FormData();fd.append('subject','📩 Contact — '+sujet);fd.append('from_name',nom);fd.append('Nom',nom);fd.append('Email',email);fd.append('Sujet',sujet);fd.append('Message',msg);
+        const hc=document.querySelector('[name="h-captcha-response"]');if(hc&&hc.value)fd.append('h-captcha-response',hc.value);
+        const ok=await sendWeb3Form(fd);
+        if(ok){showToast('Message envoyé ! Nous vous répondrons rapidement.');document.getElementById('ctNom').value='';document.getElementById('ctEmail').value='';document.getElementById('ctMessage').value=''}
+        else showToast("Erreur d'envoi. Réessayez ou appelez-nous.",true);
+    }catch(err){showToast("Erreur d'envoi. Réessayez ou appelez-nous.",true)}
+    btn.disabled=false;btn.innerHTML='<i class="fas fa-paper-plane me-2"></i>Envoyer';
 }
 
-function showPhoneCaptcha(containerId) {
-    // Si déjà débloqué, révéler directement
-    if (_phoneUnlocked) { revealPhone(containerId); return; }
+window.addEventListener('scroll',()=>{document.querySelector('.navbar-chalet').classList.toggle('scrolled',window.scrollY>60)});
 
-    const container = document.getElementById(containerId);
-    const captcha = _genCaptcha();
-    const uid = 'cap_' + Math.random().toString(36).substr(2,5);
+/* Lightbox plans */
+const planImages=[{src:'img/plan-residence.jpg',alt:'Plan général de la résidence Hameaux des Lays'},{src:'img/plan-batiment-f.jpg',alt:'Plan du Bâtiment F — RDC'}];
+let currentPlanIndex=0;
+function openPlanLightbox(i){currentPlanIndex=i;const lb=document.getElementById('planLightbox'),img=document.getElementById('planLightboxImg');img.src=planImages[i].src;img.alt=planImages[i].alt;lb.classList.add('active');document.body.style.overflow='hidden'}
+function closePlanLightbox(){document.getElementById('planLightbox').classList.remove('active');document.body.style.overflow=''}
+function navigatePlan(d){currentPlanIndex=(currentPlanIndex+d+planImages.length)%planImages.length;const img=document.getElementById('planLightboxImg');img.src=planImages[currentPlanIndex].src;img.alt=planImages[currentPlanIndex].alt}
+document.addEventListener('keydown',e=>{if(!document.getElementById('planLightbox').classList.contains('active'))return;if(e.key==='Escape')closePlanLightbox();if(e.key==='ArrowLeft')navigatePlan(-1);if(e.key==='ArrowRight')navigatePlan(1)});
 
-    container.innerHTML =
-        '<div class="phone-captcha">' +
-            '<i class="fas fa-robot" aria-hidden="true" style="color:var(--sky-dark)"></i>' +
-            '<span>' + captcha.q + ' = </span>' +
-            '<input type="text" id="' + uid + '" maxlength="3" inputmode="numeric" autocomplete="off" aria-label="Résultat du calcul">' +
-            '<button onclick="checkPhoneCaptcha(\'' + containerId + '\',\'' + uid + '\',' + captcha.r + ')">OK</button>' +
-        '</div>' +
-        '<div id="' + uid + '_err" class="phone-captcha-error"></div>';
-
-    // Focus automatique
-    setTimeout(() => document.getElementById(uid)?.focus(), 100);
-
-    // Valider avec Entrée
-    document.getElementById(uid)?.addEventListener('keydown', function(e) {
-        if (e.key === 'Enter') checkPhoneCaptcha(containerId, uid, captcha.r);
-    });
-}
-
-function checkPhoneCaptcha(containerId, inputId, expected) {
-    const input = document.getElementById(inputId);
-    const val = parseInt(input?.value, 10);
-    if (val === expected) {
-        _phoneUnlocked = true;
-        // Révéler sur TOUS les containers de la page
-        ['phoneContact','phoneKeycafe','phoneFooter'].forEach(id => {
-            const el = document.getElementById(id);
-            if (el) revealPhone(id);
-        });
-    } else {
-        const err = document.getElementById(inputId + '_err');
-        if (err) err.textContent = 'Mauvaise réponse, réessayez.';
-        if (input) { input.value = ''; input.focus(); }
-    }
-}
-
-function revealPhone(containerId) {
-    const el = document.getElementById(containerId);
-    if (!el) return;
-    el.innerHTML = '<span class="phone-revealed"><a href="' + _getPhoneHref() + '"><i class="fas fa-phone-volume me-1" aria-hidden="true"></i>' + _getPhone() + '</a></span>';
-}
-
-/* ═══════════════════════════════════════════════════
-   TOAST
-   ═══════════════════════════════════════════════════ */
-function showToast(m, e = false) {
-    const t = document.createElement('div');
-    t.className = 'toast-custom' + (e ? ' error' : '');
-    t.innerHTML = '<i class="fas ' + (e ? 'fa-exclamation-circle' : 'fa-check-circle') + '" style="color:' + (e ? 'var(--red-savoie)' : 'var(--pine-light)') + '"></i><span>' + m + '</span>';
-    document.getElementById('toastContainer').appendChild(t);
-    setTimeout(() => {
-        t.style.opacity = '0';
-        t.style.transform = 'translateX(50px)';
-        t.style.transition = 'all .4s';
-        setTimeout(() => t.remove(), 400);
-    }, 5000);
-}
-
-/* ═══════════════════════════════════════════════════
-   FORMULAIRE CONTACT
-   ═══════════════════════════════════════════════════ */
-async function submitContact() {
-    const nom = document.getElementById('ctNom').value.trim();
-    const email = document.getElementById('ctEmail').value.trim();
-    const sujet = document.getElementById('ctSujet').value;
-    const msg = document.getElementById('ctMessage').value.trim();
-    if (!nom || !email || !msg) { showToast('Remplissez tous les champs obligatoires.', true); return; }
-
-    const btn = document.getElementById('btnContact');
-    btn.disabled = true;
-    btn.innerHTML = '<span class="loading-spinner me-2"></span>Envoi…';
-
-    try {
-        const fd = new FormData();
-        fd.append('subject', '📩 Contact — ' + sujet);
-        fd.append('from_name', nom);
-        fd.append('Nom', nom);
-        fd.append('Email', email);
-        fd.append('Sujet', sujet);
-        fd.append('Message', msg);
-        const hc = document.querySelector('[name="h-captcha-response"]');
-        if (hc && hc.value) fd.append('h-captcha-response', hc.value);
-        const ok = await sendWeb3Form(fd);
-        if (ok) {
-            showToast('Message envoyé ! Nous vous répondrons rapidement.');
-            document.getElementById('ctNom').value = '';
-            document.getElementById('ctEmail').value = '';
-            document.getElementById('ctMessage').value = '';
-        } else {
-            showToast("Erreur d'envoi. Réessayez ou appelez-nous.", true);
-        }
-    } catch (err) {
-        showToast("Erreur d'envoi. Réessayez ou appelez-nous.", true);
-    }
-    btn.disabled = false;
-    btn.innerHTML = '<i class="fas fa-paper-plane me-2"></i>Envoyer';
-}
-
-/* ═══════════════════════════════════════════════════
-   NAVBAR SCROLL
-   ═══════════════════════════════════════════════════ */
-window.addEventListener('scroll', () => {
-    document.querySelector('.navbar-chalet').classList.toggle('scrolled', window.scrollY > 60);
-});
-
-/* ═══════════════════════════════════════════════════
-   LIGHTBOX PLANS
-   ═══════════════════════════════════════════════════ */
-const planImages = [
-    { src: 'img/plan-residence.jpg', alt: 'Plan général de la résidence Hameaux des Lays' },
-    { src: 'img/plan-batiment-f.jpg', alt: 'Plan du Bâtiment F — RDC, casiers ski' }
-];
-let currentPlanIndex = 0;
-
-function openPlanLightbox(i) {
-    currentPlanIndex = i;
-    const lb = document.getElementById('planLightbox');
-    const img = document.getElementById('planLightboxImg');
-    img.src = planImages[i].src;
-    img.alt = planImages[i].alt;
-    lb.classList.add('active');
-    document.body.style.overflow = 'hidden';
-}
-function closePlanLightbox() {
-    document.getElementById('planLightbox').classList.remove('active');
-    document.body.style.overflow = '';
-}
-function navigatePlan(dir) {
-    currentPlanIndex = (currentPlanIndex + dir + planImages.length) % planImages.length;
-    const img = document.getElementById('planLightboxImg');
-    img.src = planImages[currentPlanIndex].src;
-    img.alt = planImages[currentPlanIndex].alt;
-}
-document.addEventListener('keydown', e => {
-    if (!document.getElementById('planLightbox').classList.contains('active')) return;
-    if (e.key === 'Escape') closePlanLightbox();
-    if (e.key === 'ArrowLeft') navigatePlan(-1);
-    if (e.key === 'ArrowRight') navigatePlan(1);
-});
-
-/* ═══════════════════════════════════════════════════
-   SCROLL REVEAL
-   ═══════════════════════════════════════════════════ */
-const observer = new IntersectionObserver(entries => {
-    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-}, { threshold: .1, rootMargin: '0px 0px -40px 0px' });
-document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+const observer=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('visible')})},{threshold:.1,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
 </script>
 </body>
 </html>
