@@ -221,9 +221,6 @@
         </div>
 
         <div class="gallery-grid reveal" id="galleryGrid"></div>
-        <p class="text-center mt-3 reveal" style="font-size:0.82rem; color:var(--stone);">
-            <i class="fas fa-info-circle me-1"></i> Remplacez les images dans la configuration du script par vos propres photos
-        </p>
     </div>
 </section>
 
@@ -371,15 +368,41 @@ window.addEventListener('scroll', () => {
 
 // Gallery config
 const PHOTOS = [
-    { src: '', label: 'Séjour', cat: 'interieur', icon: 'fa-couch' },
-    { src: '', label: 'Cuisine', cat: 'interieur', icon: 'fa-utensils' },
-    { src: '', label: 'Chambre', cat: 'interieur', icon: 'fa-bed' },
-    { src: '', label: 'Salle de bain', cat: 'interieur', icon: 'fa-bath' },
-    { src: '', label: 'Résidence', cat: 'exterieur', icon: 'fa-building' },
-    { src: '', label: 'Parking', cat: 'exterieur', icon: 'fa-car' },
-    { src: '', label: 'Village', cat: 'alentours', icon: 'fa-store' },
-    { src: '', label: 'Pistes', cat: 'alentours', icon: 'fa-person-skiing' },
-    { src: '', label: 'Mont-Blanc', cat: 'paysage', icon: 'fa-mountain-sun' },
+    // Intérieur
+    { src: 'img/interieur-sejour.jpg', label: 'Séjour', cat: 'interieur' },
+    { src: 'img/interieur-cuisine.jpg', label: 'Cuisine', cat: 'interieur' },
+    { src: 'img/interieur-kitchenette.jpg', label: 'Kitchenette', cat: 'interieur' },
+    { src: 'img/interieur-coin-repas.jpg', label: 'Coin repas', cat: 'interieur' },
+    { src: 'img/interieur-raclette.jpg', label: 'Soirée raclette', cat: 'interieur' },
+    // Résidence
+    { src: 'img/residence-panorama-ete.jpg', label: 'Résidence — Vue panoramique', cat: 'exterieur' },
+    { src: 'img/residence-ensemble-ete.jpg', label: 'Résidence — Ensemble', cat: 'exterieur' },
+    { src: 'img/residence-batiment-ete.jpg', label: 'Bâtiment été', cat: 'exterieur' },
+    { src: 'img/residence-batiment-proche.jpg', label: 'Bâtiment — Vue rapprochée', cat: 'exterieur' },
+    { src: 'img/residence-vue-montagne.jpg', label: 'Résidence & montagne', cat: 'exterieur' },
+    { src: 'img/residence-enfants-ete.jpg', label: 'Été à la résidence', cat: 'exterieur' },
+    { src: 'img/residence-commerces.jpg', label: 'Commerces de la résidence', cat: 'exterieur' },
+    { src: 'img/residence-nuit-hiver.jpg', label: 'Résidence — Nuit d\'hiver', cat: 'exterieur' },
+    { src: 'img/residence-parking.jpg', label: 'Parking', cat: 'exterieur' },
+    // Pistes / Ski
+    { src: 'img/ski-pistes-soleil.jpg', label: 'Pistes au soleil', cat: 'paysage' },
+    { src: 'img/ski-panorama-montagne.jpg', label: 'Panorama depuis les pistes', cat: 'paysage' },
+    { src: 'img/ski-domaine-panorama.jpg', label: 'Domaine skiable', cat: 'paysage' },
+    // Paysage & Nature
+    { src: 'img/paysage-mont-blanc.jpg', label: 'Le Mont-Blanc', cat: 'paysage' },
+    { src: 'img/paysage-riviere-ete.jpg', label: 'Rivière en été', cat: 'paysage' },
+    { src: 'img/paysage-nature.jpg', label: 'Nature environnante', cat: 'paysage' },
+    { src: 'img/paysage-cascade.jpg', label: 'Cascade', cat: 'paysage' },
+    { src: 'img/paysage-torrent-ete.jpg', label: 'Torrent', cat: 'paysage' },
+    // Alentours
+    { src: 'img/alentours-torrent.jpg', label: 'Le Bonnant', cat: 'alentours' },
+    { src: 'img/alentours-lac.jpg', label: 'Lac du Pontet', cat: 'alentours' },
+    { src: 'img/alentours-lac-baignade.jpg', label: 'Lac de baignade', cat: 'alentours' },
+    { src: 'img/alentours-tmb-panneau.jpg', label: 'Tour du Mont-Blanc', cat: 'alentours' },
+    { src: 'img/alentours-village.jpg', label: 'Village', cat: 'alentours' },
+    { src: 'img/alentours-eglise.jpg', label: 'Église du village', cat: 'alentours' },
+    { src: 'img/alentours-espace-loisirs.jpg', label: 'Espace loisirs', cat: 'alentours' },
+    { src: 'img/alentours-depart-rando.jpg', label: 'Départ randonnée', cat: 'alentours' },
 ];
 
 let currentLightboxIndex = 0;
