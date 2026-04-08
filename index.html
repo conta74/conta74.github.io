@@ -16,20 +16,13 @@
             align-items: center;
             justify-content: center;
             overflow: hidden;
-            background: linear-gradient(135deg, #1a3a4a 0%, #2d5a6b 30%, #87CEEB 60%, #E8E8E8 80%, #FFF 100%);
+            background: url('img/hero-montagne.jpg') center center / cover no-repeat;
         }
         .hero-home::before {
             content: '';
             position: absolute;
             inset: 0;
-            background: radial-gradient(ellipse 120% 60% at 50% 100%, rgba(255,255,255,0.95) 0%, transparent 70%),
-                        linear-gradient(180deg, rgba(0,0,0,0.12) 0%, transparent 40%);
-            z-index: 1;
-        }
-        .hero-home .mountains {
-            position: absolute;
-            bottom: 0; left: 0;
-            width: 100%; height: 70%;
+            background: linear-gradient(180deg, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.2) 40%, rgba(0,0,0,0.5) 100%);
             z-index: 1;
         }
         .hero-content {
@@ -40,9 +33,9 @@
         }
         .hero-badge {
             display: inline-block;
-            background: rgba(201,168,76,0.15);
-            border: 1px solid var(--gold);
-            color: var(--gold);
+            background: rgba(255,255,255,0.15);
+            border: 1px solid rgba(255,255,255,0.4);
+            color: white;
             padding: 0.35rem 1.4rem;
             border-radius: 50px;
             font-size: 0.75rem;
@@ -50,26 +43,28 @@
             text-transform: uppercase;
             margin-bottom: 1.5rem;
             animation: fadeInUp 0.8s ease 0.2s both;
+            backdrop-filter: blur(4px);
         }
         .hero-content h1 {
             font-family: 'Playfair Display', serif;
             font-size: clamp(2.2rem, 5.5vw, 4.5rem);
             font-weight: 700;
-            color: var(--charcoal);
+            color: white;
             line-height: 1.1;
             margin-bottom: 1rem;
             animation: fadeInUp 0.8s ease 0.4s both;
-            text-shadow: 0 2px 20px rgba(255,255,255,0.5);
+            text-shadow: 0 2px 30px rgba(0,0,0,0.4);
         }
-        .hero-content h1 em { font-style: italic; color: var(--sky-dark); }
+        .hero-content h1 em { font-style: italic; color: var(--gold-light); }
         .hero-desc {
             font-size: 1.1rem;
-            color: var(--stone);
+            color: rgba(255,255,255,0.85);
             font-weight: 300;
             max-width: 520px;
             margin: 0 auto 2rem;
             line-height: 1.7;
             animation: fadeInUp 0.8s ease 0.6s both;
+            text-shadow: 0 1px 10px rgba(0,0,0,0.3);
         }
         .hero-cta { animation: fadeInUp 0.8s ease 0.8s both; }
         .lead-letter {
@@ -106,32 +101,13 @@
 
 <!-- HERO -->
 <section class="hero-home">
-    <svg class="mountains" viewBox="0 0 1440 500" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M0 350 L200 150 L350 250 L500 80 L650 200 L800 100 L950 220 L1100 60 L1250 180 L1440 120 L1440 500 L0 500Z" fill="#6B8F71" opacity="0.4"/>
-        <path d="M0 400 L150 220 L300 300 L450 150 L600 280 L750 170 L900 290 L1050 130 L1200 250 L1350 180 L1440 220 L1440 500 L0 500Z" fill="#4A7C5C" opacity="0.5"/>
-        <path d="M0 420 L100 300 L250 350 L400 230 L550 340 L700 250 L850 330 L1000 210 L1150 310 L1300 260 L1440 290 L1440 500 L0 500Z" fill="#2D5A3D" opacity="0.6"/>
-        <path d="M485 80 L500 80 L520 100 L480 100Z" fill="white" opacity="0.9"/>
-        <path d="M790 100 L810 95 L825 120 L780 118Z" fill="white" opacity="0.9"/>
-        <path d="M1090 60 L1110 55 L1125 85 L1080 82Z" fill="white" opacity="0.9"/>
-        <g fill="#1E4D2B" opacity="0.7">
-            <polygon points="80,420 90,380 100,420"/>
-            <polygon points="120,410 132,365 144,410"/>
-            <polygon points="320,400 335,350 350,400"/>
-            <polygon points="660,400 672,360 684,400"/>
-            <polygon points="1300,390 1315,340 1330,390"/>
-        </g>
-        <rect x="160" y="388" width="40" height="32" fill="#8B6914" rx="1"/>
-        <polygon points="155,388 180,365 205,388" fill="#A0332C"/>
-        <rect x="172" y="398" width="10" height="14" fill="#FFE4B5" opacity="0.8"/>
-    </svg>
-
     <div class="hero-content">
         <div class="hero-badge">Les Contamines-Montjoie — Haute-Savoie</div>
         <h1>Un refuge<br><em>au cœur des Alpes</em></h1>
         <p class="hero-desc">Studio chaleureux au pied du Mont-Blanc, idéal pour 4 personnes. Entre ski et randonnée, offrez-vous des vacances inoubliables en montagne.</p>
         <div class="hero-cta d-flex gap-3 justify-content-center flex-wrap">
-            <a href="reservation.html" class="btn btn-chalet"><i class="fas fa-calendar-check me-2"></i>Réserver</a>
-            <a href="#photos" class="btn btn-outline-chalet"><i class="fas fa-images me-2"></i>Voir les photos</a>
+            <a href="reservation.html" class="btn btn-chalet" style="background:white;color:var(--charcoal);"><i class="fas fa-calendar-check me-2"></i>Réserver</a>
+            <a href="#photos" class="btn btn-outline-chalet" style="border-color:white;color:white;"><i class="fas fa-images me-2"></i>Voir les photos</a>
         </div>
     </div>
 </section>
@@ -368,41 +344,43 @@ window.addEventListener('scroll', () => {
 
 // Gallery config
 const PHOTOS = [
-    // Intérieur
+    // Intérieur — Le studio
+    { src: 'img/interieur-chambre-lit.jpg', label: 'Chambre — Lit double', cat: 'interieur' },
+    { src: 'img/interieur-lit-ferme.jpg', label: 'Lit escamotable (fermé)', cat: 'interieur' },
+    { src: 'img/interieur-lit-table.jpg', label: 'Espace séjour', cat: 'interieur' },
     { src: 'img/interieur-sejour.jpg', label: 'Séjour', cat: 'interieur' },
+    { src: 'img/interieur-repas-jardin.jpg', label: 'Coin repas vue jardin', cat: 'interieur' },
+    { src: 'img/interieur-coin-repas.jpg', label: 'Coin repas', cat: 'interieur' },
+    { src: 'img/interieur-cuisine-equip.jpg', label: 'Cuisine équipée', cat: 'interieur' },
     { src: 'img/interieur-cuisine.jpg', label: 'Cuisine', cat: 'interieur' },
     { src: 'img/interieur-kitchenette.jpg', label: 'Kitchenette', cat: 'interieur' },
-    { src: 'img/interieur-coin-repas.jpg', label: 'Coin repas', cat: 'interieur' },
-    { src: 'img/interieur-raclette.jpg', label: 'Soirée raclette', cat: 'interieur' },
-    // Résidence
-    { src: 'img/residence-panorama-ete.jpg', label: 'Résidence — Vue panoramique', cat: 'exterieur' },
-    { src: 'img/residence-ensemble-ete.jpg', label: 'Résidence — Ensemble', cat: 'exterieur' },
+    { src: 'img/interieur-cabine-deco.jpg', label: 'Cabine — Lits superposés', cat: 'interieur' },
+    { src: 'img/interieur-cabine-lits.jpg', label: 'Cabine montagne', cat: 'interieur' },
+    { src: 'img/interieur-douche.jpg', label: 'Salle de bain', cat: 'interieur' },
+    { src: 'img/interieur-raclette.jpg', label: 'Soirée raclette !', cat: 'interieur' },
+    // Résidence — Extérieur
+    { src: 'img/residence-panorama-ete.jpg', label: 'Résidence — Panorama été', cat: 'exterieur' },
+    { src: 'img/residence-ensemble-ete.jpg', label: 'Vue d\'ensemble', cat: 'exterieur' },
     { src: 'img/residence-batiment-ete.jpg', label: 'Bâtiment été', cat: 'exterieur' },
     { src: 'img/residence-batiment-proche.jpg', label: 'Bâtiment — Vue rapprochée', cat: 'exterieur' },
     { src: 'img/residence-vue-montagne.jpg', label: 'Résidence & montagne', cat: 'exterieur' },
     { src: 'img/residence-enfants-ete.jpg', label: 'Été à la résidence', cat: 'exterieur' },
-    { src: 'img/residence-commerces.jpg', label: 'Commerces de la résidence', cat: 'exterieur' },
-    { src: 'img/residence-nuit-hiver.jpg', label: 'Résidence — Nuit d\'hiver', cat: 'exterieur' },
-    { src: 'img/residence-parking.jpg', label: 'Parking', cat: 'exterieur' },
-    // Pistes / Ski
-    { src: 'img/ski-pistes-soleil.jpg', label: 'Pistes au soleil', cat: 'paysage' },
-    { src: 'img/ski-panorama-montagne.jpg', label: 'Panorama depuis les pistes', cat: 'paysage' },
-    { src: 'img/ski-domaine-panorama.jpg', label: 'Domaine skiable', cat: 'paysage' },
-    // Paysage & Nature
+    { src: 'img/residence-entree.jpg', label: 'Entrée du studio', cat: 'exterieur' },
+    { src: 'img/residence-commerces.jpg', label: 'Commerces', cat: 'exterieur' },
+    { src: 'img/residence-nuit-hiver.jpg', label: 'Ambiance hivernale', cat: 'exterieur' },
+    // Paysage / Ski
     { src: 'img/paysage-mont-blanc.jpg', label: 'Le Mont-Blanc', cat: 'paysage' },
-    { src: 'img/paysage-riviere-ete.jpg', label: 'Rivière en été', cat: 'paysage' },
-    { src: 'img/paysage-nature.jpg', label: 'Nature environnante', cat: 'paysage' },
-    { src: 'img/paysage-cascade.jpg', label: 'Cascade', cat: 'paysage' },
-    { src: 'img/paysage-torrent-ete.jpg', label: 'Torrent', cat: 'paysage' },
+    { src: 'img/ski-pistes-soleil.jpg', label: 'Pistes au soleil', cat: 'paysage' },
+    { src: 'img/ski-panorama-montagne.jpg', label: 'Panorama montagne', cat: 'paysage' },
+    { src: 'img/ski-domaine-panorama.jpg', label: 'Domaine skiable', cat: 'paysage' },
+    { src: 'img/residence-riviere.jpg', label: 'Rivière en été', cat: 'paysage' },
     // Alentours
     { src: 'img/alentours-torrent.jpg', label: 'Le Bonnant', cat: 'alentours' },
     { src: 'img/alentours-lac.jpg', label: 'Lac du Pontet', cat: 'alentours' },
     { src: 'img/alentours-lac-baignade.jpg', label: 'Lac de baignade', cat: 'alentours' },
     { src: 'img/alentours-tmb-panneau.jpg', label: 'Tour du Mont-Blanc', cat: 'alentours' },
-    { src: 'img/alentours-village.jpg', label: 'Village', cat: 'alentours' },
-    { src: 'img/alentours-eglise.jpg', label: 'Église du village', cat: 'alentours' },
     { src: 'img/alentours-espace-loisirs.jpg', label: 'Espace loisirs', cat: 'alentours' },
-    { src: 'img/alentours-depart-rando.jpg', label: 'Départ randonnée', cat: 'alentours' },
+    { src: 'img/alentours-conciergerie.jpg', label: 'Conciergerie', cat: 'alentours' },
 ];
 
 let currentLightboxIndex = 0;
