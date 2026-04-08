@@ -19,98 +19,217 @@
     <link href="style.css" rel="stylesheet">
     <script src="https://web3forms.com/client/script.js" async defer></script>
     <style>
-        .keycafe-step{display:flex;gap:1rem;align-items:flex-start;padding:1rem 0;border-bottom:1px solid #f0ebe5}
-        .keycafe-step:last-child{border-bottom:none}
-        .keycafe-num{width:36px;height:36px;border-radius:50%;background:var(--sky-dark);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.9rem;flex-shrink:0}
-        .keycafe-step h6{font-weight:700;margin-bottom:.2rem;font-size:.95rem}
-        .keycafe-step p{font-size:.88rem;color:#555;margin:0}
-        .plan-figure img{transition:transform .3s ease,box-shadow .3s ease}
-        .plan-figure:hover img{transform:scale(1.02);box-shadow:0 4px 20px rgba(0,0,0,.15)}
-        .direction-step{display:flex;gap:.8rem;align-items:flex-start;margin-bottom:.8rem}
-        .direction-step .num{width:28px;height:28px;border-radius:50%;background:var(--cream-dark);color:var(--wood);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.8rem;flex-shrink:0}
-        .direction-step span{font-size:.9rem;color:#555}
-        .loading-spinner{display:inline-block;width:18px;height:18px;border:2px solid rgba(0,0,0,.1);border-top-color:var(--sky-dark);border-radius:50%;animation:spin .7s linear infinite}
-        @keyframes spin{to{transform:rotate(360deg)}}
+        /* KeyCafe steps */
+        .keycafe-step {
+            display: flex;
+            gap: 1rem;
+            align-items: flex-start;
+            padding: 1rem 0;
+            border-bottom: 1px solid #f0ebe5;
+        }
+        .keycafe-step:last-child { border-bottom: none; }
+        .keycafe-num {
+            width: 36px; height: 36px; border-radius: 50%;
+            background: var(--sky-dark); color: #fff;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 700; font-size: .9rem; flex-shrink: 0;
+        }
+        .keycafe-step h6 { font-weight: 700; margin-bottom: .2rem; font-size: .95rem; }
+        .keycafe-step p { font-size: .88rem; color: #555; margin: 0; }
+
+        /* Direction steps */
+        .direction-step {
+            display: flex;
+            gap: .8rem;
+            align-items: flex-start;
+            margin-bottom: .8rem;
+        }
+        .direction-step .num {
+            width: 28px; height: 28px; border-radius: 50%;
+            background: var(--cream-dark); color: var(--wood);
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 700; font-size: .8rem; flex-shrink: 0;
+        }
+        .direction-step span { font-size: .9rem; color: #555; }
+
+        /* Plan images */
+        .plan-figure { margin: 0; cursor: pointer; }
+        .plan-figure img {
+            border-radius: 8px; border: 1px solid #e0d8cf;
+            width: 100%;
+            transition: transform .3s ease, box-shadow .3s ease;
+        }
+        .plan-figure:hover img {
+            transform: scale(1.02);
+            box-shadow: 0 4px 20px rgba(0,0,0,.15);
+        }
+        .plan-figure figcaption {
+            font-size: .82rem; color: var(--stone);
+            text-align: center; margin-top: .5rem;
+        }
+
+        /* Transport cards equal height */
+        .transport-card { height: 100%; display: flex; flex-direction: column; }
+        .transport-card p { margin-bottom: 0; }
+
+        /* Distance badges */
+        .dist-badge {
+            padding: .6rem .3rem;
+            text-align: center;
+        }
+        .dist-badge strong {
+            display: block;
+            font-size: 1.15rem;
+            color: var(--sky-dark);
+            margin-bottom: .15rem;
+        }
+        .dist-badge small {
+            color: var(--stone);
+            font-size: .8rem;
+            line-height: 1.3;
+        }
+
+        /* Lightbox plans */
+        .plan-lightbox {
+            display: none;
+            position: fixed; inset: 0;
+            background: rgba(0,0,0,.88);
+            z-index: 9999;
+            align-items: center; justify-content: center;
+            cursor: pointer;
+        }
+        .plan-lightbox.active { display: flex; }
+        .plan-lightbox img {
+            max-width: 92vw; max-height: 90vh;
+            border-radius: 8px; object-fit: contain;
+            cursor: default;
+        }
+        .plan-lb-btn {
+            position: absolute;
+            background: rgba(255,255,255,.15);
+            border: none; color: white;
+            font-size: 1.5rem;
+            width: 48px; height: 48px;
+            border-radius: 50%; cursor: pointer;
+            transition: background .2s;
+        }
+        .plan-lb-btn:hover { background: rgba(255,255,255,.3); }
+        .plan-lb-close { top: 1rem; right: 1.5rem; font-size: 1.8rem; background: none; }
+        .plan-lb-prev { left: 1rem; top: 50%; transform: translateY(-50%); }
+        .plan-lb-next { right: 1rem; top: 50%; transform: translateY(-50%); }
+
+        /* Map embed */
+        .map-embed {
+            border-radius: 10px; overflow: hidden;
+            border: 2px solid #e0d8cf;
+            box-shadow: 0 2px 12px rgba(0,0,0,.08);
+        }
+
+        /* Spinner */
+        .loading-spinner {
+            display: inline-block; width: 18px; height: 18px;
+            border: 2px solid rgba(0,0,0,.1);
+            border-top-color: var(--sky-dark);
+            border-radius: 50%;
+            animation: spin .7s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-chalet fixed-top">
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-chalet fixed-top" aria-label="Navigation principale">
     <div class="container">
-        <a class="navbar-brand" href="index.html"><i class="fas fa-mountain"></i>Les Contamines</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMain"><span class="navbar-toggler-icon"></span></button>
+        <a class="navbar-brand" href="index.html"><i class="fas fa-mountain" aria-hidden="true"></i>Les Contamines</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMain" aria-expanded="false" aria-label="Ouvrir le menu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
         <div class="collapse navbar-collapse justify-content-end" id="navMain">
             <ul class="navbar-nav">
                 <li class="nav-item"><a class="nav-link" href="index.html">Accueil</a></li>
                 <li class="nav-item"><a class="nav-link" href="activites.html">Activités</a></li>
                 <li class="nav-item"><a class="nav-link" href="pratique.html">Infos Pratiques</a></li>
                 <li class="nav-item"><a class="nav-link" href="reservation.html">Réservation</a></li>
-                <li class="nav-item"><a class="nav-link active-page" href="acces.html">Accès & Contact</a></li>
+                <li class="nav-item"><a class="nav-link active-page" href="acces.html" aria-current="page">Accès & Contact</a></li>
             </ul>
         </div>
     </div>
 </nav>
 
+<!-- HERO -->
 <div class="page-hero">
-    <h1><i class="fas fa-route me-3"></i>Accès & Contact</h1>
+    <h1><i class="fas fa-route me-3" aria-hidden="true"></i>Accès & Contact</h1>
     <p class="hero-sub">Comment venir, nous contacter, récupérer les clés</p>
 </div>
 
-<div class="container">
+<main>
 
-<!-- CONTACT avec formulaire -->
+<!-- ══════════════════════════════════════════════════ -->
+<!-- SECTION 1 : CONTACT                               -->
+<!-- ══════════════════════════════════════════════════ -->
 <section id="contact-form">
-    <h2 class="section-title reveal">Contact</h2>
-    <div class="section-divider reveal"></div>
+    <div class="container">
+        <h2 class="section-title reveal">Contact</h2>
+        <div class="section-divider reveal"></div>
 
-    <div class="row g-4">
-        <div class="col-lg-5 reveal">
-            <div class="card-chalet text-center mb-3">
-                <div class="card-icon pine mx-auto"><i class="fas fa-phone"></i></div>
-                <h5>Téléphone</h5>
-                <p><a href="tel:+33760291960" style="color:var(--sky-dark);font-weight:500;font-size:1.1rem;">07 60 29 19 60</a><br><small style="color:var(--stone);">Disponible 24h/24</small></p>
+        <div class="row g-4">
+            <!-- Téléphone + Adresse -->
+            <div class="col-lg-5 reveal">
+                <div class="card-chalet text-center mb-3">
+                    <div class="card-icon pine mx-auto"><i class="fas fa-phone" aria-hidden="true"></i></div>
+                    <h5>Téléphone</h5>
+                    <p>
+                        <a href="tel:+33760291960" style="color:var(--sky-dark); font-weight:500; font-size:1.1rem;">07 60 29 19 60</a><br>
+                        <small style="color:var(--stone);">Disponible 24h/24</small>
+                    </p>
+                </div>
+                <div class="card-chalet text-center">
+                    <div class="card-icon gold mx-auto"><i class="fas fa-location-dot" aria-hidden="true"></i></div>
+                    <h5>Adresse</h5>
+                    <p>
+                        130 Impasse du Bonnant<br>
+                        Les Pierres Blanches — Bât. F<br>
+                        74170 Les Contamines-Montjoie
+                    </p>
+                </div>
             </div>
-            <div class="card-chalet text-center">
-                <div class="card-icon gold mx-auto"><i class="fas fa-location-dot"></i></div>
-                <h5>Adresse</h5>
-                <p>130 Impasse du Bonnant<br>Les Pierres Blanches — Bât. F<br>74170 Les Contamines-Montjoie</p>
-            </div>
-        </div>
 
-        <!-- Formulaire de contact Web3Forms -->
-        <div class="col-lg-7 reveal">
-            <div class="card-chalet" style="border-top:4px solid var(--pine-light);">
-                <h5 class="mb-3"><i class="fas fa-envelope me-2" style="color:var(--pine-light)"></i>Envoyer un message</h5>
-                <div class="row g-2">
-                    <div class="col-6">
-                        <label class="form-label-chalet"><i class="fas fa-user me-1"></i>Nom *</label>
-                        <input type="text" class="form-control" id="ctNom" required>
-                    </div>
-                    <div class="col-6">
-                        <label class="form-label-chalet"><i class="fas fa-envelope me-1"></i>Email *</label>
-                        <input type="email" class="form-control" id="ctEmail" required>
-                    </div>
-                    <div class="col-12">
-                        <label class="form-label-chalet"><i class="fas fa-tag me-1"></i>Sujet</label>
-                        <select class="form-select" id="ctSujet">
-                            <option>Question générale</option>
-                            <option>Renseignement sur le studio</option>
-                            <option>Demande de réservation</option>
-                            <option>Problème pendant le séjour</option>
-                            <option>Autre</option>
-                        </select>
-                    </div>
-                    <div class="col-12">
-                        <label class="form-label-chalet"><i class="fas fa-comment me-1"></i>Message *</label>
-                        <textarea class="form-control" id="ctMessage" rows="5" placeholder="Votre message…" required></textarea>
-                    </div>
-                    <div class="col-12 my-2">
-                        <div class="h-captcha" data-captcha="true"></div>
-                    </div>
-                    <div class="col-12 text-center">
-                        <button class="btn btn-chalet" id="btnContact" onclick="submitContact()">
-                            <i class="fas fa-paper-plane me-2"></i>Envoyer
-                        </button>
+            <!-- Formulaire -->
+            <div class="col-lg-7 reveal">
+                <div class="card-chalet" style="border-top: 4px solid var(--pine-light);">
+                    <h5 class="mb-3"><i class="fas fa-envelope me-2" style="color:var(--pine-light)" aria-hidden="true"></i>Envoyer un message</h5>
+                    <div class="row g-2">
+                        <div class="col-sm-6">
+                            <label class="form-label-chalet" for="ctNom"><i class="fas fa-user me-1" aria-hidden="true"></i>Nom *</label>
+                            <input type="text" class="form-control" id="ctNom" required>
+                        </div>
+                        <div class="col-sm-6">
+                            <label class="form-label-chalet" for="ctEmail"><i class="fas fa-envelope me-1" aria-hidden="true"></i>Email *</label>
+                            <input type="email" class="form-control" id="ctEmail" required>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label-chalet" for="ctSujet"><i class="fas fa-tag me-1" aria-hidden="true"></i>Sujet</label>
+                            <select class="form-select" id="ctSujet">
+                                <option>Question générale</option>
+                                <option>Renseignement sur le studio</option>
+                                <option>Demande de réservation</option>
+                                <option>Problème pendant le séjour</option>
+                                <option>Autre</option>
+                            </select>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label-chalet" for="ctMessage"><i class="fas fa-comment me-1" aria-hidden="true"></i>Message *</label>
+                            <textarea class="form-control" id="ctMessage" rows="5" placeholder="Votre message…" required></textarea>
+                        </div>
+                        <div class="col-12 my-2">
+                            <div class="h-captcha" data-captcha="true"></div>
+                        </div>
+                        <div class="col-12 text-center">
+                            <button class="btn btn-chalet" id="btnContact" onclick="submitContact()">
+                                <i class="fas fa-paper-plane me-2" aria-hidden="true"></i>Envoyer
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -118,162 +237,354 @@
     </div>
 </section>
 
-<!-- COMMENT VENIR -->
+<!-- ══════════════════════════════════════════════════ -->
+<!-- SECTION 2 : COMMENT VENIR                         -->
+<!-- ══════════════════════════════════════════════════ -->
 <section class="section-alt">
-    <h2 class="section-title reveal">Comment venir</h2>
-    <div class="section-divider reveal"></div>
+    <div class="container">
+        <h2 class="section-title reveal">Comment venir</h2>
+        <div class="section-divider reveal"></div>
 
-    <div class="row g-4">
-        <div class="col-lg-6 reveal">
-            <div class="card-chalet" style="border-top:4px solid var(--sky-dark)">
-                <h5><i class="fas fa-car me-2" style="color:var(--sky-dark)"></i>Depuis l'autoroute A40</h5>
-                <p class="mb-3" style="font-size:.9rem;color:var(--stone)"><strong>Sortie 20 : Le Fayet</strong></p>
-                <div class="direction-step"><div class="num">1</div><span>Prendre la sortie 20 (Le Fayet / Saint-Gervais)</span></div>
-                <div class="direction-step"><div class="num">2</div><span>Au rond-point, direction Les Contamines-Montjoie (D902)</span></div>
-                <div class="direction-step"><div class="num">3</div><span>Continuer sur 12 km</span></div>
-                <div class="direction-step"><div class="num">4</div><span>À l'entrée du village, suivre "Centre village"</span></div>
-                <div class="direction-step"><div class="num">5</div><span>Prendre l'Impasse du Bonnant sur la droite</span></div>
-                <div class="direction-step"><div class="num">6</div><span>Résidence Les Pierres Blanches — <strong>Bâtiment F</strong></span></div>
-                <a href="https://www.google.com/maps/dir/Sortie+20+Le+Fayet+A40/130+Impasse+du+Bonnant+Les+Contamines-Montjoie" target="_blank" class="btn btn-pine btn-sm mt-2"><i class="fas fa-map-location-dot me-1"></i>Voir sur Google Maps</a>
-            </div>
-        </div>
-        <div class="col-lg-6 reveal">
-            <div class="row g-3">
-                <div class="col-12"><div class="card-chalet"><h5><i class="fas fa-car me-2" style="color:var(--wood)"></i>Distances</h5><p><strong>Genève :</strong> 1h15 (90 km) — <strong>Lyon :</strong> 2h30 (190 km) — <strong>Paris :</strong> 6h30 (630 km) — <strong>Annecy :</strong> 1h (70 km)</p></div></div>
-                <div class="col-6"><div class="card-chalet"><h5><i class="fas fa-plane me-2" style="color:var(--sky)"></i>Aéroports</h5><p><strong>Genève :</strong> 90 km<br><strong>Lyon :</strong> 180 km<br><strong>Chambéry :</strong> 100 km<br><small>Navettes dispo</small></p></div></div>
-                <div class="col-6"><div class="card-chalet"><h5><i class="fas fa-train me-2" style="color:var(--pine-light)"></i>Train</h5><p><strong>Gare St-Gervais :</strong> 12 km<br><strong>TGV Ouigo Paris :</strong><br>Direct ~5h — <strong>40-60 €</strong></p></div></div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Plans résidence -->
-    <div class="mt-4 reveal">
-        <div class="card-chalet" style="border:2px solid var(--sky);background:var(--cream)">
-            <h5><i class="fas fa-map me-2" style="color:var(--sky-dark)"></i>Plans de la résidence</h5>
-            <p style="font-size:.9rem;color:var(--stone);margin-bottom:1rem">Cliquez sur un plan pour l'agrandir</p>
-            <div class="row g-3">
-                <div class="col-md-6">
-                    <figure class="plan-figure" style="margin:0;cursor:pointer" onclick="openPlanLightbox(0)">
-                        <img src="img/plan-residence.jpg" alt="Plan général de la résidence Hameaux des Lays — Les Contamines-Montjoie, avec emplacement des bâtiments A à J, parkings et commerces" class="img-fluid" style="border-radius:8px;border:1px solid #e0d8cf;width:100%">
-                        <figcaption style="font-size:.82rem;color:var(--stone);text-align:center;margin-top:.5rem">
-                            <i class="fas fa-search-plus me-1"></i>Plan général — Le Bâtiment F est en <strong style="color:var(--gold)">jaune</strong> (Les Pierres Blanches)
-                        </figcaption>
-                    </figure>
-                </div>
-                <div class="col-md-6">
-                    <figure class="plan-figure" style="margin:0;cursor:pointer" onclick="openPlanLightbox(1)">
-                        <img src="img/plan-batiment-f.jpg" alt="Plan du rez-de-chaussée du Bâtiment F — Résidence Les Pierres Blanches, avec casiers ski, escaliers et sorties de secours" class="img-fluid" style="border-radius:8px;border:1px solid #e0d8cf;width:100%">
-                        <figcaption style="font-size:.82rem;color:var(--stone);text-align:center;margin-top:.5rem">
-                            <i class="fas fa-search-plus me-1"></i>Bâtiment F — RDC, casiers ski et entrées
-                        </figcaption>
-                    </figure>
+        <div class="row g-4">
+            <!-- Itinéraire A40 -->
+            <div class="col-lg-6 reveal">
+                <div class="card-chalet h-100" style="border-top: 4px solid var(--sky-dark);">
+                    <h5><i class="fas fa-car me-2" style="color:var(--sky-dark)" aria-hidden="true"></i>Depuis l'autoroute A40</h5>
+                    <p class="mb-3" style="font-size:.9rem; color:var(--stone)"><strong>Sortie 20 : Le Fayet</strong></p>
+                    <div class="direction-step"><div class="num">1</div><span>Prendre la sortie 20 (Le Fayet / Saint-Gervais)</span></div>
+                    <div class="direction-step"><div class="num">2</div><span>Au rond-point, direction Les Contamines-Montjoie (D902)</span></div>
+                    <div class="direction-step"><div class="num">3</div><span>Continuer sur 12 km en longeant le Bonnant</span></div>
+                    <div class="direction-step"><div class="num">4</div><span>À l'entrée du village, suivre « Centre village »</span></div>
+                    <div class="direction-step"><div class="num">5</div><span>Prendre l'Impasse du Bonnant sur la droite</span></div>
+                    <div class="direction-step mb-0"><div class="num">6</div><span>Résidence Les Pierres Blanches — <strong>Bâtiment F</strong></span></div>
+                    <a href="https://www.google.com/maps/dir/Sortie+20+Le+Fayet+A40/130+Impasse+du+Bonnant+Les+Contamines-Montjoie" target="_blank" rel="noopener" class="btn btn-pine btn-sm mt-3">
+                        <i class="fas fa-map-location-dot me-1" aria-hidden="true"></i>Itinéraire Google Maps
+                    </a>
                 </div>
             </div>
-            <div class="d-flex flex-wrap gap-3 mt-3" style="font-size:.85rem;color:#555">
-                <span><i class="fas fa-star me-1" style="color:var(--gold)"></i><strong>Bât. F</strong> — Les Pierres Blanches</span>
-                <span><i class="fas fa-car me-1" style="color:var(--sky-dark)"></i>Parking Nord avec bip télécommande</span>
-                <span><i class="fas fa-skiing me-1" style="color:var(--pine)"></i>Casiers ski au RDC</span>
-            </div>
-            <p class="mt-2 mb-0" style="font-size:.85rem;color:var(--stone)"><i class="fas fa-map-pin me-1"></i><strong>GPS :</strong> 45.8231° N, 6.7289° E</p>
-        </div>
-    </div>
 
-    <!-- Lightbox plans -->
-    <div id="planLightbox" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:9999;cursor:pointer;align-items:center;justify-content:center" onclick="closePlanLightbox()">
-        <button style="position:absolute;top:1rem;right:1.5rem;background:none;border:none;color:white;font-size:2rem;cursor:pointer;z-index:10000" aria-label="Fermer"><i class="fas fa-times"></i></button>
-        <button id="planPrev" style="position:absolute;left:1rem;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.15);border:none;color:white;font-size:1.5rem;width:44px;height:44px;border-radius:50%;cursor:pointer" onclick="event.stopPropagation();navigatePlan(-1)" aria-label="Plan précédent"><i class="fas fa-chevron-left"></i></button>
-        <img id="planLightboxImg" src="" alt="" style="max-width:92vw;max-height:90vh;border-radius:8px;object-fit:contain" onclick="event.stopPropagation()">
-        <button id="planNext" style="position:absolute;right:1rem;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.15);border:none;color:white;font-size:1.5rem;width:44px;height:44px;border-radius:50%;cursor:pointer" onclick="event.stopPropagation();navigatePlan(1)" aria-label="Plan suivant"><i class="fas fa-chevron-right"></i></button>
+            <!-- Distances / Transports -->
+            <div class="col-lg-6 reveal">
+                <div class="row g-3 h-100">
+                    <!-- Distances -->
+                    <div class="col-12">
+                        <div class="card-chalet transport-card">
+                            <h5><i class="fas fa-road me-2" style="color:var(--wood)" aria-hidden="true"></i>Distances depuis les grandes villes</h5>
+                            <div class="row mt-2">
+                                <div class="col-3 dist-badge">
+                                    <strong>1h15</strong>
+                                    <small>Genève<br>90 km</small>
+                                </div>
+                                <div class="col-3 dist-badge">
+                                    <strong>1h</strong>
+                                    <small>Annecy<br>70 km</small>
+                                </div>
+                                <div class="col-3 dist-badge">
+                                    <strong>2h30</strong>
+                                    <small>Lyon<br>190 km</small>
+                                </div>
+                                <div class="col-3 dist-badge">
+                                    <strong>6h30</strong>
+                                    <small>Paris<br>630 km</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Aéroports + Train -->
+                    <div class="col-6">
+                        <div class="card-chalet transport-card">
+                            <h5><i class="fas fa-plane me-2" style="color:var(--sky)" aria-hidden="true"></i>Aéroports</h5>
+                            <p style="font-size:.9rem; color:#555;">
+                                <strong>Genève</strong> — 90 km<br>
+                                <strong>Chambéry</strong> — 100 km<br>
+                                <strong>Lyon</strong> — 180 km
+                            </p>
+                            <small style="color:var(--stone); margin-top:auto;"><i class="fas fa-shuttle-van me-1" aria-hidden="true"></i>Navettes disponibles</small>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="card-chalet transport-card">
+                            <h5><i class="fas fa-train me-2" style="color:var(--pine-light)" aria-hidden="true"></i>Train</h5>
+                            <p style="font-size:.9rem; color:#555;">
+                                <strong>Gare St-Gervais</strong><br>à 12 km
+                            </p>
+                            <small style="color:var(--stone); margin-top:auto;"><i class="fas fa-bolt me-1" aria-hidden="true"></i>TGV Ouigo Paris ~5h — <strong>40-60 €</strong></small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Carte Google Maps -->
+        <div class="mt-4 reveal">
+            <div class="map-embed">
+                <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2770.5!2d6.7267!3d45.8214!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDXCsDQ5JzE3LjAiTiA2wrA0Myc0MC4xIkU!5e0!3m2!1sfr!2sfr!4v1"
+                    width="100%" height="280" style="border:0; display:block;" allowfullscreen="" loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade"
+                    title="Localisation du studio Les Contamines-Montjoie sur Google Maps">
+                </iframe>
+            </div>
+        </div>
     </div>
 </section>
 
-<!-- KEYCAFE -->
-<section id="keycafe">
-    <h2 class="section-title reveal">Accès à l'appartement — KeyCafe</h2>
-    <div class="section-divider reveal"></div>
-    <div class="row justify-content-center"><div class="col-lg-9">
-        <div class="info-block blue reveal mb-4">
-            <h5><i class="fas fa-car me-2" style="color:var(--sky)"></i>Astuce parking à l'arrivée</h5>
-            <p>Garez-vous sur les <strong>places visiteurs</strong> à l'entrée. Récupérez les clés KeyCafe, montez prendre le <strong>bip télécommande</strong>, puis déplacez votre voiture.</p>
-        </div>
-        <div class="card-chalet reveal" style="border-left:4px solid var(--gold)">
-            <h5 class="mb-3"><i class="fas fa-key me-2" style="color:var(--gold)"></i>Mode d'emploi KeyCafe</h5>
-            <div class="keycafe-step">
-                <div class="keycafe-num">1</div>
-                <div><h6><i class="fas fa-mobile-screen me-2"></i>Télécharger l'application</h6>
-                <p><a href="https://apps.apple.com/fr/app/keycafe" target="_blank" style="display:inline-block;background:#000;color:#fff;padding:.3rem .8rem;border-radius:5px;text-decoration:none;font-size:.82rem;margin-right:.5rem"><i class="fab fa-apple me-1"></i>App Store</a><a href="https://play.google.com/store/apps/details?id=com.keycafe" target="_blank" style="display:inline-block;background:#34A853;color:#fff;padding:.3rem .8rem;border-radius:5px;text-decoration:none;font-size:.82rem"><i class="fab fa-google-play me-1"></i>Google Play</a></p></div>
+<!-- ══════════════════════════════════════════════════ -->
+<!-- SECTION 3 : PLANS DE LA RÉSIDENCE                 -->
+<!-- ══════════════════════════════════════════════════ -->
+<section id="plans">
+    <div class="container">
+        <h2 class="section-title reveal">Plans de la résidence</h2>
+        <div class="section-divider reveal"></div>
+        <p class="section-subtitle reveal">Repérez le Bâtiment F et les services — cliquez pour agrandir</p>
+
+        <div class="row g-4 reveal">
+            <div class="col-md-6">
+                <figure class="plan-figure" onclick="openPlanLightbox(0)">
+                    <img src="img/plan-residence.jpg"
+                         alt="Plan général de la résidence Hameaux des Lays — Les Contamines-Montjoie, avec emplacement des bâtiments A à J, parkings et commerces"
+                         class="img-fluid" loading="lazy">
+                    <figcaption>
+                        <i class="fas fa-search-plus me-1" aria-hidden="true"></i>Plan général — Le Bâtiment F est en <strong style="color:var(--gold)">jaune</strong> (Les Pierres Blanches)
+                    </figcaption>
+                </figure>
             </div>
-            <div class="keycafe-step"><div class="keycafe-num">2</div><div><h6><i class="fas fa-hashtag me-2"></i>Recevoir votre code</h6><p>Code envoyé <strong>48h avant</strong> par SMS et email.</p></div></div>
-            <div class="keycafe-step"><div class="keycafe-num">3</div><div><h6><i class="fas fa-map-pin me-2"></i>Localiser la boîte</h6><p>Entrée principale de la résidence, à gauche de la porte.</p></div></div>
-            <div class="keycafe-step"><div class="keycafe-num">4</div><div><h6><i class="fas fa-key me-2"></i>Récupérer les clés</h6><p>Ouvrez l'app → Entrez le code → La boîte s'ouvre → Prenez les clés</p></div></div>
-            <div class="keycafe-step"><div class="keycafe-num">5</div><div><h6><i class="fas fa-person-skiing me-2"></i>Local à ski</h6><p>Au RDC, près des boîtes aux lettres.</p></div></div>
-            <div class="keycafe-step"><div class="keycafe-num">6</div><div><h6><i class="fas fa-rotate-left me-2"></i>Au départ</h6><p>Remettez les clés et <strong>refermez bien</strong>.</p></div></div>
-            <div class="warning-box mt-3" style="margin-bottom:0"><p><i class="fas fa-phone me-2"></i><strong>Problème ?</strong> Appelez le <a href="tel:+33760291960">07 60 29 19 60</a> (24h/24)</p></div>
+            <div class="col-md-6">
+                <figure class="plan-figure" onclick="openPlanLightbox(1)">
+                    <img src="img/plan-batiment-f.jpg"
+                         alt="Plan du rez-de-chaussée du Bâtiment F — Résidence Les Pierres Blanches, avec casiers ski, escaliers et sorties de secours"
+                         class="img-fluid" loading="lazy">
+                    <figcaption>
+                        <i class="fas fa-search-plus me-1" aria-hidden="true"></i>Bâtiment F — RDC, casiers ski et entrées
+                    </figcaption>
+                </figure>
+            </div>
         </div>
-    </div></div>
+
+        <div class="d-flex flex-wrap gap-3 justify-content-center mt-4 reveal" style="font-size:.88rem; color:#555;">
+            <span><i class="fas fa-star me-1" style="color:var(--gold)" aria-hidden="true"></i><strong>Bât. F</strong> — Les Pierres Blanches</span>
+            <span><i class="fas fa-car me-1" style="color:var(--sky-dark)" aria-hidden="true"></i>Parking Nord — bip télécommande</span>
+            <span><i class="fas fa-person-skiing me-1" style="color:var(--pine)" aria-hidden="true"></i>Casiers ski au RDC</span>
+            <span><i class="fas fa-map-pin me-1" style="color:var(--wood)" aria-hidden="true"></i><strong>GPS :</strong> 45.8231° N, 6.7289° E</span>
+        </div>
+    </div>
 </section>
 
+<!-- ══════════════════════════════════════════════════ -->
+<!-- SECTION 4 : KEYCAFE                               -->
+<!-- ══════════════════════════════════════════════════ -->
+<section id="keycafe" class="section-alt">
+    <div class="container">
+        <h2 class="section-title reveal">Récupérer les clés — KeyCafe</h2>
+        <div class="section-divider reveal"></div>
+
+        <div class="row justify-content-center">
+            <div class="col-lg-9">
+
+                <!-- Astuce parking -->
+                <div class="info-block blue reveal mb-4">
+                    <h5><i class="fas fa-lightbulb me-2" style="color:var(--sky)" aria-hidden="true"></i>Astuce parking à l'arrivée</h5>
+                    <p>Garez-vous sur les <strong>places visiteurs</strong> à l'entrée de la résidence. Récupérez les clés via la boîte KeyCafe, montez prendre le <strong>bip télécommande</strong> dans l'appartement, puis déplacez votre voiture sur votre place de parking.</p>
+                </div>
+
+                <!-- Étapes KeyCafe -->
+                <div class="card-chalet reveal" style="border-left: 4px solid var(--gold);">
+                    <h5 class="mb-3"><i class="fas fa-key me-2" style="color:var(--gold)" aria-hidden="true"></i>Mode d'emploi KeyCafe</h5>
+
+                    <div class="keycafe-step">
+                        <div class="keycafe-num">1</div>
+                        <div>
+                            <h6><i class="fas fa-mobile-screen me-2" aria-hidden="true"></i>Télécharger l'application</h6>
+                            <p>
+                                <a href="https://apps.apple.com/fr/app/keycafe" target="_blank" rel="noopener" style="display:inline-block; background:#000; color:#fff; padding:.35rem .9rem; border-radius:6px; text-decoration:none; font-size:.82rem; margin-right:.5rem;">
+                                    <i class="fab fa-apple me-1"></i>App Store
+                                </a>
+                                <a href="https://play.google.com/store/apps/details?id=com.keycafe" target="_blank" rel="noopener" style="display:inline-block; background:#34A853; color:#fff; padding:.35rem .9rem; border-radius:6px; text-decoration:none; font-size:.82rem;">
+                                    <i class="fab fa-google-play me-1"></i>Google Play
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="keycafe-step">
+                        <div class="keycafe-num">2</div>
+                        <div>
+                            <h6><i class="fas fa-hashtag me-2" aria-hidden="true"></i>Recevoir votre code</h6>
+                            <p>Code envoyé <strong>48h avant</strong> votre arrivée, par SMS et email.</p>
+                        </div>
+                    </div>
+
+                    <div class="keycafe-step">
+                        <div class="keycafe-num">3</div>
+                        <div>
+                            <h6><i class="fas fa-map-pin me-2" aria-hidden="true"></i>Localiser la boîte</h6>
+                            <p>Entrée principale de la résidence, à gauche de la porte.</p>
+                        </div>
+                    </div>
+
+                    <div class="keycafe-step">
+                        <div class="keycafe-num">4</div>
+                        <div>
+                            <h6><i class="fas fa-key me-2" aria-hidden="true"></i>Récupérer les clés</h6>
+                            <p>Ouvrez l'app → Entrez le code → La boîte s'ouvre → Prenez les clés</p>
+                        </div>
+                    </div>
+
+                    <div class="keycafe-step">
+                        <div class="keycafe-num">5</div>
+                        <div>
+                            <h6><i class="fas fa-person-skiing me-2" aria-hidden="true"></i>Local à ski</h6>
+                            <p>Au RDC du bâtiment F, près des boîtes aux lettres.</p>
+                        </div>
+                    </div>
+
+                    <div class="keycafe-step">
+                        <div class="keycafe-num">6</div>
+                        <div>
+                            <h6><i class="fas fa-rotate-left me-2" aria-hidden="true"></i>Au départ</h6>
+                            <p>Remettez les clés dans la boîte KeyCafe et <strong>refermez bien</strong> le casier.</p>
+                        </div>
+                    </div>
+
+                    <div class="warning-box mt-3" style="margin-bottom:0;">
+                        <p><i class="fas fa-phone me-2" aria-hidden="true"></i><strong>Problème ?</strong> Appelez le <a href="tel:+33760291960">07 60 29 19 60</a> (24h/24)</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+</main>
+
+<!-- Lightbox plans -->
+<div class="plan-lightbox" id="planLightbox" onclick="closePlanLightbox()" role="dialog" aria-label="Visualisation du plan">
+    <button class="plan-lb-btn plan-lb-close" onclick="closePlanLightbox()" aria-label="Fermer"><i class="fas fa-times" aria-hidden="true"></i></button>
+    <button class="plan-lb-btn plan-lb-prev" onclick="event.stopPropagation();navigatePlan(-1)" aria-label="Plan précédent"><i class="fas fa-chevron-left" aria-hidden="true"></i></button>
+    <img id="planLightboxImg" src="" alt="" onclick="event.stopPropagation()">
+    <button class="plan-lb-btn plan-lb-next" onclick="event.stopPropagation();navigatePlan(1)" aria-label="Plan suivant"><i class="fas fa-chevron-right" aria-hidden="true"></i></button>
 </div>
 
+<!-- Toasts -->
 <div class="toast-container" id="toastContainer"></div>
 
-<footer class="footer"><div class="container"><div class="row g-4">
-    <div class="col-md-4"><h5><i class="fas fa-mountain me-2"></i>Les Contamines</h5><p style="font-size:.88rem;color:#a89e92">Votre pied-à-terre au cœur des Alpes.</p></div>
-    <div class="col-md-4"><h5>Contact</h5><ul class="footer-list"><li><i class="fas fa-phone"></i><a href="tel:+33760291960">07 60 29 19 60</a></li><li><a href="#contact-form"><i class="fas fa-envelope me-1"></i>Formulaire de contact</a></li><li><i class="fas fa-map-marker-alt"></i>130 Impasse du Bonnant<br>&nbsp;&nbsp;&nbsp;&nbsp;74170 Les Contamines-Montjoie</li></ul></div>
-    <div class="col-md-4"><h5>Navigation</h5><ul class="footer-list"><li><a href="index.html"><i class="fas fa-angle-right"></i> Accueil</a></li><li><a href="activites.html"><i class="fas fa-angle-right"></i> Activités</a></li><li><a href="pratique.html"><i class="fas fa-angle-right"></i> Infos Pratiques</a></li><li><a href="reservation.html"><i class="fas fa-angle-right"></i> Réservation</a></li><li><a href="acces.html"><i class="fas fa-angle-right"></i> Accès & Contact</a></li></ul></div>
-</div><div class="footer-bottom"><p class="mb-0">&copy; 2026 — Location Les Contamines-Montjoie.</p></div></div></footer>
+<!-- FOOTER -->
+<footer class="footer">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-md-4">
+                <h5><i class="fas fa-mountain me-2" aria-hidden="true"></i>Les Contamines</h5>
+                <p style="font-size:.88rem; color:#a89e92; line-height:1.6;">
+                    Votre pied-à-terre au cœur des Alpes. Un studio chaleureux au pied du Mont-Blanc, été comme hiver.
+                </p>
+            </div>
+            <div class="col-md-4">
+                <h5>Contact</h5>
+                <ul class="footer-list">
+                    <li><i class="fas fa-phone" aria-hidden="true"></i><a href="tel:+33760291960">07 60 29 19 60</a></li>
+                    <li><a href="#contact-form"><i class="fas fa-envelope me-1" aria-hidden="true"></i>Formulaire de contact</a></li>
+                    <li><i class="fas fa-map-marker-alt" aria-hidden="true"></i>130 Impasse du Bonnant<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Les Pierres Blanches — Bât. F<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;74170 Les Contamines-Montjoie</li>
+                </ul>
+            </div>
+            <div class="col-md-4">
+                <h5>Navigation</h5>
+                <nav aria-label="Navigation pied de page">
+                    <ul class="footer-list">
+                        <li><a href="index.html"><i class="fas fa-angle-right" aria-hidden="true"></i> Accueil</a></li>
+                        <li><a href="activites.html"><i class="fas fa-angle-right" aria-hidden="true"></i> Activités</a></li>
+                        <li><a href="pratique.html"><i class="fas fa-angle-right" aria-hidden="true"></i> Infos Pratiques</a></li>
+                        <li><a href="reservation.html"><i class="fas fa-angle-right" aria-hidden="true"></i> Réservation</a></li>
+                        <li><a href="acces.html"><i class="fas fa-angle-right" aria-hidden="true"></i> Accès & Contact</a></li>
+                        <li><a href="https://www.lescontamines.com" target="_blank" rel="noopener"><i class="fas fa-angle-right" aria-hidden="true"></i> Office de tourisme</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p class="mb-0">&copy; 2026 — Location Les Contamines-Montjoie. Tous droits réservés.</p>
+        </div>
+    </div>
+</footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="config.js"></script>
 <script>
-function showToast(m,e=false){const t=document.createElement('div');t.className='toast-custom'+(e?' error':'');t.innerHTML='<i class="fas '+(e?'fa-exclamation-circle':'fa-check-circle')+'" style="color:'+(e?'var(--red-savoie)':'var(--pine-light)')+'"></i><span>'+m+'</span>';document.getElementById('toastContainer').appendChild(t);setTimeout(()=>{t.style.opacity='0';t.style.transform='translateX(50px)';t.style.transition='all .4s';setTimeout(()=>t.remove(),400)},5000)}
-
-async function submitContact(){
-    const nom=document.getElementById('ctNom').value.trim();
-    const email=document.getElementById('ctEmail').value.trim();
-    const sujet=document.getElementById('ctSujet').value;
-    const msg=document.getElementById('ctMessage').value.trim();
-    if(!nom||!email||!msg){showToast('Remplissez tous les champs obligatoires.',true);return}
-    const btn=document.getElementById('btnContact');btn.disabled=true;btn.innerHTML='<span class="loading-spinner me-2"></span>Envoi…';
-
-    try{
-        const fd=new FormData();
-        fd.append('subject','📩 Contact — '+sujet);
-        fd.append('from_name',nom);
-        fd.append('Nom',nom);
-        fd.append('Email',email);
-        fd.append('Sujet',sujet);
-        fd.append('Message',msg);
-        const hc=document.querySelector('[name="h-captcha-response"]');
-        if(hc&&hc.value)fd.append('h-captcha-response',hc.value);
-        const ok=await sendWeb3Form(fd);
-        if(ok){showToast('Message envoyé ! Nous vous répondrons rapidement.');document.getElementById('ctNom').value='';document.getElementById('ctEmail').value='';document.getElementById('ctMessage').value=''}
-        else showToast("Erreur d'envoi. Réessayez ou appelez-nous.",true);
-    }catch(err){
-        showToast("Erreur d'envoi. Réessayez ou appelez-nous.",true);
-    }
-    btn.disabled=false;btn.innerHTML='<i class="fas fa-paper-plane me-2"></i>Envoyer';
+/* === Toast === */
+function showToast(m, e = false) {
+    const t = document.createElement('div');
+    t.className = 'toast-custom' + (e ? ' error' : '');
+    t.innerHTML = '<i class="fas ' + (e ? 'fa-exclamation-circle' : 'fa-check-circle') + '" style="color:' + (e ? 'var(--red-savoie)' : 'var(--pine-light)') + '"></i><span>' + m + '</span>';
+    document.getElementById('toastContainer').appendChild(t);
+    setTimeout(() => {
+        t.style.opacity = '0';
+        t.style.transform = 'translateX(50px)';
+        t.style.transition = 'all .4s';
+        setTimeout(() => t.remove(), 400);
+    }, 5000);
 }
 
-window.addEventListener('scroll',()=>{document.querySelector('.navbar-chalet').classList.toggle('scrolled',window.scrollY>60)});
+/* === Formulaire de contact === */
+async function submitContact() {
+    const nom = document.getElementById('ctNom').value.trim();
+    const email = document.getElementById('ctEmail').value.trim();
+    const sujet = document.getElementById('ctSujet').value;
+    const msg = document.getElementById('ctMessage').value.trim();
+    if (!nom || !email || !msg) { showToast('Remplissez tous les champs obligatoires.', true); return; }
 
-// Plan lightbox
+    const btn = document.getElementById('btnContact');
+    btn.disabled = true;
+    btn.innerHTML = '<span class="loading-spinner me-2"></span>Envoi…';
+
+    try {
+        const fd = new FormData();
+        fd.append('subject', '📩 Contact — ' + sujet);
+        fd.append('from_name', nom);
+        fd.append('Nom', nom);
+        fd.append('Email', email);
+        fd.append('Sujet', sujet);
+        fd.append('Message', msg);
+        const hc = document.querySelector('[name="h-captcha-response"]');
+        if (hc && hc.value) fd.append('h-captcha-response', hc.value);
+        const ok = await sendWeb3Form(fd);
+        if (ok) {
+            showToast('Message envoyé ! Nous vous répondrons rapidement.');
+            document.getElementById('ctNom').value = '';
+            document.getElementById('ctEmail').value = '';
+            document.getElementById('ctMessage').value = '';
+        } else {
+            showToast("Erreur d'envoi. Réessayez ou appelez-nous.", true);
+        }
+    } catch (err) {
+        showToast("Erreur d'envoi. Réessayez ou appelez-nous.", true);
+    }
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fas fa-paper-plane me-2"></i>Envoyer';
+}
+
+/* === Navbar scroll === */
+window.addEventListener('scroll', () => {
+    document.querySelector('.navbar-chalet').classList.toggle('scrolled', window.scrollY > 60);
+});
+
+/* === Lightbox plans === */
 const planImages = [
     { src: 'img/plan-residence.jpg', alt: 'Plan général de la résidence Hameaux des Lays' },
-    { src: 'img/plan-batiment-f.jpg', alt: 'Plan du Bâtiment F — RDC' }
+    { src: 'img/plan-batiment-f.jpg', alt: 'Plan du Bâtiment F — RDC, casiers ski' }
 ];
 let currentPlanIndex = 0;
+
 function openPlanLightbox(i) {
     currentPlanIndex = i;
     const lb = document.getElementById('planLightbox');
     const img = document.getElementById('planLightboxImg');
     img.src = planImages[i].src;
     img.alt = planImages[i].alt;
-    lb.style.display = 'flex';
+    lb.classList.add('active');
     document.body.style.overflow = 'hidden';
 }
 function closePlanLightbox() {
-    document.getElementById('planLightbox').style.display = 'none';
+    document.getElementById('planLightbox').classList.remove('active');
     document.body.style.overflow = '';
 }
 function navigatePlan(dir) {
@@ -283,13 +594,17 @@ function navigatePlan(dir) {
     img.alt = planImages[currentPlanIndex].alt;
 }
 document.addEventListener('keydown', e => {
-    if (document.getElementById('planLightbox').style.display !== 'flex') return;
+    if (!document.getElementById('planLightbox').classList.contains('active')) return;
     if (e.key === 'Escape') closePlanLightbox();
     if (e.key === 'ArrowLeft') navigatePlan(-1);
     if (e.key === 'ArrowRight') navigatePlan(1);
 });
-const observer=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('visible')})},{threshold:.1,rootMargin:'0px 0px -40px 0px'});
-document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+
+/* === Scroll reveal === */
+const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: .1, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 </script>
 </body>
 </html>
