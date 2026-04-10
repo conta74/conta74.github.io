@@ -47,10 +47,28 @@
         .map-embed{border-radius:10px;overflow:hidden;border:2px solid #e0d8cf;box-shadow:0 2px 12px rgba(0,0,0,.08)}
         .loading-spinner{display:inline-block;width:18px;height:18px;border:2px solid rgba(0,0,0,.1);border-top-color:var(--sky-dark);border-radius:50%;animation:spin .7s linear infinite}
         @keyframes spin{to{transform:rotate(360deg)}}
-        /* Spacing fixes */
-        #contact-form { padding-bottom: 3rem; }
-        section#keycafe { padding-bottom: 4rem; }
-        section#plans { padding-top: 2.5rem; padding-bottom: 2.5rem; }
+
+        /* ── Spacing overrides (force over style.css) ── */
+        #contact-form {
+            padding-bottom: 3rem !important;
+        }
+        section#keycafe {
+            padding-bottom: 5rem !important;
+            margin-bottom: 0 !important;
+            overflow: visible !important;
+        }
+        section#keycafe .col-lg-9 {
+            padding-bottom: 1rem;
+        }
+        section#keycafe .card-chalet {
+            margin-bottom: 1rem !important;
+            overflow: visible !important;
+        }
+        /* Forcer le footer à ne pas remonter sur la section */
+        .footer {
+            position: relative;
+            z-index: 1;
+        }
     </style>
 </head>
 <body>
@@ -127,6 +145,12 @@
                             <textarea class="form-control" id="ctMessage" rows="5" placeholder="Votre message…" required></textarea>
                         </div>
                         <div class="col-12 my-2"><div class="h-captcha" data-captcha="true"></div></div>
+                        <div class="col-12">
+                            <div class="form-check" style="font-size:.85rem;">
+                                <input class="form-check-input" type="checkbox" id="ctConsent" required>
+                                <label class="form-check-label" for="ctConsent" style="color:#555;">J'accepte que mes données soient utilisées pour traiter ma demande. <a href="mentions.html#confidentialite" target="_blank" rel="noopener" style="color:var(--sky-dark);">Politique de confidentialité</a></label>
+                            </div>
+                        </div>
                         <div class="col-12 text-center">
                             <button class="btn btn-chalet" id="btnContact" onclick="submitContact()">
                                 <i class="fas fa-paper-plane me-2" aria-hidden="true"></i>Envoyer
@@ -264,6 +288,9 @@
 
 </main>
 
+<!-- Spacer anti-overlap -->
+<div style="height: 2rem; clear: both;"></div>
+
 <!-- Lightbox plans -->
 <div class="plan-lightbox" id="planLightbox" onclick="closePlanLightbox()" role="dialog" aria-label="Visualisation du plan">
     <button class="plan-lb-btn plan-lb-close" onclick="closePlanLightbox()" aria-label="Fermer"><i class="fas fa-times" aria-hidden="true"></i></button>
@@ -299,8 +326,8 @@
                         <li><a href="pratique.html"><i class="fas fa-angle-right" aria-hidden="true"></i> Infos Pratiques</a></li>
                         <li><a href="reservation.html"><i class="fas fa-angle-right" aria-hidden="true"></i> Réservation</a></li>
                         <li><a href="acces.html"><i class="fas fa-angle-right" aria-hidden="true"></i> Accès & Contact</a></li>
-                        <li><a href="mentions.html"><i class="fas fa-angle-right" aria-hidden="true"></i> Mentions légales</a></li>
                         <li><a href="https://www.lescontamines.com" target="_blank" rel="noopener"><i class="fas fa-angle-right" aria-hidden="true"></i> Office de tourisme</a></li>
+                        <li><a href="mentions.html"><i class="fas fa-angle-right" aria-hidden="true"></i> Mentions légales</a></li>
                     </ul>
                 </nav>
             </div>
@@ -322,6 +349,7 @@ function showToast(m,e=false){const t=document.createElement('div');t.className=
 async function submitContact(){
     const nom=document.getElementById('ctNom').value.trim(),email=document.getElementById('ctEmail').value.trim(),sujet=document.getElementById('ctSujet').value,msg=document.getElementById('ctMessage').value.trim();
     if(!nom||!email||!msg){showToast('Remplissez tous les champs obligatoires.',true);return}
+    if(!document.getElementById('ctConsent').checked){showToast('Veuillez accepter la politique de confidentialité.',true);return}
     const btn=document.getElementById('btnContact');btn.disabled=true;btn.innerHTML='<span class="loading-spinner me-2"></span>Envoi…';
     try{
         const fd=new FormData();fd.append('subject','📩 Contact — '+sujet);fd.append('from_name',nom);fd.append('Nom',nom);fd.append('Email',email);fd.append('Sujet',sujet);fd.append('Message',msg);
