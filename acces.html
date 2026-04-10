@@ -48,14 +48,26 @@
         .loading-spinner{display:inline-block;width:18px;height:18px;border:2px solid rgba(0,0,0,.1);border-top-color:var(--sky-dark);border-radius:50%;animation:spin .7s linear infinite}
         @keyframes spin{to{transform:rotate(360deg)}}
 
-        /* ── Spacing overrides (force over style.css) ── */
-        #contact-form {
-            padding-bottom: 3rem !important;
+        /* ── Fix empiètement entre sections ── */
+        /* Le style.css principal peut limiter la hauteur ou masquer le débordement.
+           On force toutes les sections à respecter la hauteur de leur contenu. */
+        section,
+        .section-alt {
+            overflow: visible !important;
+            min-height: auto !important;
+            height: auto !important;
+            position: relative !important;
         }
+        /* Le contact a 2 colonnes de hauteurs différentes → forcer l'expansion */
+        #contact-form {
+            padding-bottom: 4rem !important;
+        }
+        #contact-form .row {
+            align-items: stretch;
+        }
+        /* KeyCafe est très grand → espace généreux avant le footer */
         section#keycafe {
             padding-bottom: 5rem !important;
-            margin-bottom: 0 !important;
-            overflow: visible !important;
         }
         section#keycafe .col-lg-9 {
             padding-bottom: 1rem;
