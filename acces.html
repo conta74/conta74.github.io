@@ -48,38 +48,14 @@
         .loading-spinner{display:inline-block;width:18px;height:18px;border:2px solid rgba(0,0,0,.1);border-top-color:var(--sky-dark);border-radius:50%;animation:spin .7s linear infinite}
         @keyframes spin{to{transform:rotate(360deg)}}
 
-        /* ── Fix empiètement entre sections ── */
-        /* Le style.css principal peut limiter la hauteur ou masquer le débordement.
-           On force toutes les sections à respecter la hauteur de leur contenu. */
-        section,
-        .section-alt {
-            overflow: visible !important;
-            min-height: auto !important;
+        /* ── Fix card-chalet height dans les sections empilées ── */
+        /* style.css met height:100% sur .card-chalet, ce qui fonctionne
+           en grille mais pas quand 2 cards sont empilées dans une colonne */
+        #contact-form .card-chalet {
             height: auto !important;
-            position: relative !important;
-        }
-        /* Le contact a 2 colonnes de hauteurs différentes → forcer l'expansion */
-        #contact-form {
-            padding-bottom: 4rem !important;
-        }
-        #contact-form .row {
-            align-items: stretch;
-        }
-        /* KeyCafe est très grand → espace généreux avant le footer */
-        section#keycafe {
-            padding-bottom: 5rem !important;
-        }
-        section#keycafe .col-lg-9 {
-            padding-bottom: 1rem;
         }
         section#keycafe .card-chalet {
-            margin-bottom: 1rem !important;
-            overflow: visible !important;
-        }
-        /* Forcer le footer à ne pas remonter sur la section */
-        .footer {
-            position: relative;
-            z-index: 1;
+            height: auto !important;
         }
     </style>
 </head>
@@ -299,9 +275,6 @@
 </section>
 
 </main>
-
-<!-- Spacer anti-overlap -->
-<div style="height: 2rem; clear: both;"></div>
 
 <!-- Lightbox plans -->
 <div class="plan-lightbox" id="planLightbox" onclick="closePlanLightbox()" role="dialog" aria-label="Visualisation du plan">
