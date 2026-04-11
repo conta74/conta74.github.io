@@ -42,14 +42,21 @@
         "name": "Studio Les Contamines-Montjoie — Hameaux des Lays",
         "description": "Studio chaleureux pour 4 personnes au pied du Mont-Blanc, aux Contamines-Montjoie. Ski, randonnée, parking gratuit, WiFi fibre.",
         "url": "https://conta74.fr/",
+        "identifier": "conta74-studio-contamines",
+        "additionalType": "https://schema.org/Apartment",
         "image": [
             "https://conta74.fr/img/hero-montagne.jpg",
             "https://conta74.fr/img/interieur-sejour.jpg",
-            "https://conta74.fr/img/residence-panorama-ete.jpg"
+            "https://conta74.fr/img/residence-panorama-ete.jpg",
+            "https://conta74.fr/img/interieur-chambre-lit.jpg",
+            "https://conta74.fr/img/interieur-cuisine-equip.jpg",
+            "https://conta74.fr/img/interieur-cabine-deco.jpg",
+            "https://conta74.fr/img/interieur-douche.jpg",
+            "https://conta74.fr/img/residence-vue-montagne.jpg"
         ],
         "address": {
             "@type": "PostalAddress",
-            "streetAddress": "130 Impasse du Bonnant, Les Pierres Blanches — Bât. F",
+            "streetAddress": "130 Impasse du Bonnant, Les Pierres Blanches, Bât. F",
             "addressLocality": "Les Contamines-Montjoie",
             "postalCode": "74170",
             "addressRegion": "Haute-Savoie",
@@ -60,25 +67,48 @@
             "latitude": 45.8214,
             "longitude": 6.7267
         },
+        "containsPlace": {
+            "@type": "Accommodation",
+            "name": "Studio meublé — Bâtiment F",
+            "description": "Studio de 20 m² pour 4 personnes avec cuisine équipée, lit double et cabine lits superposés.",
+            "floorSize": {
+                "@type": "QuantitativeValue",
+                "value": 20,
+                "unitCode": "MTK"
+            },
+            "numberOfRooms": 1,
+            "occupancy": {
+                "@type": "QuantitativeValue",
+                "maxValue": 4
+            },
+            "numberOfBedrooms": 1,
+            "numberOfBathroomsTotal": 1,
+            "bed": [
+                {
+                    "@type": "BedDetails",
+                    "typeOfBed": "Double",
+                    "numberOfBeds": 1
+                },
+                {
+                    "@type": "BedDetails",
+                    "typeOfBed": "Bunk",
+                    "numberOfBeds": 2
+                }
+            ],
+            "amenityFeature": [
+                { "@type": "LocationFeatureSpecification", "name": "WiFi Fibre", "value": true },
+                { "@type": "LocationFeatureSpecification", "name": "Parking gratuit", "value": true },
+                { "@type": "LocationFeatureSpecification", "name": "Local à skis", "value": true },
+                { "@type": "LocationFeatureSpecification", "name": "Cuisine équipée", "value": true },
+                { "@type": "LocationFeatureSpecification", "name": "Draps fournis", "value": true },
+                { "@type": "LocationFeatureSpecification", "name": "TV", "value": true },
+                { "@type": "LocationFeatureSpecification", "name": "Cafetière Nespresso", "value": true },
+                { "@type": "LocationFeatureSpecification", "name": "Micro-ondes", "value": true }
+            ]
+        },
         "telephone": "+33760291960",
-        "numberOfRooms": 1,
-        "occupancy": {
-            "@type": "QuantitativeValue",
-            "maxValue": 4
-        },
-        "floorSize": {
-            "@type": "QuantitativeValue",
-            "value": 20,
-            "unitCode": "MTK"
-        },
-        "amenityFeature": [
-            { "@type": "LocationFeatureSpecification", "name": "WiFi Fibre", "value": true },
-            { "@type": "LocationFeatureSpecification", "name": "Parking gratuit", "value": true },
-            { "@type": "LocationFeatureSpecification", "name": "Local à skis", "value": true },
-            { "@type": "LocationFeatureSpecification", "name": "Cuisine équipée", "value": true },
-            { "@type": "LocationFeatureSpecification", "name": "Draps fournis", "value": true },
-            { "@type": "LocationFeatureSpecification", "name": "TV", "value": true }
-        ],
+        "checkinTime": "16:00",
+        "checkoutTime": "10:00",
         "tourBookingPage": "https://conta74.fr/reservation.html"
     }
     </script>
@@ -439,14 +469,13 @@
                         <li><a href="pratique.html"><i class="fas fa-angle-right" aria-hidden="true"></i> Infos Pratiques</a></li>
                         <li><a href="reservation.html"><i class="fas fa-angle-right" aria-hidden="true"></i> Réservation</a></li>
                         <li><a href="acces.html"><i class="fas fa-angle-right" aria-hidden="true"></i> Accès & Contact</a></li>
-                        <li><a href="mentions.html"><i class="fas fa-angle-right" aria-hidden="true"></i> Mentions légales</a></li>
                         <li><a href="https://www.lescontamines.com" target="_blank" rel="noopener"><i class="fas fa-angle-right" aria-hidden="true"></i> Office de tourisme</a></li>
                     </ul>
                 </nav>
             </div>
         </div>
         <div class="footer-bottom">
-            <p class="mb-0">&copy; 2026 — Location Les Contamines-Montjoie. Tous droits réservés. — <a href="mentions.html" style="color:#a89e92;">Mentions légales</a></p>
+            <p class="mb-0">&copy; 2026 — Location Les Contamines-Montjoie. Tous droits réservés.</p>
         </div>
     </div>
 </footer>
@@ -454,7 +483,6 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <!-- Protection anti-scraping du téléphone -->
 <script src="phone-protect.js" defer></script>
-<script src="cookie-consent.js" defer></script>
 <script>
 // Navbar scroll
 window.addEventListener('scroll', () => {
