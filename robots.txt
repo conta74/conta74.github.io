@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://conta74.fr/sitemap.xml
+Sitemap: https://www.conta74.fr/sitemap.xml
