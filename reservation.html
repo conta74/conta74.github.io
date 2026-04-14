@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="canonical" href="https://www.conta74.fr/reservation.html">
     <title>Réservation — Les Contamines-Montjoie</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
@@ -253,18 +252,13 @@ async function submitReservation(){
 }
 
 // ═══════ LIVRE D'OR ═══════
-const DEFAULT_REVIEWS=[
-    {name:'Famille Martin',date:'Février 2026',rating:5,text:"Un séjour magique ! Studio propre et chaleureux. Les enfants ont adoré le ski !"},
-    {name:'Sophie & Thomas',date:'Janvier 2026',rating:5,text:"Cadre idyllique, studio parfaitement équipé. Propriétaire très accueillant."},
-    {name:'Pierre D.',date:'Août 2025',rating:4,text:"Très bel appartement pour les randonnées d'été. Tour du Mont-Blanc depuis ici."},
-    {name:'Les Dupont',date:'Décembre 2025',rating:5,text:"Noël en montagne, on en rêvait ! Studio décoré avec goût."}
-];
+const DEFAULT_REVIEWS=[];
 
 function escapeHtml(t){const d=document.createElement('div');d.textContent=t;return d.innerHTML}
 
 function renderGuestbook(reviews){
     const c=document.getElementById('guestbookEntries');c.innerHTML='';
-    if(!reviews.length){c.innerHTML='<p class="text-center" style="color:var(--stone)">Aucun avis.</p>';return}
+    if(!reviews.length){c.innerHTML='<p class="text-center" style="color:var(--stone)"><i class="fas fa-comment-dots me-2"></i>Soyez le premier à laisser un avis !</p>';return}
     reviews.forEach(e=>{const el=document.createElement('div');el.className='guestbook-entry';
     el.innerHTML='<div class="guestbook-stars">'+'★'.repeat(e.rating)+'☆'.repeat(5-e.rating)+'</div><div class="guestbook-quote">'+escapeHtml(e.text)+'</div><div class="d-flex justify-content-between align-items-center"><span class="guestbook-author"><i class="fas fa-user-circle me-1"></i>'+escapeHtml(e.name)+'</span><span class="guestbook-date"><i class="far fa-calendar me-1"></i>'+e.date+'</span></div>';
     c.appendChild(el)});
@@ -279,7 +273,7 @@ async function loadGuestbook(){
             rating:r.fields.Note||5,
             text:r.fields.Message||''
         }));
-        renderGuestbook(reviews.length?reviews:DEFAULT_REVIEWS);
+        renderGuestbook(reviews);
     }catch(err){renderGuestbook(DEFAULT_REVIEWS)}
 }
 
