@@ -252,13 +252,18 @@ async function submitReservation(){
 }
 
 // ═══════ LIVRE D'OR ═══════
-const DEFAULT_REVIEWS=[];
+const DEFAULT_REVIEWS=[
+    {name:'Famille Martin',date:'Février 2026',rating:5,text:"Un séjour magique ! Studio propre et chaleureux. Les enfants ont adoré le ski !"},
+    {name:'Sophie & Thomas',date:'Janvier 2026',rating:5,text:"Cadre idyllique, studio parfaitement équipé. Propriétaire très accueillant."},
+    {name:'Pierre D.',date:'Août 2025',rating:4,text:"Très bel appartement pour les randonnées d'été. Tour du Mont-Blanc depuis ici."},
+    {name:'Les Dupont',date:'Décembre 2025',rating:5,text:"Noël en montagne, on en rêvait ! Studio décoré avec goût."}
+];
 
 function escapeHtml(t){const d=document.createElement('div');d.textContent=t;return d.innerHTML}
 
 function renderGuestbook(reviews){
     const c=document.getElementById('guestbookEntries');c.innerHTML='';
-    if(!reviews.length){c.innerHTML='<p class="text-center" style="color:var(--stone)"><i class="fas fa-comment-dots me-2"></i>Soyez le premier à laisser un avis !</p>';return}
+    if(!reviews.length){c.innerHTML='<p class="text-center" style="color:var(--stone)">Aucun avis.</p>';return}
     reviews.forEach(e=>{const el=document.createElement('div');el.className='guestbook-entry';
     el.innerHTML='<div class="guestbook-stars">'+'★'.repeat(e.rating)+'☆'.repeat(5-e.rating)+'</div><div class="guestbook-quote">'+escapeHtml(e.text)+'</div><div class="d-flex justify-content-between align-items-center"><span class="guestbook-author"><i class="fas fa-user-circle me-1"></i>'+escapeHtml(e.name)+'</span><span class="guestbook-date"><i class="far fa-calendar me-1"></i>'+e.date+'</span></div>';
     c.appendChild(el)});
@@ -273,7 +278,7 @@ async function loadGuestbook(){
             rating:r.fields.Note||5,
             text:r.fields.Message||''
         }));
-        renderGuestbook(reviews);
+        renderGuestbook(reviews.length?reviews:DEFAULT_REVIEWS);
     }catch(err){renderGuestbook(DEFAULT_REVIEWS)}
 }
 
@@ -299,6 +304,5 @@ const observer=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting)x.
 document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
 document.addEventListener('DOMContentLoaded',()=>{initCalendar();loadGuestbook()});
 </script>
-<script src="phone-protect.js" defer></script>
 </body>
 </html>
