@@ -746,3 +746,15 @@ section { padding: 4rem 0; }
 @media (max-width: 480px) {
     .gallery-grid { grid-template-columns: 1fr; }
 }
+
+/* ══════════ GALERIE : titres de groupe (Le studio / Été / Hiver) ══════════ */
+.gallery-group-title {
+    grid-column: 1 / -1;
+    margin: 1.2rem 0 0.2rem;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.35rem;
+    color: var(--wood);
+    border-bottom: 2px solid var(--gold-light);
+    padding-bottom: 0.3rem;
+}
+.gallery-group-title:first-child { margin-top: 0; }

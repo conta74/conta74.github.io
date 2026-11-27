@@ -54,12 +54,11 @@
                 <tr><td style="text-align:left"><strong><span style="color:var(--pine-light)">●</span> Basse saison</strong><br><small style="color:var(--stone)">Avril, Mai, Automne</small></td><td><strong style="font-size:1.1rem">350 €</strong></td><td>50 €</td></tr>
             </tbody></table>
         </div>
-        <div class="success-box reveal"><p><i class="fas fa-check-circle me-2"></i><strong>Inclus :</strong> WiFi Fibre, chauffage, électricité, eau, linge de lit, parking, local à ski</p></div>
     </div></div>
     <div class="row g-3 mt-3">
-        <div class="col-md-4 reveal"><div class="info-block green"><h5><i class="fas fa-check me-2" style="color:var(--pine-light)"></i>Inclus</h5><p>Linge de maison — WiFi Fibre — Charges — Parking + bip — Local à skis</p></div></div>
-        <div class="col-md-4 reveal"><div class="info-block blue"><h5><i class="fas fa-plus-circle me-2" style="color:var(--sky)"></i>En option</h5><p>Ménage fin de séjour — Linge de toilette — Ménage mi-séjour (≥ 2 sem.)</p></div></div>
-        <div class="col-md-4 reveal"><div class="info-block red"><h5><i class="fas fa-exclamation-circle me-2" style="color:var(--red-savoie)"></i>À votre charge</h5><p>Taxe de séjour — Forfaits ski — <strong>Caution : 2 000 € chèque</strong></p></div></div>
+        <div class="col-md-4 reveal"><div class="info-block green"><h5><i class="fas fa-check me-2" style="color:var(--pine-light)"></i>Inclus</h5><p>Linge de lit (draps, housses, taies) — WiFi Fibre — Chauffage, électricité, eau — Parking + bip — Local à skis</p></div></div>
+        <div class="col-md-4 reveal"><div class="info-block blue"><h5><i class="fas fa-plus-circle me-2" style="color:var(--sky)"></i>En option</h5><p>Ménage fin de séjour — Serviettes de toilette (auprès de la conciergerie) — Ménage mi-séjour (≥ 2 sem.) — Animal : <strong>5 € / jour</strong></p></div></div>
+        <div class="col-md-4 reveal"><div class="info-block red"><h5><i class="fas fa-exclamation-circle me-2" style="color:var(--red-savoie)"></i>À votre charge</h5><p>Taxe de séjour — Forfaits ski — <strong>Caution : 1 500 € chèque</strong></p></div></div>
     </div>
 </section>
 
@@ -102,8 +101,9 @@
                     <div class="col-6"><label class="form-label-chalet"><i class="fas fa-users me-1"></i>Personnes</label><select class="form-select" id="resaNb"><option>1</option><option selected>2</option><option>3</option><option>4</option></select></div>
                     <div class="col-6"><label class="form-label-chalet"><i class="fas fa-paw me-1"></i>Animaux</label><select class="form-select" id="resaAnimaux"><option value="Non">Non</option><option value="Oui">Oui (petit gabarit)</option></select></div>
                     <div class="col-12"><label class="form-label-chalet"><i class="fas fa-comment me-1"></i>Message</label><textarea class="form-control" id="resaMessage" rows="3" placeholder="Questions, heure d'arrivée…"></textarea></div>
+                    <div class="col-12"><small style="color:var(--stone)"><i class="fas fa-paw me-1"></i>Animal accepté (petit gabarit) : supplément de 5 € par jour.</small></div>
                     <div class="col-12 my-2"><div class="h-captcha" data-captcha="true"></div></div>
-                    <div class="col-12"><div class="form-check"><input class="form-check-input" type="checkbox" id="resaRgpd" required><label class="form-check-label" for="resaRgpd" style="font-size:.82rem;color:var(--stone)">J'accepte que mes données soient utilisées pour traiter ma demande.</label></div></div>
+                    <div class="col-12"><div class="form-check"><input class="form-check-input" type="checkbox" id="resaRgpd" required><label class="form-check-label" for="resaRgpd" style="font-size:.82rem;color:var(--stone)">J'accepte que mes données soient utilisées pour traiter ma demande (<a href="mentions.html" target="_blank" rel="noopener">en savoir plus</a>).</label></div></div>
                     <div class="col-12 text-center mt-2"><button class="btn-submit-resa" id="btnSubmitResa" onclick="submitReservation()"><i class="fas fa-paper-plane me-2"></i>Envoyer ma demande</button></div>
                 </div>
             </div>
@@ -252,18 +252,13 @@ async function submitReservation(){
 }
 
 // ═══════ LIVRE D'OR ═══════
-const DEFAULT_REVIEWS=[
-    {name:'Famille Martin',date:'Février 2026',rating:5,text:"Un séjour magique ! Studio propre et chaleureux. Les enfants ont adoré le ski !"},
-    {name:'Sophie & Thomas',date:'Janvier 2026',rating:5,text:"Cadre idyllique, studio parfaitement équipé. Propriétaire très accueillant."},
-    {name:'Pierre D.',date:'Août 2025',rating:4,text:"Très bel appartement pour les randonnées d'été. Tour du Mont-Blanc depuis ici."},
-    {name:'Les Dupont',date:'Décembre 2025',rating:5,text:"Noël en montagne, on en rêvait ! Studio décoré avec goût."}
-];
+const DEFAULT_REVIEWS=[];
 
 function escapeHtml(t){const d=document.createElement('div');d.textContent=t;return d.innerHTML}
 
 function renderGuestbook(reviews){
     const c=document.getElementById('guestbookEntries');c.innerHTML='';
-    if(!reviews.length){c.innerHTML='<p class="text-center" style="color:var(--stone)">Aucun avis.</p>';return}
+    if(!reviews.length){c.innerHTML='<p class="text-center" style="color:var(--stone)"><i class="fas fa-comment-dots me-2"></i>Soyez le premier à laisser un avis !</p>';return}
     reviews.forEach(e=>{const el=document.createElement('div');el.className='guestbook-entry';
     el.innerHTML='<div class="guestbook-stars">'+'★'.repeat(e.rating)+'☆'.repeat(5-e.rating)+'</div><div class="guestbook-quote">'+escapeHtml(e.text)+'</div><div class="d-flex justify-content-between align-items-center"><span class="guestbook-author"><i class="fas fa-user-circle me-1"></i>'+escapeHtml(e.name)+'</span><span class="guestbook-date"><i class="far fa-calendar me-1"></i>'+e.date+'</span></div>';
     c.appendChild(el)});
@@ -278,7 +273,7 @@ async function loadGuestbook(){
             rating:r.fields.Note||5,
             text:r.fields.Message||''
         }));
-        renderGuestbook(reviews.length?reviews:DEFAULT_REVIEWS);
+        renderGuestbook(reviews);
     }catch(err){renderGuestbook(DEFAULT_REVIEWS)}
 }
 
@@ -304,5 +299,6 @@ const observer=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting)x.
 document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
 document.addEventListener('DOMContentLoaded',()=>{initCalendar();loadGuestbook()});
 </script>
+<script src="phone-protect.js" defer></script>
 </body>
 </html>
