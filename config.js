@@ -5,7 +5,6 @@
 const SITE_CONFIG = {
     worker_url: 'https://conta74-api.conta74fr.workers.dev',
     web3forms_key: '47e85ac4-977a-4295-af9f-6babc3f45282',
-    owner_phone: '07 60 29 19 60',
 };
 
 // ══════════════════════════════════════════════════════════
